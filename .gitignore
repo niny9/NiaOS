@@ -1,0 +1,49 @@
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+*.egg-info/
+dist/
+build/
+
+# IDEs
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Data files
+*.db
+*.db-journal
+*.sqlite
+*.sqlite3
+
+# Logs
+*.log
+
+# Environment
+.env
+.venv
+venv/
+ENV/
+
+# Temporary files
+/tmp/
+*.tmp
+
+# Personal data
+data/reconciliation/*.db
+data/*.db
+
+# Output reports (keep structure, ignore generated reports)
+*.pdf
+
+# Cache
+.cache/
+archive/
