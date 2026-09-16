@@ -1,0 +1,55 @@
+{
+  "name": "Investment Cockpit Dashboard",
+  "description": "自动生成：推荐信号、因子、胜率、参数优化、持仓盈亏",
+  "widgets": [
+    {
+      "name": "推荐股票表现趋势图",
+      "type": "line",
+      "table": "daily_signals",
+      "x": "日期",
+      "y": "平均涨跌幅",
+      "group_by": "策略类型"
+    },
+    {
+      "name": "因子分数分布图",
+      "type": "bar",
+      "table": "daily_signals",
+      "metrics": [
+        "趋势因子分数",
+        "动量因子分数",
+        "成交量因子分数",
+        "新闻因子分数",
+        "基本面因子分数",
+        "行业因子分数"
+      ]
+    },
+    {
+      "name": "策略胜率统计",
+      "type": "pie",
+      "table": "daily_signals",
+      "group_by": "涨跌标签"
+    },
+    {
+      "name": "参数优化历史",
+      "type": "line",
+      "table": "parameter_optimization_history",
+      "x": "优化日期",
+      "y": [
+        "旧Sharpe",
+        "新Sharpe"
+      ]
+    },
+    {
+      "name": "持仓盈亏分布",
+      "type": "bar",
+      "table": "real_positions",
+      "x": "股票代码",
+      "y": "盈亏金额"
+    }
+  ],
+  "meta": {
+    "app_token": "WWfIbvCw7agzDjsCXIUcjzZnnlh",
+    "generated_at": "2026-05-27T12:29:58.158728"
+  },
+  "table_mapping": {}
+}

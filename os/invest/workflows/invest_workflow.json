@@ -1,0 +1,79 @@
+{
+  "name": "Invest OS 端到端工作流",
+  "steps": [
+    {
+      "id": 1,
+      "name": "输入接收",
+      "component": "Data Collector",
+      "output": "市场数据"
+    },
+    {
+      "id": 2,
+      "name": "数据校验与标准化",
+      "component": "Data Validator",
+      "output": "标准化数据"
+    },
+    {
+      "id": 3,
+      "name": "工作流调度",
+      "component": "Workflow Scheduler",
+      "output": "执行计划"
+    },
+    {
+      "id": 4,
+      "name": "策略/Agent分发",
+      "component": "Strategy Dispatcher",
+      "output": "策略分配"
+    },
+    {
+      "id": 5,
+      "name": "执行控制",
+      "component": "Execution Controller",
+      "output": "执行监控"
+    },
+    {
+      "id": 6,
+      "name": "人工审核Gate",
+      "component": "Human Gate",
+      "output": "风控审批"
+    },
+    {
+      "id": 7,
+      "name": "复盘与迭代",
+      "component": "Review Engine",
+      "output": "复盘报告"
+    },
+    {
+      "id": 8,
+      "name": "AI主观研究链",
+      "component": "AI Research Chain",
+      "output": "研究报告"
+    },
+    {
+      "id": 9,
+      "name": "数据与技术指标",
+      "component": "Technical Analyzer",
+      "output": "技术指标"
+    },
+    {
+      "id": 10,
+      "name": "信号融合引擎",
+      "component": "Signal Fusion Engine",
+      "output": "交易信号"
+    }
+  ],
+  "outputs": [
+    "策略配置",
+    "信号生成",
+    "交易记录",
+    "回测报告",
+    "研究报告",
+    "风险报告",
+    "Wiki知识库"
+  ],
+  "metadata": {
+    "created_at": "2026-06-16T16:35:49.623724",
+    "version": "1.0",
+    "status": "active"
+  }
+}

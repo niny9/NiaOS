@@ -1,0 +1,14 @@
+{
+  "timestamp": "2026-06-01T19:31:31.102658",
+  "range": {
+    "start_date": "2026-01-27",
+    "end_date": "2026-06-01"
+  },
+  "stock_basic_rows": 5525,
+  "watchlist_seed_rows": 66,
+  "price_rows": 5274,
+  "index_rows": 480,
+  "factor_rows": 5274,
+  "failed_stock_codes": [],
+  "failed_indexes": []
+}

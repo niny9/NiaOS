@@ -1,0 +1,66 @@
+{
+  "started_at": "2026-05-27T12:30:37.347685",
+  "finished_at": "2026-05-27T12:37:34.286905",
+  "duration_seconds": 416.94,
+  "report_date": "2026-05-27",
+  "table_stats": [
+    {
+      "table": "positions",
+      "table_name": "持仓表",
+      "records": 7
+    },
+    {
+      "table": "trades",
+      "table_name": "交易记录",
+      "records": 0
+    },
+    {
+      "table": "signals",
+      "table_name": "策略信号",
+      "records": 0
+    },
+    {
+      "table": "watchlist",
+      "table_name": "观察池",
+      "records": 66
+    },
+    {
+      "table": "optimization_history",
+      "table_name": "参数优化历史",
+      "records": 0
+    }
+  ],
+  "feishu_sync": {
+    "positions": {
+      "table": "real_positions",
+      "created": 0,
+      "updated": 0,
+      "skipped": 7
+    },
+    "trades": {
+      "table": "real_trades",
+      "created": 0,
+      "updated": 0,
+      "skipped": 0
+    },
+    "signals": {
+      "table": "daily_signals",
+      "created": 0,
+      "updated": 0,
+      "skipped": 0
+    },
+    "watchlist": {
+      "table": "watchlist",
+      "created": 66,
+      "updated": 0,
+      "skipped": 0
+    },
+    "optimization_history": {
+      "table": "parameter_optimization_history",
+      "created": 0,
+      "updated": 0,
+      "skipped": 0
+    }
+  },
+  "notify_sent": true
+}

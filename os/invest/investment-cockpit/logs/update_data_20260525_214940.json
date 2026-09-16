@@ -1,0 +1,21 @@
+{
+  "timestamp": "2026-05-25T21:49:40.787117",
+  "range": {
+    "start_date": "2026-01-20",
+    "end_date": "2026-05-25"
+  },
+  "stock_basic_rows": 0,
+  "watchlist_seed_rows": 66,
+  "price_rows": 5274,
+  "index_rows": 0,
+  "factor_rows": 5274,
+  "failed_stock_codes": [],
+  "failed_indexes": [
+    "sh000001",
+    "sz399001",
+    "sz399006",
+    "sh000688",
+    "sz399989",
+    "sz399975"
+  ]
+}

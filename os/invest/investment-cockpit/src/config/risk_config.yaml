@@ -1,0 +1,23 @@
+meta:
+  name: "风控配置"
+  version: "0.1.0"
+
+position_limits:
+  max_total_position_ratio: 0.95
+  max_single_position_ratio: 0.20
+  max_industry_chain_ratio: 0.40
+
+stop_loss_rules:
+  default_stop_loss_pct: 0.08
+  trailing_stop_enabled: true
+  trailing_stop_pct: 0.10
+
+trade_rules:
+  min_holding_days: 2
+  max_new_positions_per_day: 3
+  forbid_buy_pool_status:
+    - 禁买池
+
+alerts:
+  drawdown_warning_pct: 0.08
+  drawdown_danger_pct: 0.12

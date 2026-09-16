@@ -1,0 +1,27 @@
+{
+  "week_label": "第22周",
+  "start_date": "2026-05-25",
+  "end_date": "2026-05-29",
+  "report_path": "/Users/niny/Library/Mobile Documents/iCloud~md~obsidian/Documents/Assets/Invest OS/investment-cockpit/obsidian/02_周报/2026-22_投资周报.md",
+  "metrics": {
+    "signal_count": 18,
+    "signal_win_rate": 0.1111111111111111,
+    "trade_count": 0,
+    "buy_count": 0,
+    "sell_count": 0,
+    "weekly_return_pct": 0.0,
+    "cumulative_return_pct": 0.0,
+    "execution_rate": 0.0
+  },
+  "signal_days": [
+    {
+      "date": "2026-05-28",
+      "cnt": 7
+    },
+    {
+      "date": "2026-05-29",
+      "cnt": 11
+    }
+  ],
+  "feishu_sent": false
+}

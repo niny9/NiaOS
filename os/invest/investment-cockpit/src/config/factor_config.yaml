@@ -1,0 +1,36 @@
+meta:
+  name: "因子配置"
+  version: "0.1.0"
+
+weights:
+  trend_score: 0.20
+  momentum_score: 0.20
+  reversal_score: 0.10
+  volume_score: 0.15
+  fundamental_score: 0.15
+  sentiment_score: 0.10
+  risk_score: 0.10
+
+parameters:
+  trend:
+    ma_short: 10
+    ma_long: 60
+  momentum:
+    lookback_days: 20
+  reversal:
+    rsi_period: 14
+    overbought: 70
+    oversold: 30
+  volume:
+    volume_ma_days: 20
+  sentiment:
+    decay_half_life_days: 3
+
+scoring:
+  min_score: 0
+  max_score: 100
+  signal_threshold:
+    strong_buy: 80
+    buy: 65
+    neutral: 50
+    reduce: 35

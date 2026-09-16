@@ -1,0 +1,113 @@
+"""Sync signal performance tracking to Feishu."""
+
+from __future__ import annotations
+
+from datetime import datetime
+from typing import Any, Dict, List
+
+from src.config.settings import AppSettings
+from src.database.db_manager import DatabaseManager
+from src.integrations.feishu_sync import FeishuSyncService, SyncResult
+
+
+def _to_feishu_ts(date_str: str) -> int:
+    """Convert YYYY-MM-DD to Feishu timestamp (milliseconds)."""
+    return int(datetime.strptime(date_str, "%Y-%m-%d").timestamp() * 1000)
+
+
+class PerformanceSyncService:
+    """Sync signal performance tracking and daily strategy performance to Feishu."""
+
+    def __init__(self, db: DatabaseManager, settings: AppSettings) -> None:
+        self.db = db
+        self.sync_service = FeishuSyncService(db, settings)
+
+    def sync_signal_performance(self, date: str | None = None) -> SyncResult:
+        """Sync signal_performance_tracking to Feishu."""
+        date_value = date or datetime.now().strftime("%Y-%m-%d")
+        
+        rows = self.db.fetch_all("""
+            SELECT 
+                signal_date, stock_code, stock_name, strategy_type,
+                entry_price, target_price, stop_loss_price, current_price,
+                days_held, current_return, max_return, min_return, status,
+                exit_date, exit_price, exit_return
+            FROM signal_performance_tracking
+            WHERE signal_date = ?
+            ORDER BY current_return DESC
+        """, (date_value,))
+        
+        payload = [_map_performance_row(r) for r in rows]
+        return self.sync_service.sync_rows("signal_performance_tracking", payload)
+
+    def sync_daily_strategy_performance(self, date: str | None = None) -> SyncResult:
+        """Sync daily_strategy_performance to Feishu."""
+        date_value = date or datetime.now().strftime("%Y-%m-%d")
+        
+        rows = self.db.fetch_all("""
+            SELECT 
+                date, strategy_type, total_signals, active_signals, closed_signals,
+                win_count, loss_count, win_rate, avg_return, avg_win_return,
+                avg_loss_return, profit_loss_ratio, max_return, min_return, total_return
+            FROM daily_strategy_performance
+            WHERE date = ?
+        """, (date_value,))
+        
+        payload = [_map_strategy_performance_row(r) for r in rows]
+        return self.sync_service.sync_rows("daily_strategy_performance", payload)
+
+
+def _map_performance_row(r: Dict[str, Any]) -> Dict[str, Any]:
+    """Map signal_performance_tracking row to Feishu format."""
+    strategy_mapping = {"short_term": "短线", "swing": "波段", "stable": "稳健"}
+    status_mapping = {
+        "holding": "持有中",
+        "target_hit": "达到目标",
+        "stop_loss": "触发止损",
+        "expired": "持有超时"
+    }
+    
+    return {
+        "日期": _to_feishu_ts(r["signal_date"]),
+        "股票代码": r["stock_code"],
+        "股票名称": r.get("stock_name") or "",
+        "策略类型": strategy_mapping.get(r["strategy_type"], "短线"),
+        "信号日期": _to_feishu_ts(r["signal_date"]),
+        "入场价": float(r["entry_price"]),
+        "目标价": float(r["target_price"]),
+        "止损价": float(r["stop_loss_price"]),
+        "当前价": float(r["current_price"]) if r.get("current_price") else None,
+        "持有天数": int(r["days_held"]) if r.get("days_held") else 0,
+        "当前收益率": float(r["current_return"]) if r.get("current_return") else None,
+        "最高收益率": float(r["max_return"]) if r.get("max_return") else None,
+        "最低收益率": float(r["min_return"]) if r.get("min_return") else None,
+        "状态": status_mapping.get(r["status"], "持有中"),
+        "退出日期": _to_feishu_ts(r["exit_date"]) if r.get("exit_date") else None,
+        "退出价格": float(r["exit_price"]) if r.get("exit_price") else None,
+        "退出收益率": float(r["exit_return"]) if r.get("exit_return") else None,
+        "唯一键": f"perf:{r['signal_date']}:{r['stock_code']}:{r['strategy_type']}",
+    }
+
+
+def _map_strategy_performance_row(r: Dict[str, Any]) -> Dict[str, Any]:
+    """Map daily_strategy_performance row to Feishu format."""
+    strategy_mapping = {"short_term": "短线", "swing": "波段", "stable": "稳健"}
+    
+    return {
+        "日期": _to_feishu_ts(r["date"]),
+        "策略类型": strategy_mapping.get(r["strategy_type"], "短线"),
+        "总信号数": int(r["total_signals"]) if r.get("total_signals") else 0,
+        "活跃信号数": int(r["active_signals"]) if r.get("active_signals") else 0,
+        "已平仓数": int(r["closed_signals"]) if r.get("closed_signals") else 0,
+        "盈利次数": int(r["win_count"]) if r.get("win_count") else 0,
+        "亏损次数": int(r["loss_count"]) if r.get("loss_count") else 0,
+        "胜率": float(r["win_rate"]) if r.get("win_rate") else None,
+        "平均收益率": float(r["avg_return"]) if r.get("avg_return") else None,
+        "平均盈利": float(r["avg_win_return"]) if r.get("avg_win_return") else None,
+        "平均亏损": float(r["avg_loss_return"]) if r.get("avg_loss_return") else None,
+        "盈亏比": float(r["profit_loss_ratio"]) if r.get("profit_loss_ratio") else None,
+        "最大收益": float(r["max_return"]) if r.get("max_return") else None,
+        "最大亏损": float(r["min_return"]) if r.get("min_return") else None,
+        "总收益": float(r["total_return"]) if r.get("total_return") else None,
+        "唯一键": f"strat:{r['date']}:{r['strategy_type']}",
+    }

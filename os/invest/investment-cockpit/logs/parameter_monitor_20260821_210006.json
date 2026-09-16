@@ -1,0 +1,72 @@
+{
+  "generated_at": "2026-08-21T21:00:06.796364",
+  "version_id": 20,
+  "version_name": "trial_20260526_224312_69413ec7",
+  "window_days": 30,
+  "thresholds": {
+    "sharpe_alert": 0.5
+  },
+  "metrics": {
+    "rolling_30d_sharpe": 0.0,
+    "rolling_30d_win_rate": 0.0,
+    "rolling_30d_profit_loss_ratio": 0.0,
+    "records": 14
+  },
+  "degradation": {
+    "is_degraded": true,
+    "is_persistent": true,
+    "consecutive_below_threshold": 14
+  },
+  "recent_records": [
+    {
+      "id": 166,
+      "test_start_date": "2026-07-22",
+      "test_end_date": "2026-08-21",
+      "sharpe_ratio": 0.0,
+      "win_rate": 0.0,
+      "profit_loss_ratio": 0.0,
+      "trade_count": 0,
+      "created_at": "2026-08-21 13:00:06"
+    },
+    {
+      "id": 165,
+      "test_start_date": "2026-07-21",
+      "test_end_date": "2026-08-20",
+      "sharpe_ratio": 0.0,
+      "win_rate": 0.0,
+      "profit_loss_ratio": 0.0,
+      "trade_count": 0,
+      "created_at": "2026-08-20 13:00:04"
+    },
+    {
+      "id": 164,
+      "test_start_date": "2026-07-20",
+      "test_end_date": "2026-08-19",
+      "sharpe_ratio": 0.0,
+      "win_rate": 0.0,
+      "profit_loss_ratio": 0.0,
+      "trade_count": 0,
+      "created_at": "2026-08-19 13:00:06"
+    },
+    {
+      "id": 163,
+      "test_start_date": "2026-07-19",
+      "test_end_date": "2026-08-18",
+      "sharpe_ratio": 0.0,
+      "win_rate": 0.0,
+      "profit_loss_ratio": 0.0,
+      "trade_count": 0,
+      "created_at": "2026-08-18 13:00:07"
+    },
+    {
+      "id": 162,
+      "test_start_date": "2026-07-18",
+      "test_end_date": "2026-08-17",
+      "sharpe_ratio": 0.0,
+      "win_rate": 0.0,
+      "profit_loss_ratio": 0.0,
+      "trade_count": 0,
+      "created_at": "2026-08-17 13:00:08"
+    }
+  ]
+}

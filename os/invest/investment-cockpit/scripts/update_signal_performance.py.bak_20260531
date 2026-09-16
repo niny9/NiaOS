@@ -1,0 +1,233 @@
+"""Update signal performance tracking daily."""
+
+from __future__ import annotations
+
+import sys
+from datetime import datetime
+from pathlib import Path
+
+# Add project root to path
+project_root = Path(__file__).parent.parent
+sys.path.insert(0, str(project_root))
+
+from src.config.settings import load_app_settings
+from src.database.db_manager import DatabaseManager
+from src.data_ingestion.data_fetcher import DataFetcher
+from src.utils.logger import setup_logger
+
+logger = setup_logger(__name__)
+
+
+def update_signal_performance(db: DatabaseManager, fetcher: DataFetcher) -> None:
+    """Update performance tracking for all active signals."""
+    today = datetime.now().strftime("%Y-%m-%d")
+    
+    # Get current prices
+    logger.info("Fetching current stock prices...")
+    spot_df = fetcher.get_stock_spot()
+    price_map = dict(zip(spot_df['代码'], spot_df['最新价']))
+    
+    # Get all active signals (not exited)
+    active_signals = db.fetch_all("""
+        SELECT id, signal_id, stock_code, signal_date, entry_price, 
+               target_price, stop_loss_price, strategy_type,
+               max_return, min_return
+        FROM signal_performance_tracking
+        WHERE status = 'holding'
+    """)
+    
+    logger.info(f"Found {len(active_signals)} active signals to update")
+    
+    for signal in active_signals:
+        code = signal['stock_code']
+        current_price = price_map.get(code)
+        
+        if not current_price:
+            logger.warning(f"No price found for {code}, skipping")
+            continue
+        
+        entry_price = signal['entry_price']
+        target_price = signal['target_price']
+        stop_loss_price = signal['stop_loss_price']
+        
+        # Calculate returns
+        current_return = (current_price - entry_price) / entry_price
+        max_return = max(signal['max_return'] or current_return, current_return)
+        min_return = min(signal['min_return'] or current_return, current_return)
+        
+        # Calculate days held
+        signal_date = datetime.strptime(signal['signal_date'], "%Y-%m-%d")
+        today_date = datetime.strptime(today, "%Y-%m-%d")
+        days_held = (today_date - signal_date).days
+        
+        # Determine status and exit conditions
+        status = 'holding'
+        exit_date = None
+        exit_price = None
+        exit_return = None
+        exit_reason = None
+        
+        # Check exit conditions
+        if current_price >= target_price:
+            status = 'target_hit'
+            exit_date = today
+            exit_price = current_price
+            exit_return = current_return
+            exit_reason = '达到目标价'
+        elif current_price <= stop_loss_price:
+            status = 'stop_loss'
+            exit_date = today
+            exit_price = current_price
+            exit_return = current_return
+            exit_reason = '触发止损'
+        elif days_held >= 60:  # 60 days timeout
+            status = 'expired'
+            exit_date = today
+            exit_price = current_price
+            exit_return = current_return
+            exit_reason = '持有超时'
+        
+        # Update tracking record
+        db.execute("""
+            UPDATE signal_performance_tracking
+            SET date = ?,
+                current_price = ?,
+                days_held = ?,
+                current_return = ?,
+                max_return = ?,
+                min_return = ?,
+                status = ?,
+                exit_date = ?,
+                exit_price = ?,
+                exit_return = ?,
+                exit_reason = ?,
+                updated_at = CURRENT_TIMESTAMP
+            WHERE id = ?
+        """, (today, current_price, days_held, current_return, max_return, min_return,
+              status, exit_date, exit_price, exit_return, exit_reason, signal['id']))
+    
+    # db.commit()  # DatabaseManager auto-commits
+    logger.info("Signal performance updated")
+
+
+def create_new_signal_tracking(db: DatabaseManager) -> None:
+    """Create tracking records for new signals."""
+    today = datetime.now().strftime("%Y-%m-%d")
+    
+    # Get today's signals that don't have tracking records yet
+    new_signals = db.fetch_all("""
+        SELECT s.date, s.code, w.name, s.signal, s.score,
+           s.entry_price, s.target_price, s.stop_loss_price
+        FROM daily_signals s
+        LEFT JOIN watchlist w ON w.code = s.code
+        LEFT JOIN signal_performance_tracking t
+            ON t.signal_date = s.date AND t.stock_code = s.code
+        WHERE s.date = ? AND t.id IS NULL
+          AND s.entry_price IS NOT NULL
+    """, (today,))
+    
+    logger.info(f"Creating tracking for {len(new_signals)} new signals")
+    
+    for signal in new_signals:
+        db.execute("""
+            INSERT INTO signal_performance_tracking (
+                signal_date, stock_code, stock_name, strategy_type,
+                entry_price, target_price, stop_loss_price,
+                current_price, days_held, current_return, max_return, min_return,
+                status, created_at
+            ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, 0, 0, 0, 0, 'holding', datetime('now'))
+        """, (signal['date'], signal['code'], signal['name'], signal['signal'],
+              signal['entry_price'], signal['target_price'], signal['stop_loss_price'],
+              signal['entry_price']))
+    
+    # db.commit()  # DatabaseManager auto-commits
+    logger.info("New signal tracking created")
+
+
+def update_daily_strategy_performance(db: DatabaseManager) -> None:
+    """Aggregate daily performance by strategy type."""
+    today = datetime.now().strftime("%Y-%m-%d")
+    
+    # Get performance stats for each strategy
+    for strategy_type in ['short_term', 'swing', 'stable']:
+        stats = db.fetch_one("""
+            SELECT 
+                COUNT(*) as total_signals,
+                SUM(CASE WHEN status = 'holding' THEN 1 ELSE 0 END) as active_signals,
+                SUM(CASE WHEN status IN ('target_hit', 'stop_loss', 'expired') THEN 1 ELSE 0 END) as closed_signals,
+                SUM(CASE WHEN exit_return > 0 THEN 1 ELSE 0 END) as win_count,
+                SUM(CASE WHEN exit_return <= 0 THEN 1 ELSE 0 END) as loss_count,
+                AVG(CASE WHEN exit_return IS NOT NULL THEN exit_return END) as avg_return,
+                AVG(CASE WHEN exit_return > 0 THEN exit_return END) as avg_win_return,
+                AVG(CASE WHEN exit_return <= 0 THEN exit_return END) as avg_loss_return,
+                MAX(exit_return) as max_return,
+                MIN(exit_return) as min_return,
+                SUM(CASE WHEN exit_return IS NOT NULL THEN exit_return ELSE 0 END) as total_return
+            FROM signal_performance_tracking
+            WHERE strategy_type = ?
+        """, (strategy_type,))
+        
+        if stats['total_signals'] == 0:
+            continue
+        
+        # Calculate win rate and profit/loss ratio
+        win_rate = stats['win_count'] / stats['closed_signals'] if stats['closed_signals'] > 0 else None
+        profit_loss_ratio = abs(stats['avg_win_return'] / stats['avg_loss_return']) if stats['avg_loss_return'] and stats['avg_loss_return'] != 0 else None
+        
+        # Upsert daily performance
+        db.upsert('daily_strategy_performance', {
+            'date': today,
+            'strategy_type': strategy_type,
+            'total_signals': stats['total_signals'],
+            'active_signals': stats['active_signals'],
+            'closed_signals': stats['closed_signals'],
+            'win_count': stats['win_count'],
+            'loss_count': stats['loss_count'],
+            'win_rate': win_rate,
+            'avg_return': stats['avg_return'],
+            'avg_win_return': stats['avg_win_return'],
+            'avg_loss_return': stats['avg_loss_return'],
+            'profit_loss_ratio': profit_loss_ratio,
+            'max_return': stats['max_return'],
+            'min_return': stats['min_return'],
+            'total_return': stats['total_return'],
+        }, conflict_columns=['date', 'strategy_type'])
+    
+    # db.commit()  # DatabaseManager auto-commits
+    logger.info("Daily strategy performance updated")
+
+
+def main() -> None:
+    """Main entry point."""
+    logger.info("=" * 50)
+    logger.info(f"开始更新信号表现追踪 - {datetime.now()}")
+    logger.info("=" * 50)
+    
+    settings = load_app_settings()
+    db = DatabaseManager(settings.db_path)
+    fetcher = DataFetcher(log_level=settings.log_level)
+    
+    try:
+        # Step 1: Create tracking for new signals
+        logger.info("1. 创建新信号追踪记录...")
+        create_new_signal_tracking(db)
+        
+        # Step 2: Update existing signal performance
+        logger.info("2. 更新现有信号表现...")
+        update_signal_performance(db, fetcher)
+        
+        # Step 3: Update daily strategy performance aggregation
+        logger.info("3. 更新每日策略表现汇总...")
+        update_daily_strategy_performance(db)
+        
+        logger.info("\n信号表现追踪更新完成！")
+        
+    except Exception as e:
+        logger.error(f"更新失败: {e}", exc_info=True)
+        raise
+    finally:
+        pass  # DatabaseManager does not have close method
+
+
+if __name__ == "__main__":
+    main()

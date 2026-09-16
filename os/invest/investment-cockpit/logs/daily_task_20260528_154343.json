@@ -1,0 +1,120 @@
+{
+  "started_at": "2026-05-28T15:40:06.788577",
+  "finished_at": "2026-05-28T15:43:43.308633",
+  "duration_seconds": 216.52,
+  "factor_rows": 5142,
+  "signal_count": 0,
+  "risk_level": "高",
+  "report_file": "/Users/niny/Library/Mobile Documents/iCloud~md~obsidian/Documents/Assets/Invest OS/investment-cockpit/obsidian/01_每日简报/2026-05-28_AI产业链投资日报.md",
+  "news_count": 35,
+  "news_report_file": "/Users/niny/Library/Mobile Documents/iCloud~md~obsidian/Documents/Assets/Invest OS/investment-cockpit/reports/news_report_2026-05-28.md",
+  "feishu_notify_sent": false,
+  "feishu_bitable_sync_notify_sent": false,
+  "feishu_bot_notify_sent": true,
+  "parameter_monitor": {
+    "generated_at": "2026-05-28T15:43:42.768142",
+    "version_id": 82,
+    "version_name": "random_20260526_224350",
+    "window_days": 30,
+    "thresholds": {
+      "sharpe_alert": 0.5
+    },
+    "metrics": {
+      "rolling_30d_sharpe": 0.5065,
+      "rolling_30d_win_rate": 0.0,
+      "rolling_30d_profit_loss_ratio": 0.0,
+      "records": 4
+    },
+    "degradation": {
+      "is_degraded": false,
+      "is_persistent": false,
+      "consecutive_below_threshold": 2
+    },
+    "recent_records": [
+      {
+        "id": 86,
+        "test_start_date": "2026-04-28",
+        "test_end_date": "2026-05-28",
+        "sharpe_ratio": 0.0,
+        "win_rate": 0.0,
+        "profit_loss_ratio": 0.0,
+        "trade_count": 0,
+        "created_at": "2026-05-28 07:43:42"
+      },
+      {
+        "id": 85,
+        "test_start_date": "2026-04-28",
+        "test_end_date": "2026-05-28",
+        "sharpe_ratio": 0.0,
+        "win_rate": 0.0,
+        "profit_loss_ratio": 0.0,
+        "trade_count": 0,
+        "created_at": "2026-05-28 06:34:50"
+      },
+      {
+        "id": 84,
+        "test_start_date": "2026-04-26",
+        "test_end_date": "2026-05-26",
+        "sharpe_ratio": 1.013,
+        "win_rate": 0.0,
+        "profit_loss_ratio": 0.0,
+        "trade_count": 0,
+        "created_at": "2026-05-26 15:23:13"
+      },
+      {
+        "id": 82,
+        "test_start_date": "2026-04-26",
+        "test_end_date": "2026-05-26",
+        "sharpe_ratio": 1.013,
+        "win_rate": 0.0,
+        "profit_loss_ratio": 0.0,
+        "trade_count": 0,
+        "created_at": "2026-05-26 15:22:19"
+      }
+    ]
+  },
+  "feishu_sync": {
+    "positions": {
+      "table": "real_positions",
+      "created": 0,
+      "updated": 0,
+      "skipped": 7
+    },
+    "trades": {
+      "table": "real_trades",
+      "created": 0,
+      "updated": 0,
+      "skipped": 0
+    },
+    "signals": {
+      "table": "daily_signals",
+      "created": 0,
+      "updated": 0,
+      "skipped": 0
+    },
+    "watchlist": {
+      "table": "watchlist",
+      "created": 0,
+      "updated": 0,
+      "skipped": 66
+    },
+    "signal_performance": {
+      "table": "signal_performance_tracking",
+      "created": 0,
+      "updated": 0,
+      "skipped": 0
+    },
+    "strategy_performance": {
+      "table": "daily_strategy_performance",
+      "created": 0,
+      "updated": 0,
+      "skipped": 0
+    },
+    "factor_radar": {
+      "table": "factor_radar",
+      "created": 0,
+      "updated": 0,
+      "skipped": 0
+    }
+  }
+}

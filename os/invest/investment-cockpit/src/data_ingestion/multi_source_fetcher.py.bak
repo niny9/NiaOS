@@ -1,0 +1,413 @@
+"""
+多数据源行情获取器
+支持从多个数据源获取A股实时行情数据，并自动进行数据源切换和容错
+"""
+
+import pandas as pd
+import akshare as ak
+import requests
+from typing import Optional, List, Dict, Any
+from datetime import datetime
+import logging
+
+logger = logging.getLogger(__name__)
+
+# 延迟导入可选依赖
+try:
+    import efinance as ef
+    EFINANCE_AVAILABLE = True
+except ImportError:
+    EFINANCE_AVAILABLE = False
+    logger.warning("efinance not installed, install with: pip install efinance")
+
+try:
+    import baostock as bs
+    BAOSTOCK_AVAILABLE = True
+except ImportError:
+    BAOSTOCK_AVAILABLE = False
+    logger.warning("baostock not installed, install with: pip install baostock")
+
+
+class MultiSourceFetcher:
+    """多数据源行情获取器"""
+
+    def __init__(self):
+        # 数据源优先级：efinance > baostock > akshare > sina > tencent
+        self.sources = []
+        if EFINANCE_AVAILABLE:
+            self.sources.append('efinance')
+        if BAOSTOCK_AVAILABLE:
+            self.sources.append('baostock')
+        self.sources.extend(['akshare', 'sina', 'tencent'])
+
+        self.current_source_index = 0
+        self.bs_login = False  # baostock登录状态
+
+    def __del__(self):
+        """析构函数，确保baostock登出"""
+        if BAOSTOCK_AVAILABLE and self.bs_login:
+            try:
+                bs.logout()
+            except:
+                pass
+
+    def get_available_sources(self) -> List[str]:
+        """获取可用的数据源列表"""
+        return self.sources.copy()
+
+    def set_source_priority(self, sources: List[str]):
+        """设置数据源优先级"""
+        self.sources = sources
+        self.current_source_index = 0
+
+    def _fetch_efinance_spot(self, codes: Optional[List[str]] = None) -> pd.DataFrame:
+        """从东方财富获取实时行情"""
+        if not EFINANCE_AVAILABLE:
+            raise ImportError("efinance not available")
+
+        if codes:
+            # 转换代码格式：000001 -> 0.000001, 600000 -> 1.600000
+            ef_codes = []
+            for code in codes:
+                if code.startswith('6'):
+                    ef_codes.append(f'1.{code}')  # 上海
+                else:
+                    ef_codes.append(f'0.{code}')  # 深圳
+
+            # 获取指定股票
+            df = ef.stock.get_realtime_quotes(ef_codes)
+        else:
+            # 获取全市场
+            df = ef.stock.get_realtime_quotes()
+
+        if df is None or df.empty:
+            return pd.DataFrame()
+
+        # 标准化列名
+        column_mapping = {
+            '股票代码': 'code',
+            '股票名称': 'name',
+            '最新价': 'price',
+            '涨跌幅': 'change_pct',
+            '涨跌额': 'change',
+            '成交量': 'volume',
+            '成交额': 'amount',
+            '今开': 'open',
+            '最高': 'high',
+            '最低': 'low',
+            '昨收': 'pre_close',
+            '换手率': 'turnover',
+            '市盈率': 'pe',
+            '市净率': 'pb',
+            '总市值': 'total_value',
+            '流通市值': 'circulation_value'
+        }
+
+        df = df.rename(columns=column_mapping)
+        df['source'] = 'efinance'
+        df['update_time'] = datetime.now()
+
+        # 清理代码格式：1.600000 -> 600000
+        if 'code' in df.columns:
+            df['code'] = df['code'].str.split('.').str[-1]
+
+        return df
+
+    def _fetch_baostock_spot(self, codes: Optional[List[str]] = None) -> pd.DataFrame:
+        """从baostock获取实时行情（注意：baostock主要提供历史数据，实时数据有5分钟延迟）"""
+        if not BAOSTOCK_AVAILABLE:
+            raise ImportError("baostock not available")
+
+        # 登录baostock
+        if not self.bs_login:
+            lg = bs.login()
+            if lg.error_code != '0':
+                raise Exception(f"baostock登录失败: {lg.error_msg}")
+            self.bs_login = True
+
+        try:
+            if codes:
+                # 转换代码格式：000001 -> sz.000001, 600000 -> sh.600000
+                bs_codes = []
+                for code in codes:
+                    if code.startswith('6'):
+                        bs_codes.append(f'sh.{code}')
+                    else:
+                        bs_codes.append(f'sz.{code}')
+
+                # 获取指定股票的最新数据
+                dfs = []
+                for bs_code in bs_codes:
+                    rs = bs.query_history_k_data_plus(
+                        bs_code,
+                        "date,code,open,high,low,close,preclose,volume,amount,turn,pctChg",
+                        start_date=datetime.now().strftime('%Y-%m-%d'),
+                        end_date=datetime.now().strftime('%Y-%m-%d'),
+                        frequency="d"
+                    )
+                    if rs.error_code == '0':
+                        df_temp = rs.get_data()
+                        if not df_temp.empty:
+                            dfs.append(df_temp)
+
+                if not dfs:
+                    return pd.DataFrame()
+                df = pd.concat(dfs, ignore_index=True)
+            else:
+                # baostock不支持全市场实时数据，返回空
+                return pd.DataFrame()
+
+            if df.empty:
+                return pd.DataFrame()
+
+            # 标准化列名
+            column_mapping = {
+                'code': 'code',
+                'close': 'price',
+                'pctChg': 'change_pct',
+                'volume': 'volume',
+                'amount': 'amount',
+                'open': 'open',
+                'high': 'high',
+                'low': 'low',
+                'preclose': 'pre_close',
+                'turn': 'turnover'
+            }
+
+            df = df.rename(columns=column_mapping)
+            df['source'] = 'baostock'
+            df['update_time'] = datetime.now()
+
+            # 清理代码格式：sh.600000 -> 600000
+            if 'code' in df.columns:
+                df['code'] = df['code'].str.split('.').str[-1]
+
+            # 转换数据类型
+            numeric_cols = ['price', 'change_pct', 'volume', 'amount', 'open', 'high', 'low', 'pre_close', 'turnover']
+            for col in numeric_cols:
+                if col in df.columns:
+                    df[col] = pd.to_numeric(df[col], errors='coerce')
+
+            return df
+
+        except Exception as e:
+            # 出错时登出
+            bs.logout()
+            self.bs_login = False
+            raise e
+
+    def _fetch_akshare_spot(self, codes: Optional[List[str]] = None) -> pd.DataFrame:
+        """从akshare获取实时行情"""
+        if codes:
+            # akshare获取指定股票
+            dfs = []
+            for code in codes:
+                try:
+                    df = ak.stock_zh_a_spot_em()
+                    df = df[df['代码'] == code]
+                    if not df.empty:
+                        dfs.append(df)
+                except Exception as e:
+                    logger.warning(f"获取股票 {code} 失败: {str(e)}")
+                    continue
+
+            if not dfs:
+                return pd.DataFrame()
+            df = pd.concat(dfs, ignore_index=True)
+        else:
+            # 获取全市场
+            df = ak.stock_zh_a_spot_em()
+
+        if df.empty:
+            return pd.DataFrame()
+
+        # 标准化列名
+        column_mapping = {
+            '代码': 'code',
+            '名称': 'name',
+            '最新价': 'price',
+            '涨跌幅': 'change_pct',
+            '涨跌额': 'change',
+            '成交量': 'volume',
+            '成交额': 'amount',
+            '今开': 'open',
+            '最高': 'high',
+            '最低': 'low',
+            '昨收': 'pre_close',
+            '换手率': 'turnover',
+            '市盈率-动态': 'pe',
+            '市净率': 'pb',
+            '总市值': 'total_value',
+            '流通市值': 'circulation_value'
+        }
+
+        df = df.rename(columns=column_mapping)
+        df['source'] = 'akshare'
+        df['update_time'] = datetime.now()
+
+        return df
+
+    def _fetch_sina_spot(self, codes: Optional[List[str]] = None) -> pd.DataFrame:
+        """从新浪财经获取实时行情"""
+        if codes:
+            # 转换代码格式
+            sina_codes = []
+            for code in codes:
+                if code.startswith('6'):
+                    sina_codes.append(f'sh{code}')
+                else:
+                    sina_codes.append(f'sz{code}')
+
+            url = f"http://hq.sinajs.cn/list={','.join(sina_codes)}"
+        else:
+            # 新浪不支持全市场，返回空
+            return pd.DataFrame()
+
+        response = requests.get(url, timeout=5)
+        response.encoding = 'gbk'
+
+        if response.status_code != 200:
+            return pd.DataFrame()
+
+        data = []
+        for line in response.text.strip().split('\n'):
+            if 'var hq_str_' in line:
+                parts = line.split('"')
+                if len(parts) >= 2:
+                    values = parts[1].split(',')
+                    if len(values) >= 32:
+                        code = line.split('_')[-1].split('=')[0]
+                        data.append({
+                            'code': code[2:],  # 去掉sh/sz前缀
+                            'name': values[0],
+                            'open': float(values[1]) if values[1] else 0,
+                            'pre_close': float(values[2]) if values[2] else 0,
+                            'price': float(values[3]) if values[3] else 0,
+                            'high': float(values[4]) if values[4] else 0,
+                            'low': float(values[5]) if values[5] else 0,
+                            'volume': float(values[8]) if values[8] else 0,
+                            'amount': float(values[9]) if values[9] else 0,
+                        })
+
+        if not data:
+            return pd.DataFrame()
+
+        df = pd.DataFrame(data)
+        df['source'] = 'sina'
+        df['update_time'] = datetime.now()
+
+        # 计算涨跌幅
+        df['change'] = df['price'] - df['pre_close']
+        df['change_pct'] = (df['change'] / df['pre_close'] * 100).round(2)
+
+        return df
+
+    def _fetch_tencent_spot(self, codes: Optional[List[str]] = None) -> pd.DataFrame:
+        """从腾讯财经获取实时行情"""
+        if codes:
+            # 转换代码格式
+            tencent_codes = []
+            for code in codes:
+                if code.startswith('6'):
+                    tencent_codes.append(f'sh{code}')
+                else:
+                    tencent_codes.append(f'sz{code}')
+
+            url = f"http://qt.gtimg.cn/q={','.join(tencent_codes)}"
+        else:
+            # 腾讯不支持全市场，返回空
+            return pd.DataFrame()
+
+        response = requests.get(url, timeout=5)
+        response.encoding = 'gbk'
+
+        if response.status_code != 200:
+            return pd.DataFrame()
+
+        data = []
+        for line in response.text.strip().split('\n'):
+            if 'v_' in line:
+                parts = line.split('~')
+                if len(parts) >= 48:
+                    data.append({
+                        'code': parts[2],
+                        'name': parts[1],
+                        'price': float(parts[3]) if parts[3] else 0,
+                        'change': float(parts[31]) if parts[31] else 0,
+                        'change_pct': float(parts[32]) if parts[32] else 0,
+                        'volume': float(parts[6]) if parts[6] else 0,
+                        'amount': float(parts[37]) if parts[37] else 0,
+                        'open': float(parts[5]) if parts[5] else 0,
+                        'high': float(parts[33]) if parts[33] else 0,
+                        'low': float(parts[34]) if parts[34] else 0,
+                        'pre_close': float(parts[4]) if parts[4] else 0,
+                    })
+
+        if not data:
+            return pd.DataFrame()
+
+        df = pd.DataFrame(data)
+        df['source'] = 'tencent'
+        df['update_time'] = datetime.now()
+
+        return df
+
+    def fetch_spot_data(self, codes: Optional[List[str]] = None) -> pd.DataFrame:
+        """
+        获取实时行情数据，支持多数据源自动切换
+
+        Args:
+            codes: 股票代码列表，如 ['000001', '600000']，None表示获取全市场
+
+        Returns:
+            包含实时行情的DataFrame
+        """
+        for i in range(len(self.sources)):
+            source = self.sources[self.current_source_index]
+            try:
+                logger.info(f"尝试从 {source} 获取数据...")
+
+                if source == 'efinance':
+                    df = self._fetch_efinance_spot(codes)
+                elif source == 'baostock':
+                    df = self._fetch_baostock_spot(codes)
+                elif source == 'akshare':
+                    df = self._fetch_akshare_spot(codes)
+                elif source == 'sina':
+                    df = self._fetch_sina_spot(codes)
+                elif source == 'tencent':
+                    df = self._fetch_tencent_spot(codes)
+                else:
+                    raise ValueError(f"未知的数据源: {source}")
+
+                if df is not None and not df.empty:
+                    logger.info(f"成功从 {source} 获取 {len(df)} 条数据")
+                    return df
+
+            except Exception as e:
+                logger.warning(f"从 {source} 获取数据失败: {str(e)}")
+                self.current_source_index = (self.current_source_index + 1) % len(self.sources)
+                continue
+
+        raise Exception("所有数据源均获取失败")
+
+    def fetch_stock_info(self, code: str) -> Dict[str, Any]:
+        """
+        获取单个股票的详细信息
+
+        Args:
+            code: 股票代码
+
+        Returns:
+            包含股票详细信息的字典
+        """
+        try:
+            df = self.fetch_spot_data([code])
+            if df.empty:
+                return {}
+
+            return df.iloc[0].to_dict()
+
+        except Exception as e:
+            logger.error(f"获取股票 {code} 信息失败: {str(e)}")
+            return {}

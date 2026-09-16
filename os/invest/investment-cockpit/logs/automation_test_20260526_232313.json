@@ -1,0 +1,18 @@
+{
+  "timestamp": "2026-05-26T23:23:13.847315",
+  "crontab": {
+    "loaded": false,
+    "permission_denied": true,
+    "checks": {
+      "daily_task": false,
+      "monitor_parameters": false,
+      "weekly_optimization": false
+    },
+    "all_present": false
+  },
+  "monitor_report_generated": true,
+  "monitor_degraded": false,
+  "optimization_report_path": "/Users/niny/Library/Mobile Documents/iCloud~md~obsidian/Documents/Assets/Invest OS/investment-cockpit/obsidian/03_参数优化/2026-05-26_参数优化报告.md",
+  "feishu_notify_test_sent": false,
+  "status": "warning"
+}

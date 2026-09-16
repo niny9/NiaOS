@@ -1,0 +1,168 @@
+{
+  "title": "AI科技 - AI研究报告",
+  "generated_at": "2026-06-16T14:39:29.971549",
+  "industry_analysis": {
+    "industry": "AI科技",
+    "scores": {
+      "growth_potential": {
+        "score": 85,
+        "label": "增长潜力"
+      },
+      "policy_support": {
+        "score": 90,
+        "label": "政策支持"
+      },
+      "market_size": {
+        "score": 80,
+        "label": "市场规模"
+      },
+      "competition": {
+        "score": 70,
+        "label": "竞争格局"
+      },
+      "technology": {
+        "score": 85,
+        "label": "技术壁垒"
+      }
+    },
+    "total_score": 82.0,
+    "rating": "A",
+    "outlook": "看好",
+    "key_trends": [
+      "AI技术快速发展，应用场景持续拓展",
+      "政策大力支持，多项扶持政策出台",
+      "市场规模持续增长，预计未来3年CAGR 30%+"
+    ],
+    "risks": [
+      "技术迭代快，存在被颠覆风险",
+      "竞争加剧，头部效应明显"
+    ],
+    "analyzed_at": "2026-06-16T14:39:29.971430"
+  },
+  "stock_recommendations": [
+    {
+      "code": "000001",
+      "name": "平安银行",
+      "industry": "AI科技",
+      "market_cap": 2500,
+      "pe": 5.5,
+      "pb": 0.8,
+      "roe": 12.5,
+      "revenue_growth": 8.5,
+      "score": 80,
+      "recommendation": "强烈推荐"
+    },
+    {
+      "code": "000858",
+      "name": "五粮液",
+      "industry": "AI科技",
+      "market_cap": 8000,
+      "pe": 25.0,
+      "pb": 6.0,
+      "roe": 22.0,
+      "revenue_growth": 12.0,
+      "score": 75,
+      "recommendation": "推荐"
+    },
+    {
+      "code": "600519",
+      "name": "贵州茅台",
+      "industry": "AI科技",
+      "market_cap": 25000,
+      "pe": 35.0,
+      "pb": 12.0,
+      "roe": 30.5,
+      "revenue_growth": 15.0,
+      "score": 70,
+      "recommendation": "推荐"
+    }
+  ],
+  "risk_assessments": [
+    {
+      "stock": "000001 平安银行",
+      "risks": {
+        "market_risk": {
+          "score": 60,
+          "description": "市场系统性风险"
+        },
+        "valuation_risk": {
+          "score": 20,
+          "description": "估值过高风险"
+        },
+        "liquidity_risk": {
+          "score": 30,
+          "description": "流动性不足风险"
+        },
+        "industry_risk": {
+          "score": 30,
+          "description": "行业政策和竞争风险"
+        }
+      },
+      "total_risk_score": 35.0,
+      "risk_level": "🟢 低风险",
+      "recommendations": [
+        "风险可控，可适度配置"
+      ],
+      "assessed_at": "2026-06-16T14:39:29.971491"
+    },
+    {
+      "stock": "000858 五粮液",
+      "risks": {
+        "market_risk": {
+          "score": 40,
+          "description": "市场系统性风险"
+        },
+        "valuation_risk": {
+          "score": 20,
+          "description": "估值过高风险"
+        },
+        "liquidity_risk": {
+          "score": 10,
+          "description": "流动性不足风险"
+        },
+        "industry_risk": {
+          "score": 30,
+          "description": "行业政策和竞争风险"
+        }
+      },
+      "total_risk_score": 25.0,
+      "risk_level": "🟢 低风险",
+      "recommendations": [
+        "风险可控，可适度配置"
+      ],
+      "assessed_at": "2026-06-16T14:39:29.971516"
+    },
+    {
+      "stock": "600519 贵州茅台",
+      "risks": {
+        "market_risk": {
+          "score": 20,
+          "description": "市场系统性风险"
+        },
+        "valuation_risk": {
+          "score": 50,
+          "description": "估值过高风险"
+        },
+        "liquidity_risk": {
+          "score": 10,
+          "description": "流动性不足风险"
+        },
+        "industry_risk": {
+          "score": 30,
+          "description": "行业政策和竞争风险"
+        }
+      },
+      "total_risk_score": 27.5,
+      "risk_level": "🟢 低风险",
+      "recommendations": [
+        "风险可控，可适度配置"
+      ],
+      "assessed_at": "2026-06-16T14:39:29.971538"
+    }
+  ],
+  "summary": {
+    "industry_rating": "A",
+    "top_pick": "平安银行",
+    "avg_risk": 29.166666666666668
+  }
+}
