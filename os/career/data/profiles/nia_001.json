@@ -1,0 +1,22 @@
+{
+  "profile_id": "nia_001",
+  "name": "王泽",
+  "alias": "Nia",
+  "current_company": "京东",
+  "current_level": "P3",
+  "current_comp_range_cny_wan": "46-75",
+  "target_role": "AI 产品商业化/增长负责人",
+  "target_comp_paths_cny_wan": {
+    "path_a": "45-55",
+    "path_b": "55-60"
+  },
+  "role_track": "ai_pm",
+  "transition_target_month": "2027-02",
+  "core_gaps": [
+    "托福100+",
+    "GRE320+",
+    "AI商业化项目",
+    "GMV增长经验"
+  ],
+  "updated_at": "2026-05-26T14:53:04Z"
+}

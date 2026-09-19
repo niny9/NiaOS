@@ -1,0 +1,28 @@
+[
+  {
+    "job_id": "example_001",
+    "title": "AI产品经理",
+    "company": "某科技公司",
+    "salary": "50-70K·14薪",
+    "location": "北京·朝阳区",
+    "experience": "3-5年",
+    "education": "本科",
+    "tags": ["LLM", "商业化", "增长", "AI产品"],
+    "hr_info": "张经理·招聘负责人",
+    "url": "https://www.zhipin.com/job_detail/1234567890abcdef.html",
+    "description": "负责 AI 产品的商业化落地，包括需求分析、产品设计、数据分析等"
+  },
+  {
+    "job_id": "example_002",
+    "title": "增长产品经理",
+    "company": "某互联网公司",
+    "salary": "55-80K·15薪",
+    "location": "上海·浦东新区",
+    "experience": "5-10年",
+    "education": "本科",
+    "tags": ["增长", "实验平台", "A/B测试", "数据驱动"],
+    "hr_info": "李总监·产品VP",
+    "url": "https://www.lagou.com/jobs/9876543210.html",
+    "description": "负责用户增长体系搭建，包括实验平台、推荐系统、增长策略等"
+  }
+]

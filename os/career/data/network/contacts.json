@@ -1,0 +1,23 @@
+[
+  {
+    "id": "contact_20260906134905",
+    "name": "张三",
+    "company": "Tech Corp",
+    "role": "VP of Engineering",
+    "relationship": "mentor",
+    "industry": "",
+    "contact_info": {
+      "wechat": "",
+      "phone": "",
+      "email": "",
+      "linkedin": ""
+    },
+    "first_met": "2026-09-06",
+    "last_contact": "2026-09-06",
+    "next_followup": "",
+    "notes": "AI领域专家，给过很多指导",
+    "tags": [],
+    "created_at": "2026-09-06T13:49:05.855462",
+    "updated_at": "2026-09-06T13:49:05.855463"
+  }
+]
