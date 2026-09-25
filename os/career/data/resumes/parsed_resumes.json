@@ -1,6 +1,6 @@
 {
-  "parsed_at": "2026-05-26T15:47:04Z",
-  "total": 211,
+  "parsed_at": "2026-09-25T11:22:17.416235Z",
+  "total": 189,
   "success": 186,
   "failed": 25,
   "items": [
@@ -3224,6 +3224,64 @@
       },
       "project_count": 5,
       "tags": []
+    },
+    {
+      "resume_id": "resume_nia_2026_q3_001",
+      "file_path": "/Users/niny/NiaOS/os/career/data/resumes/nia_recent_work_2026q3.json",
+      "file_type": "json",
+      "summary": "电商平台产品优化项目 - GMV提升2.3%，用户停留时长+18秒",
+      "sections": {
+        "work_experience": "\n电商平台 产品经理 2026.08-2026.09\n\n【项目1：平台首页改版项目】\nSituation: 平台首页转化率低于行业平均水平，用户停留时长不足，GMV增长遇到瓶颈\nTask: 作为项目Owner，负责首页改版的整体规划、需求设计、跨部门协调和项目推进，目标GMV提升2%\nAction:\n- 数据分析：搭建实时监控看板，分析用户行为漏斗，识别3个核心流失节点\n- A/B测试：设计并落地A/B测试框架，测试5个版本的页面布局和交互方案\n- 跨部门协作：协调设计、开发、运营、数据团队，推动项目按期上线\nResult:\n- GMV提升2.3%（超目标15%）\n- 用户停留时长提升18秒\n- 页面点击率提升12%\n- 项目按期交付，无重大bug\n\n【项目2：营销活动优化】\nSituation: 新人拉新转化率低，红包核销率不理想，营销ROI需要优化\nTask: 优化营销活动流程和机制，提升转化率的同时降低成本\nAction:\n- 用户调研：通过问卷和访谈识别用户决策路径上的摩擦点\n- 流程优化：简化新人注册流程，优化红包发放时机和金额策略\n- 数据驱动：建立营销漏斗模型，实时监控各环节转化率\nResult:\n- 新人拉新转化率提升25%\n- 红包核销率提升15%\n- ROI优化：成本降低8%的同时转化提升\n\n【项目3：竞品分析体系搭建】\nSituation: 缺乏系统的竞品监控机制，市场机会识别滞后\nTask: 建立持续的竞品分析体系，为产品决策提供支持\nAction:\n- 建立竞品监控看板，覆盖5个主要竞品的功能、活动、数据\n- 每周产出竞品分析报告，识别机会点\nResult:\n- 识别3个关键增长机会\n- 推动2个功能优化落地\n",
+        "personal_info": "产品经理 | 数据驱动 | 增长优化",
+        "skills": "产品能力：需求分析、项目管理、跨部门协作、A/B测试\n数据能力：数据分析、用户行为分析、漏斗模型、实时监控看板\n业务能力：GMV增长、转化率优化、ROI优化、竞品分析"
+      },
+      "project_count": 3,
+      "tags": [
+        "growth",
+        "data_driven",
+        "ab_test",
+        "roi_optimization",
+        "e-commerce"
+      ]
+    },
+    {
+      "resume_id": "resume_nia_2026_q3_002",
+      "file_path": "/Users/niny/NiaOS/os/career/data/resumes/nia_ai_project_2026q3.json",
+      "file_type": "json",
+      "summary": "AI营销内容生成工具 - 文案生成效率提升70%，月度素材产出2.5倍增长",
+      "sections": {
+        "work_experience": "\n电商平台 AI产品经理 2026.09\n\n【AI营销内容生成工具（内部提效项目）】\nSituation: 营销团队每月需产出大量文案和素材，设计师工作负荷高，创意产出速度慢，影响营销活动上线效率\nTask: 设计并落地AI营销内容生成工具，提升团队效率，缩短营销活动筹备周期\nAction:\n- 需求调研：深度访谈运营、设计、文案团队，梳理核心痛点和需求优先级\n- 产品设计：设计prompt工程方案，包含品牌tone调优、多场景模板、批量生成能力\n- 技术选型：选用Claude API，设计prompt链式调用架构\n- 落地推进：协调AI工程师开发，推动内测、培训、正式上线\n- 效果验证：建立效率指标体系，追踪工具使用率和产出质量\nResult:\n- 文案生成效率提升70%（从平均2小时/篇降至40分钟/篇）\n- 设计师工作量减少40%，释放时间用于高价值创意工作\n- 月度营销素材产出从120个增至300+个（2.5倍增长）\n- 工具使用率达85%，满意度评分4.6/5\n- 技术栈：Claude API + Prompt Engineering + Python\n\n核心能力体现：\n- AI应用能力：理解LLM能力边界，设计合理的AI产品方案\n- Prompt工程：设计高质量prompt，优化输出质量和稳定性\n- 产品化能力：将AI能力封装为易用的内部工具\n- 跨团队协作：协调产品、AI工程、运营、设计多团队\n",
+        "personal_info": "AI产品经理 | Claude API | Prompt Engineering",
+        "skills": "AI能力：Claude API应用、Prompt工程、LLM产品设计\n产品能力：需求分析、产品设计、工具产品化、效果验证\n技术理解：Python、API集成、提示词优化"
+      },
+      "project_count": 1,
+      "tags": [
+        "ai",
+        "llm",
+        "claude_api",
+        "prompt_engineering",
+        "productivity_tool",
+        "commercialization"
+      ]
+    },
+    {
+      "resume_id": "resume_nia_2026_q3_003",
+      "file_path": "/Users/niny/NiaOS/os/career/data/resumes/nia_data_system_2026q3.json",
+      "file_type": "json",
+      "summary": "数据驱动决策体系搭建 - 实时监控看板、A/B测试框架、用户行为漏斗模型",
+      "sections": {
+        "work_experience": "\n电商平台 产品经理 2026.08-2026.09\n\n【数据驱动决策体系搭建】\nSituation: 产品决策依赖经验判断，缺乏数据支撑；A/B测试流程不规范；用户行为数据散落各处难以分析\nTask: 搭建数据驱动的决策体系，提升产品迭代效率和准确性\nAction:\n- 实时监控看板：梳理核心指标体系（GMV、转化率、留存率、活跃度），设计可视化看板\n- A/B测试框架：制定A/B测试SOP，包含实验设计、样本量计算、统计显著性判断标准\n- 用户行为漏斗：搭建用户行为漏斗分析模型，识别流失节点和优化机会\nResult:\n- 看板覆盖20+核心指标，支持实时监控和异常告警\n- A/B测试框架落地，成功运行8个实验，平均迭代周期缩短30%\n- 漏斗模型识别3个核心流失节点，推动针对性优化\n\n核心能力体现：\n- 数据分析能力：指标体系设计、漏斗分析、A/B测试\n- 系统化思维：从0到1搭建决策体系\n- 业务理解：将数据分析转化为业务增长\n",
+        "personal_info": "产品经理 | 数据驱动 | A/B测试",
+        "skills": "数据能力：指标体系设计、实时监控看板、A/B测试框架、用户行为分析、漏斗模型\n工具能力：SQL、数据可视化工具、统计分析"
+      },
+      "project_count": 1,
+      "tags": [
+        "data_driven",
+        "ab_test",
+        "analytics",
+        "dashboard",
+        "funnel_analysis"
+      ]
     }
   ],
   "failed_items": [
