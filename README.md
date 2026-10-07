@@ -11,10 +11,21 @@ NiaOS/
 │   │   ├── engines/      # 5大对账分析引擎
 │   │   ├── data/         # 数据存储
 │   │   └── *.md          # 文档和报告
-│   ├── content/          # 内容操作系统（待完善）
+│   ├── content/          # 内容策略、Skills 与制作工作流
 │   └── product/          # 产品操作系统（待完善）
 └── README.md
 ```
+
+## Content OS - NIA 小红书内容策略
+
+[nia-xhs-topic-gate](os/content/skills/xiaohongshu/nia-xhs-topic-gate/README.md)
+以 **Nia | AI Product Builder** 定位校正选题、标题、封面、正文、口播和 HTML。
+包含六层 Gate、100 分评分、真实 Build / Eval / Case 证据规则，以及每周最多 1 篇、每月 1 个主 Case 的产能约束。
+
+触发语：`用 NIA 选题 Gate 判断这个题`、`按 NIA Content OS 判断/生成`、
+`按我的账号定位做 HTML`。完整模板见 [SKILL.md](os/content/skills/xiaohongshu/nia-xhs-topic-gate/SKILL.md)，
+与 `nia-xhs-interactive-html`（原称 `nia-xhs-html`）的协同见
+[接入工作流](os/content/workflows/nia-xhs-content-gate.md)。
 
 ## Invest OS - 投资对账系统
 

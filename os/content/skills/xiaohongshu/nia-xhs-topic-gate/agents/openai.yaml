@@ -1,0 +1,6 @@
+interface:
+  display_name: "NIA 小红书选题 Gate"
+  short_description: "按 AI Product Builder 定位校正选题、实操证据与统一内容表达"
+  default_prompt: "用 $nia-xhs-topic-gate 判断这个 Idea 是否适合 Nia 的小红书账号，并给出评分、用户题改写、证据计划与当前所需产物。"
+policy:
+  allow_implicit_invocation: true
