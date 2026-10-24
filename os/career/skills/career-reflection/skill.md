@@ -7,6 +7,10 @@ description: 基于Career Learning Log框架，将工作case转化为系统性�
 
 当用户提供工作case时，使用Career Learning Log框架生成系统性的复盘与成长md文件。
 
+## 与统一周检协作
+
+单个 case 继续写入原 Career Learning Log 的 E/J/L/Evidence 结构；每周由 [career-weekly-review](../career-weekly-review/SKILL.md) 引用其稳定 ID。原 L1–L7 分数不直接换算成 12 维能力分数，也不另建一套 Log。周检需要的 Insight 优先复用既有 Judgment/Insight 记录；未绑定时明确待写，不创建同名空库。所有成果候选遵守统一周检的 Evidence Policy 与 Resume Asset Gate。
+
 ## 输入
 
 用户会提供以下一种或多种形式的内容：

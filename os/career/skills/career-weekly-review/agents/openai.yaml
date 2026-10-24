@@ -1,0 +1,4 @@
+interface:
+  display_name: "Career OS 统一职业周检"
+  short_description: "审计真实项目与十二维 AI PM 能力，更新职业证据、Top3 和停止投入项"
+  default_prompt: "使用 $career-weekly-review 执行统一版 Career OS 周检，复用已有台账并回写证据、能力变化、Top3 和 Stop-Doing。"
