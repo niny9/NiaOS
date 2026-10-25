@@ -5,6 +5,14 @@ description: 整理 NIA Wealth OS 的 A 股、ETF、场外基金与现金持仓�
 
 # 持仓快照与数据验证
 
+v1.8 的 `nia-invest-portfolio-manager` 由本模块升级承接，保留原名兼容旧调用。覆盖 A 股、场内 ETF、场外基金、QDII、债券基金和现金；基金以 share_class 和 product_type 区分，不另建重复账本。
+
+先区分 historical_screenshot、current_account、order、actual_fill。用户转述截图标 user_reported_historical，未看到原图不能写已核验。用户明确更正可修订持仓状态，成交细节未知仍为 null。真实核实成交才增减数量/现金；较新快照已含成交时不得重复应用。
+
+多账户使用同花顺交接 Schema 的 accounts 底稿：每个账户 cash_total 含 cash_available，后者不是另一笔资产；市值 + cash_total 才与 account_total 对账。货币基金/现金管理份额与账户现金只计一次，冻结现金在总现金内。外币、在途、负债或遗漏产品存在时不能用简化求和假称通过。v1 快照只接收已确认、无待处理事项的 CNY 聚合；不支持的情况保留底稿并降级。
+
+各账户分别记录年度收益与累计收益的起止日、本金/净入金、费用、币种、方法和分母，二者不能互换。回本/减亏目标需要同口径基准，缺分母或原亏损值不计算进度。
+
 先读 [数据契约](references/data-contract.md)。本模块是组合诊断、风控和条件交易计划的输入门禁；数据来源可用不等于持仓已接入。
 
 1. 从当前任务指定的私有数据根、用户导出或已确认的账户账本读取。解析实际路径与更新时间，记录 binding；不要把历史示例、watchlist、模拟账户或旧 Claude/Claw 记录升级为真实持仓。

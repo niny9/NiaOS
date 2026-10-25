@@ -15,10 +15,12 @@ Wealth OS 沿用 NiaOS 的 `os/invest` 投资子系统。
 | 3 | [nia-wealth-portfolio-diagnosis](../skills/nia-wealth-portfolio-diagnosis/SKILL.md) | 逐项逻辑与组合重叠诊断 |
 | 4 | [nia-wealth-risk](../skills/nia-wealth-risk/SKILL.md) | 仓位、现金、集中度、回撤门禁 |
 | 5 | [nia-wealth-trade-plan](../skills/nia-wealth-trade-plan/SKILL.md) | 条件化交易预案及人工确认 |
-| 6 | [nia-wealth-goals](../skills/nia-wealth-goals/SKILL.md) | 2026–2032 全部净资产目标跟踪 |
+| 6 | [nia-wealth-goals](../skills/nia-wealth-goals/SKILL.md) | 2026–2032 按每项目标独立口径跟踪 |
 | 7 | [nia-wealth-daily-brief](../skills/nia-wealth-daily-brief/SKILL.md) | 汇总、去重、保存本次简报 |
 
-Skill 是 Agent 操作规范，不是自动执行整个流程的行情服务。统一入口与七模块应一起安装；各目录均含可独立发现的 SKILL.md。已有 finance-quant、investment-workflow 和中金财富 Skills 保留原计算/查询功能，由统一入口实际解析其路径并分派。
+上表为保留的七个 Wealth 模块。v1.8 另接机会发现、行为纪律、双日志、策略评测和同花顺交接，完整映射见 [集成清单](../skills/invest-os/references/v1.8-integration.md)，当前 14 阶段以注册表为准。
+
+Skill 是 Agent 操作规范，不是自动行情服务。统一入口、七个 Wealth 与五个新增模块应同级安装。已有 finance-quant、investment-workflow 和中金财富 Skills 保留原计算/查询功能，统一入口解析路径并分派。
 
 运行时读取私有目标、持仓和风险政策。未知持仓不能生成卖出数量，未知现金不能生成买入数量，基金估算净值不能当成交价；缺失数据时输出可核验的公开市场研究和缺口清单。真实交易由用户执行。
 

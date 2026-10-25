@@ -1,0 +1,72 @@
+{
+  "schema_version": "invest.strategy-review.v1",
+  "signal_id": null,
+  "strategy_version": null,
+  "as_of": null,
+  "calendar_source": null,
+  "entry_convention": null,
+  "benchmark": null,
+  "benchmark_selected_at": null,
+  "reviews": [
+    {
+      "trading_day_horizon": 1,
+      "due_date": null,
+      "status": "awaiting_data",
+      "triggered": null,
+      "tradable": null,
+      "hypothetical_net_return": null,
+      "actual_net_return": null,
+      "benchmark_return": null,
+      "excess_return": null,
+      "costs": null,
+      "sources": []
+    },
+    {
+      "trading_day_horizon": 5,
+      "due_date": null,
+      "status": "awaiting_data",
+      "triggered": null,
+      "tradable": null,
+      "hypothetical_net_return": null,
+      "actual_net_return": null,
+      "benchmark_return": null,
+      "excess_return": null,
+      "costs": null,
+      "sources": []
+    },
+    {
+      "trading_day_horizon": 20,
+      "due_date": null,
+      "status": "awaiting_data",
+      "triggered": null,
+      "tradable": null,
+      "hypothetical_net_return": null,
+      "actual_net_return": null,
+      "benchmark_return": null,
+      "excess_return": null,
+      "costs": null,
+      "sources": []
+    }
+  ],
+  "error_attribution": {
+    "data_delay": null,
+    "factual_error": null,
+    "strategy_error": null,
+    "execution_issue": null,
+    "discipline_deviation": null,
+    "market_randomness": null
+  },
+  "false_positive": null,
+  "missed_signal": null,
+  "candidate_universe_ref": null,
+  "sample_size": null,
+  "strategy_change": {
+    "status": "observation_only",
+    "old_version": null,
+    "proposed_version": null,
+    "evidence": [],
+    "out_of_sample_test": null,
+    "rollback_condition": null,
+    "approved_by_user": false
+  }
+}

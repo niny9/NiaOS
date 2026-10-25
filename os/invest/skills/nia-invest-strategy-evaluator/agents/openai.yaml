@@ -1,0 +1,3 @@
+interface:
+  display_name: "投资策略复盘与评测"
+  short_description: "按第一、第五、第二十交易日复盘信号，比较基准和成本并审查策略修订"

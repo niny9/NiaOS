@@ -1,0 +1,1107 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Invest OS handoff",
+  "type": "object",
+  "properties": {
+    "schema_version": {
+      "const": "invest.handoff.v1"
+    },
+    "report_id": {
+      "anyOf": [
+        {
+          "type": "string",
+          "minLength": 1
+        },
+        {
+          "type": "null"
+        }
+      ]
+    },
+    "data_as_of": {
+      "anyOf": [
+        {
+          "type": "string",
+          "format": "date-time"
+        },
+        {
+          "type": "null"
+        }
+      ]
+    },
+    "generated_at": {
+      "anyOf": [
+        {
+          "type": "string",
+          "format": "date-time"
+        },
+        {
+          "type": "null"
+        }
+      ]
+    },
+    "timezone": {
+      "const": "Asia/Shanghai"
+    },
+    "mode": {
+      "enum": [
+        "manual_copy",
+        "verified_export",
+        "unknown"
+      ]
+    },
+    "capabilities": {
+      "type": "object",
+      "properties": {
+        "quotes": {
+          "enum": [
+            "supported",
+            "unavailable",
+            "unknown"
+          ]
+        },
+        "holdings": {
+          "enum": [
+            "supported",
+            "unavailable",
+            "unknown"
+          ]
+        },
+        "fills": {
+          "enum": [
+            "supported",
+            "unavailable",
+            "unknown"
+          ]
+        },
+        "alerts": {
+          "enum": [
+            "supported",
+            "unavailable",
+            "unknown"
+          ]
+        },
+        "export": {
+          "enum": [
+            "supported",
+            "unavailable",
+            "unknown"
+          ]
+        }
+      },
+      "required": [
+        "quotes",
+        "holdings",
+        "fills",
+        "alerts",
+        "export"
+      ],
+      "additionalProperties": false
+    },
+    "capability_evidence": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "source_ref": {
+            "type": "string",
+            "minLength": 1
+          },
+          "source_as_of": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "retrieved_at": {
+            "type": "string",
+            "format": "date-time"
+          }
+        },
+        "required": [
+          "source_ref",
+          "source_as_of",
+          "retrieved_at"
+        ],
+        "additionalProperties": false
+      }
+    },
+    "accounts": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "account_alias": {
+            "type": "string",
+            "minLength": 1
+          },
+          "currency": {
+            "const": "CNY"
+          },
+          "as_of": {
+            "anyOf": [
+              {
+                "type": "string",
+                "format": "date-time"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "source_ref": {
+            "anyOf": [
+              {
+                "type": "string",
+                "minLength": 1
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "cash_total_cny": {
+            "anyOf": [
+              {
+                "type": "number",
+                "minimum": 0
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "cash_available_cny": {
+            "anyOf": [
+              {
+                "type": "number",
+                "minimum": 0
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "reported_total_cny": {
+            "anyOf": [
+              {
+                "type": "number",
+                "minimum": 0
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "cash_management_counted_as": {
+            "enum": [
+              "positions",
+              "cash",
+              "none",
+              "unknown"
+            ]
+          },
+          "positions": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "security": {
+                  "type": "object",
+                  "properties": {
+                    "name": {
+                      "type": "string",
+                      "minLength": 1
+                    },
+                    "code": {
+                      "type": "string",
+                      "minLength": 1
+                    },
+                    "venue": {
+                      "type": "string",
+                      "minLength": 1
+                    },
+                    "share_class": {
+                      "anyOf": [
+                        {
+                          "type": "string",
+                          "minLength": 1
+                        },
+                        {
+                          "type": "null"
+                        }
+                      ]
+                    },
+                    "product_type": {
+                      "enum": [
+                        "stock",
+                        "etf",
+                        "otc_fund",
+                        "qdii",
+                        "bond_fund",
+                        "cash_management"
+                      ]
+                    }
+                  },
+                  "required": [
+                    "name",
+                    "code",
+                    "venue",
+                    "share_class",
+                    "product_type"
+                  ],
+                  "additionalProperties": false
+                },
+                "quantity": {
+                  "anyOf": [
+                    {
+                      "type": "number",
+                      "minimum": 0
+                    },
+                    {
+                      "type": "null"
+                    }
+                  ]
+                },
+                "available_quantity": {
+                  "anyOf": [
+                    {
+                      "type": "number",
+                      "minimum": 0
+                    },
+                    {
+                      "type": "null"
+                    }
+                  ]
+                },
+                "cost_total_cny": {
+                  "anyOf": [
+                    {
+                      "type": "number",
+                      "minimum": 0
+                    },
+                    {
+                      "type": "null"
+                    }
+                  ]
+                },
+                "unit_price": {
+                  "anyOf": [
+                    {
+                      "type": "number",
+                      "minimum": 0
+                    },
+                    {
+                      "type": "null"
+                    }
+                  ]
+                },
+                "market_value_cny": {
+                  "anyOf": [
+                    {
+                      "type": "number",
+                      "minimum": 0
+                    },
+                    {
+                      "type": "null"
+                    }
+                  ]
+                },
+                "unrealized_pnl_cny": {
+                  "anyOf": [
+                    {
+                      "type": "number"
+                    },
+                    {
+                      "type": "null"
+                    }
+                  ]
+                },
+                "price_as_of": {
+                  "anyOf": [
+                    {
+                      "type": "string",
+                      "format": "date-time"
+                    },
+                    {
+                      "type": "null"
+                    }
+                  ]
+                },
+                "source_ref": {
+                  "anyOf": [
+                    {
+                      "type": "string",
+                      "minLength": 1
+                    },
+                    {
+                      "type": "null"
+                    }
+                  ]
+                },
+                "quality": {
+                  "enum": [
+                    "verified",
+                    "historical",
+                    "user_reported",
+                    "estimate",
+                    "unknown"
+                  ]
+                }
+              },
+              "required": [
+                "security",
+                "quantity",
+                "available_quantity",
+                "cost_total_cny",
+                "unit_price",
+                "market_value_cny",
+                "unrealized_pnl_cny",
+                "price_as_of",
+                "source_ref",
+                "quality"
+              ],
+              "additionalProperties": false
+            }
+          },
+          "performance": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "period_type": {
+                  "enum": [
+                    "annual",
+                    "cumulative"
+                  ]
+                },
+                "start_date": {
+                  "anyOf": [
+                    {
+                      "type": "string",
+                      "format": "date"
+                    },
+                    {
+                      "type": "null"
+                    }
+                  ]
+                },
+                "end_date": {
+                  "anyOf": [
+                    {
+                      "type": "string",
+                      "format": "date"
+                    },
+                    {
+                      "type": "null"
+                    }
+                  ]
+                },
+                "profit_cny": {
+                  "anyOf": [
+                    {
+                      "type": "number"
+                    },
+                    {
+                      "type": "null"
+                    }
+                  ]
+                },
+                "return_rate": {
+                  "anyOf": [
+                    {
+                      "type": "number"
+                    },
+                    {
+                      "type": "null"
+                    }
+                  ]
+                },
+                "denominator_cny": {
+                  "anyOf": [
+                    {
+                      "type": "number",
+                      "exclusiveMinimum": 0
+                    },
+                    {
+                      "type": "null"
+                    }
+                  ]
+                },
+                "net_contributions_cny": {
+                  "anyOf": [
+                    {
+                      "type": "number"
+                    },
+                    {
+                      "type": "null"
+                    }
+                  ]
+                },
+                "method": {
+                  "anyOf": [
+                    {
+                      "type": "string",
+                      "minLength": 1
+                    },
+                    {
+                      "type": "null"
+                    }
+                  ]
+                },
+                "source_ref": {
+                  "anyOf": [
+                    {
+                      "type": "string",
+                      "minLength": 1
+                    },
+                    {
+                      "type": "null"
+                    }
+                  ]
+                }
+              },
+              "required": [
+                "period_type",
+                "start_date",
+                "end_date",
+                "profit_cny",
+                "return_rate",
+                "denominator_cny",
+                "net_contributions_cny",
+                "method",
+                "source_ref"
+              ],
+              "additionalProperties": false
+            }
+          }
+        },
+        "required": [
+          "account_alias",
+          "currency",
+          "as_of",
+          "source_ref",
+          "cash_total_cny",
+          "cash_available_cny",
+          "reported_total_cny",
+          "cash_management_counted_as",
+          "positions",
+          "performance"
+        ],
+        "additionalProperties": false
+      }
+    },
+    "actual_trades": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "schema_version": {
+            "const": "invest.actual-trade.v1"
+          },
+          "trade_id": {
+            "type": "string",
+            "minLength": 1
+          },
+          "account_alias": {
+            "type": "string",
+            "minLength": 1
+          },
+          "security": {
+            "type": "object",
+            "properties": {
+              "name": {
+                "type": "string",
+                "minLength": 1
+              },
+              "code": {
+                "type": "string",
+                "minLength": 1
+              },
+              "venue": {
+                "type": "string",
+                "minLength": 1
+              },
+              "share_class": {
+                "anyOf": [
+                  {
+                    "type": "string",
+                    "minLength": 1
+                  },
+                  {
+                    "type": "null"
+                  }
+                ]
+              },
+              "product_type": {
+                "enum": [
+                  "stock",
+                  "etf",
+                  "otc_fund",
+                  "qdii",
+                  "bond_fund",
+                  "cash_management"
+                ]
+              }
+            },
+            "required": [
+              "name",
+              "code",
+              "venue",
+              "share_class",
+              "product_type"
+            ],
+            "additionalProperties": false
+          },
+          "executed_at": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "side": {
+            "enum": [
+              "buy",
+              "sell"
+            ]
+          },
+          "price": {
+            "type": "number",
+            "exclusiveMinimum": 0
+          },
+          "quantity": {
+            "type": "number",
+            "exclusiveMinimum": 0
+          },
+          "fees_cny": {
+            "type": "number",
+            "minimum": 0
+          },
+          "cash_delta_cny": {
+            "type": "number"
+          },
+          "currency": {
+            "const": "CNY"
+          },
+          "status": {
+            "const": "filled"
+          },
+          "confirmed_by_user": {
+            "const": true
+          },
+          "source": {
+            "type": "object",
+            "properties": {
+              "source_ref": {
+                "type": "string",
+                "minLength": 1
+              },
+              "source_as_of": {
+                "type": "string",
+                "format": "date-time"
+              },
+              "retrieved_at": {
+                "type": "string",
+                "format": "date-time"
+              }
+            },
+            "required": [
+              "source_ref",
+              "source_as_of",
+              "retrieved_at"
+            ],
+            "additionalProperties": false
+          },
+          "motive": {
+            "anyOf": [
+              {
+                "type": "string",
+                "minLength": 1
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "emotion": {
+            "anyOf": [
+              {
+                "type": "string",
+                "minLength": 1
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "user_statement_ref": {
+            "anyOf": [
+              {
+                "type": "string",
+                "minLength": 1
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "ai_signal_id": {
+            "anyOf": [
+              {
+                "type": "string",
+                "minLength": 1
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "ai_alignment": {
+            "enum": [
+              "aligned",
+              "deviated",
+              "no_signal",
+              "unknown"
+            ]
+          },
+          "supersedes": {
+            "anyOf": [
+              {
+                "type": "string",
+                "minLength": 1
+              },
+              {
+                "type": "null"
+              }
+            ]
+          }
+        },
+        "required": [
+          "schema_version",
+          "trade_id",
+          "account_alias",
+          "security",
+          "executed_at",
+          "side",
+          "price",
+          "quantity",
+          "fees_cny",
+          "cash_delta_cny",
+          "currency",
+          "status",
+          "confirmed_by_user",
+          "source",
+          "motive",
+          "emotion",
+          "user_statement_ref",
+          "ai_signal_id",
+          "ai_alignment",
+          "supersedes"
+        ],
+        "additionalProperties": false
+      }
+    },
+    "open_orders": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "order_id": {
+            "type": "string",
+            "minLength": 1
+          },
+          "account_alias": {
+            "type": "string",
+            "minLength": 1
+          },
+          "security": {
+            "type": "object",
+            "properties": {
+              "name": {
+                "type": "string",
+                "minLength": 1
+              },
+              "code": {
+                "type": "string",
+                "minLength": 1
+              },
+              "venue": {
+                "type": "string",
+                "minLength": 1
+              },
+              "share_class": {
+                "anyOf": [
+                  {
+                    "type": "string",
+                    "minLength": 1
+                  },
+                  {
+                    "type": "null"
+                  }
+                ]
+              },
+              "product_type": {
+                "enum": [
+                  "stock",
+                  "etf",
+                  "otc_fund",
+                  "qdii",
+                  "bond_fund",
+                  "cash_management"
+                ]
+              }
+            },
+            "required": [
+              "name",
+              "code",
+              "venue",
+              "share_class",
+              "product_type"
+            ],
+            "additionalProperties": false
+          },
+          "side": {
+            "enum": [
+              "buy",
+              "sell"
+            ]
+          },
+          "submitted_at": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "quantity": {
+            "type": "number",
+            "exclusiveMinimum": 0
+          },
+          "filled_quantity": {
+            "type": "number",
+            "minimum": 0
+          },
+          "status": {
+            "enum": [
+              "open",
+              "partially_filled",
+              "cancel_pending"
+            ]
+          },
+          "source": {
+            "type": "object",
+            "properties": {
+              "source_ref": {
+                "type": "string",
+                "minLength": 1
+              },
+              "source_as_of": {
+                "type": "string",
+                "format": "date-time"
+              },
+              "retrieved_at": {
+                "type": "string",
+                "format": "date-time"
+              }
+            },
+            "required": [
+              "source_ref",
+              "source_as_of",
+              "retrieved_at"
+            ],
+            "additionalProperties": false
+          }
+        },
+        "required": [
+          "order_id",
+          "account_alias",
+          "security",
+          "side",
+          "submitted_at",
+          "quantity",
+          "filled_quantity",
+          "status",
+          "source"
+        ],
+        "additionalProperties": false
+      }
+    },
+    "market_signals": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "minLength": 1
+          },
+          "summary": {
+            "type": "string",
+            "minLength": 1
+          },
+          "source": {
+            "type": "object",
+            "properties": {
+              "source_ref": {
+                "type": "string",
+                "minLength": 1
+              },
+              "source_as_of": {
+                "type": "string",
+                "format": "date-time"
+              },
+              "retrieved_at": {
+                "type": "string",
+                "format": "date-time"
+              }
+            },
+            "required": [
+              "source_ref",
+              "source_as_of",
+              "retrieved_at"
+            ],
+            "additionalProperties": false
+          }
+        },
+        "required": [
+          "id",
+          "summary",
+          "source"
+        ],
+        "additionalProperties": false
+      }
+    },
+    "risk_events": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "minLength": 1
+          },
+          "summary": {
+            "type": "string",
+            "minLength": 1
+          },
+          "source": {
+            "type": "object",
+            "properties": {
+              "source_ref": {
+                "type": "string",
+                "minLength": 1
+              },
+              "source_as_of": {
+                "type": "string",
+                "format": "date-time"
+              },
+              "retrieved_at": {
+                "type": "string",
+                "format": "date-time"
+              }
+            },
+            "required": [
+              "source_ref",
+              "source_as_of",
+              "retrieved_at"
+            ],
+            "additionalProperties": false
+          }
+        },
+        "required": [
+          "id",
+          "summary",
+          "source"
+        ],
+        "additionalProperties": false
+      }
+    },
+    "candidate_opportunities": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "security": {
+            "type": "object",
+            "properties": {
+              "name": {
+                "type": "string",
+                "minLength": 1
+              },
+              "code": {
+                "type": "string",
+                "minLength": 1
+              },
+              "venue": {
+                "type": "string",
+                "minLength": 1
+              },
+              "share_class": {
+                "anyOf": [
+                  {
+                    "type": "string",
+                    "minLength": 1
+                  },
+                  {
+                    "type": "null"
+                  }
+                ]
+              },
+              "product_type": {
+                "enum": [
+                  "stock",
+                  "etf",
+                  "otc_fund",
+                  "qdii",
+                  "bond_fund",
+                  "cash_management"
+                ]
+              }
+            },
+            "required": [
+              "name",
+              "code",
+              "venue",
+              "share_class",
+              "product_type"
+            ],
+            "additionalProperties": false
+          },
+          "label": {
+            "const": "候选，非当前持仓"
+          },
+          "summary": {
+            "type": "string",
+            "minLength": 1
+          },
+          "source": {
+            "type": "object",
+            "properties": {
+              "source_ref": {
+                "type": "string",
+                "minLength": 1
+              },
+              "source_as_of": {
+                "type": "string",
+                "format": "date-time"
+              },
+              "retrieved_at": {
+                "type": "string",
+                "format": "date-time"
+              }
+            },
+            "required": [
+              "source_ref",
+              "source_as_of",
+              "retrieved_at"
+            ],
+            "additionalProperties": false
+          }
+        },
+        "required": [
+          "security",
+          "label",
+          "summary",
+          "source"
+        ],
+        "additionalProperties": false
+      }
+    },
+    "discipline_deviations": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "minLength": 1
+          },
+          "summary": {
+            "type": "string",
+            "minLength": 1
+          },
+          "source": {
+            "type": "object",
+            "properties": {
+              "source_ref": {
+                "type": "string",
+                "minLength": 1
+              },
+              "source_as_of": {
+                "type": "string",
+                "format": "date-time"
+              },
+              "retrieved_at": {
+                "type": "string",
+                "format": "date-time"
+              }
+            },
+            "required": [
+              "source_ref",
+              "source_as_of",
+              "retrieved_at"
+            ],
+            "additionalProperties": false
+          }
+        },
+        "required": [
+          "id",
+          "summary",
+          "source"
+        ],
+        "additionalProperties": false
+      }
+    },
+    "data_quality": {
+      "type": "object",
+      "properties": {
+        "status": {
+          "enum": [
+            "verified",
+            "partial",
+            "unavailable"
+          ]
+        },
+        "accounts_complete": {
+          "type": "boolean"
+        },
+        "confirmed_by_user": {
+          "type": "boolean"
+        },
+        "pending_activity": {
+          "type": "boolean"
+        },
+        "empty_accounts_confirmed": {
+          "type": "boolean"
+        },
+        "issues": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "minLength": 1
+          }
+        }
+      },
+      "required": [
+        "status",
+        "accounts_complete",
+        "confirmed_by_user",
+        "pending_activity",
+        "empty_accounts_confirmed",
+        "issues"
+      ],
+      "additionalProperties": false
+    }
+  },
+  "required": [
+    "schema_version",
+    "report_id",
+    "data_as_of",
+    "generated_at",
+    "timezone",
+    "mode",
+    "capabilities",
+    "capability_evidence",
+    "accounts",
+    "actual_trades",
+    "open_orders",
+    "market_signals",
+    "risk_events",
+    "candidate_opportunities",
+    "discipline_deviations",
+    "data_quality"
+  ],
+  "additionalProperties": false
+}

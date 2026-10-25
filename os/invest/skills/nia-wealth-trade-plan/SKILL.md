@@ -5,6 +5,12 @@ description: 把 NIA Wealth OS 的持仓诊断转换为带触发条件、失效�
 
 # 条件化交易决策
 
+v1.8 的 `nia-invest-trade-decision` 由本模块承接。每项计划用 [统一模板](../invest-os/assets/trade-plan.template.json)，含十项：名称及代码、市场判断、方向、触发条件、金额/数量范围、逻辑、风险、失效条件、不交易条件、来源及时间。旧 quantity/amount_cny 保留，范围未知为 null。
+
+读取 `behavior`、`opportunities`、`evaluation`；每项附针对个人的 discipline_check（pass/warn/block/unknown、提醒、依据、复核条件），明确短线/波段/长期期限。纪律未 pass 不给数值交易量。卖出/减仓/退出必须引用资金再配置方案，暂持现金可作为去向；未到账资金不能提前动用。候选买入写“候选，非当前持仓”。
+
+完成后交双日志模块登记 AI 信号。不触发、持有、继续观察都是有效结论，禁止为日报制造交易。
+
 先取得 holdings 验证、诊断证据、risk 结果与用户已确认限额。数据、规则或风险为 unknown/block 时只输出待验证预案，`quantity=null`、`executable=false`；不能为了填满“今日三项”强行交易。
 
 每项计划明确：证券代码/份额类别、账户别名、方向、理由与反证、触发条件、失效条件、有效时段、价格/净值口径、目标权重区间、最大可用资金、费用与滑点假设、拟议数量或金额、交易后风险、复核时间和状态 `proposed`。

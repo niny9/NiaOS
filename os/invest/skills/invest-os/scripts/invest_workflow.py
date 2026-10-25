@@ -85,7 +85,9 @@ def binding_files(binding_path):
         raise ValueError("bindings must be an object")
     metadata = {str(binding_path): digest(binding_path)}
     files = {}
-    for key in ("holdings_file", "goals_file", "risk_policy_file"):
+    for key in ("holdings_file", "goals_file", "risk_policy_file", "historical_baseline_file",
+                "handoff_file", "behavior_profile_file", "ai_signal_journal_file", "actual_trade_journal_file",
+                "unreconciled_updates_file", "trading_calendar_file"):
         value = raw.get(key)
         if value is not None and not isinstance(value, str):
             raise ValueError(f"{key} must be a path or null")
@@ -231,6 +233,28 @@ def check_results(plan, directory, now=None):
             errors.append(sid + ": missing " + field)
     if "risk" in receipts and out("risk").get("gate") not in ("pass", "warn", "block", "unknown"):
         errors.append("risk: invalid gate")
+    if "behavior" in receipts and out("behavior").get("gate") not in ("pass", "warn", "block", "unknown"):
+        errors.append("behavior: missing or invalid discipline gate")
+    if "handoff" in receipts and out("handoff").get("connection_status") not in ("manual_copy", "verified_export", "unavailable"):
+        errors.append("handoff: missing connection status")
+    if out("handoff").get("connection_status") == "verified_export" and out("handoff").get("connection_evidence_verified") is not True:
+        errors.append("handoff: automatic connection is not evidenced")
+    for field in ("signals_reviewed", "trades_reviewed"):
+        value = out("journal").get(field)
+        if "journal" in receipts and (field not in out("journal") or value is not None and (type(value) is not int or value < 0)):
+            errors.append("journal: missing or invalid " + field)
+    if "evaluation" in receipts and not isinstance(out("evaluation").get("reviews"), list):
+        errors.append("evaluation: missing reviews array")
+    required_categories = {"a_share_stock", "broad_etf", "sector_etf", "otc_fund", "bond_or_cash_management", "hold_cash"}
+    comparisons = out("opportunities").get("comparisons")
+    reallocations = out("opportunities").get("reallocation")
+    if "opportunities" in receipts:
+        if not isinstance(comparisons, list) or not isinstance(reallocations, list):
+            errors.append("opportunities: missing comparison/reallocation arrays")
+        elif receipts["opportunities"]["status"] == "complete" and (
+                {c.get("category") for c in comparisons if isinstance(c, dict)} != required_categories
+                or any(not isinstance(c, dict) or not c.get("conclusion") for c in comparisons)):
+            errors.append("opportunities: six alternatives need a comparison conclusion")
     snapshot_now = validate_holdings(plan.get("inputs", {}).get("holdings_file"), plan["skills"],
                                      now.isoformat(), plan["max_age_hours"])
     if receipts.get("holdings", {}).get("status") == "complete" and (out("holdings").get("validation_ok") is not True or snapshot_now.get("ok") is not True):
@@ -242,8 +266,9 @@ def check_results(plan, directory, now=None):
     quantitative = (snapshot_now.get("ok") is True and out("holdings").get("validation_ok") is True
                     and out("risk").get("gate") == "pass" and out("risk").get("policy_confirmed") is True
                     and out("market").get("market_rules_verified") is True
+                    and out("behavior").get("gate") == "pass"
                     and all(receipts.get(s, {}).get("status") == "complete"
-                            for s in ("holdings", "market", "diagnosis", "risk")))
+                            for s in ("holdings", "market", "diagnosis", "risk", "behavior")))
     plans = out("trade_plan").get("plans")
     if "trade_plan" in receipts:
         if not isinstance(plans, list):
@@ -255,15 +280,45 @@ def check_results(plan, directory, now=None):
                     continue
                 if item.get("state") != "proposed" or item.get("executable") is not False:
                     errors.append("trade_plan: only non-executable proposed plans allowed")
+                for field in ("id", "security_name", "code", "market_assessment", "direction", "trigger", "thesis", "invalidation", "no_trade_condition", "horizon"):
+                    if not isinstance(item.get(field), str) or not item[field].strip():
+                        errors.append("trade_plan: missing " + field)
+                if item.get("direction") not in ("buy", "add", "sell", "reduce", "exit", "hold", "wait"):
+                    errors.append("trade_plan: invalid direction")
+                for field in ("risks", "sources"):
+                    if not isinstance(item.get(field), list) or not item[field]:
+                        errors.append("trade_plan: missing " + field)
+                for source in item.get("sources", []) if isinstance(item.get("sources"), list) else []:
+                    try:
+                        if not source.get("source_ref"): raise ValueError("missing source")
+                        if iso(source["source_as_of"]) > now: raise ValueError("future source")
+                    except (KeyError, ValueError, AttributeError, TypeError):
+                        errors.append("trade_plan: invalid source timestamp/reference")
+                discipline = item.get("discipline_check", {})
+                if not isinstance(discipline, dict): discipline = {}
+                if discipline.get("gate") not in ("pass", "warn", "block", "unknown") or not discipline.get("reminder") or not discipline.get("recheck_condition"):
+                    errors.append("trade_plan: missing personal discipline check")
+                item_numeric = quantitative and discipline.get("gate") == "pass"
+                if item.get("direction") in ("sell", "reduce", "exit"):
+                    matches = [r for r in reallocations or [] if isinstance(r, dict) and r.get("id") == item.get("reallocation_id") and r.get("source_plan_id") == item.get("id")]
+                    if not matches or not matches[0].get("destination") or not matches[0].get("conditions"):
+                        errors.append("trade_plan: sale needs a funded reallocation or explicit cash plan")
                 for field in ("quantity", "amount_cny"):
                     if field not in item:
                         errors.append("trade_plan: missing " + field)
                     value = item.get(field)
                     if value is not None:
-                        if not quantitative:
+                        if not item_numeric:
                             errors.append("trade_plan: numerical action blocked by missing/failed upstream gate")
                         if isinstance(value, bool) or not isinstance(value, (int, float)) or not math.isfinite(value) or value <= 0:
                             errors.append("trade_plan: invalid numeric " + field)
+                for field in ("quantity_range", "amount_range_cny"):
+                    if field not in item: errors.append("trade_plan: missing " + field)
+                    value = item.get(field)
+                    if value is not None:
+                        if not item_numeric: errors.append("trade_plan: numerical range blocked")
+                        if not isinstance(value, list) or len(value) != 2 or any(isinstance(v, bool) or not isinstance(v, (int, float)) or not math.isfinite(v) or v <= 0 for v in value) or value[0] > value[1]:
+                            errors.append("trade_plan: invalid " + field)
     degraded = [sid for sid, r in receipts.items() if r["status"] in ("blocked", "degraded")]
     return {"schema_version": "invest.acceptance.v1", "run_id": plan["run_id"],
             "accepted": not errors, "status": "incomplete" if errors else ("degraded" if degraded else "complete"),

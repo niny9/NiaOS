@@ -1,0 +1,54 @@
+{
+  "schema_version": "invest.opportunities.v1",
+  "as_of": null,
+  "comparisons": [
+    {
+      "category": "a_share_stock",
+      "candidates": [],
+      "conclusion": null,
+      "evidence_refs": []
+    },
+    {
+      "category": "broad_etf",
+      "candidates": [],
+      "conclusion": null,
+      "evidence_refs": []
+    },
+    {
+      "category": "sector_etf",
+      "candidates": [],
+      "conclusion": null,
+      "evidence_refs": []
+    },
+    {
+      "category": "otc_fund",
+      "candidates": [],
+      "conclusion": null,
+      "evidence_refs": []
+    },
+    {
+      "category": "bond_or_cash_management",
+      "candidates": [],
+      "conclusion": null,
+      "evidence_refs": []
+    },
+    {
+      "category": "hold_cash",
+      "candidates": [],
+      "conclusion": null,
+      "evidence_refs": []
+    }
+  ],
+  "reallocation": [
+    {
+      "id": null,
+      "source_plan_id": null,
+      "funding_source": null,
+      "available_after": null,
+      "destination": null,
+      "amount_range_cny": null,
+      "conditions": null
+    }
+  ],
+  "funds_verified": false
+}

@@ -1,6 +1,6 @@
 ---
 name: invest-os
-description: NIA Invest OS 统一投资工作流入口，将既有量化闭环、五类投资对账、中金财富数据源与 Wealth OS 七模块协同运行。用于完整投资早报、持仓研究、财富与投资复盘、工作流检查和新旧投资能力融合。
+description: NIA Invest OS 统一投资工作流入口，将既有量化闭环、五类投资对账、中金财富数据源与 Wealth OS 及行为、日志、评测、机会和同花顺交接模块协同运行。用于完整投资早报、持仓研究、财富与投资复盘、工作流检查和新旧投资能力融合。
 ---
 
 # Invest OS 统一工作流
@@ -16,15 +16,19 @@ description: NIA Invest OS 统一投资工作流入口，将既有量化闭环�
 
 ## 执行任务
 
+v1.8 新增 `journal`、`handoff`、`behavior`、`evaluation`、`opportunities` 五阶段；按注册表 14 阶段顺序执行。详情读各任务的 owner Skill，八项需求映射见 [v1.8 集成清单](references/v1.8-integration.md)。调用云端/Work/同花顺前读 [环境调用说明](references/invocation.md)。
+
 - `holdings`：核验当前账户快照；缺数据形成 blocked 产物，公开研究仍继续。
 - `market`：由市场情报模块按需调用中金财富行情/资讯/ETF/基金来源并联网核验官方资料。
 - `quant`：由 finance-quant 提供行情、因子、样本与衰减、混合建议和风险证据。预检只执行 `status`。实际刷新需属于本轮研究授权且检查旧脚本副作用；只用其计算模式，不自动复用通知、Base 写回、模拟成交或自动化创建步骤。缺源就标 degraded。
 - `reconciliation`：由原 investment-workflow 提供五类对账，财报数据可用中金财富财务模块，龙虎榜只用于相关异常事件。没有目标股票或论点时可 skipped，写原因。不得照抄旧示例数字；旧 runner 会写库，先检查路径与输入，缺证据不生成“未发现异常”。
 - `diagnosis`：融合 holdings、market、quant、reconciliation。主观与量化冲突分别展示，不平均成确定信号；样本不足的量化结论不放大仓位。
 - `risk`：用新仓位/回撤模块检查用户真实组合，同时保留旧量化风险结果；旧风险通过不能替代家庭现金或用户限额检查。
-- `goals`：读取私有 2026–2032 目标与资产负债事实，按全部净资产跟踪，可投资资产另列。
+- `goals`：读取私有 2026–2032 目标与资产负债事实，逐项目标分别按金融资产、全部净资产或账户收益跟踪。
 - `trade_plan`：只消费通过数据和风险检查的证据，输出 proposed 条件预案。缺持仓/规则/政策时 quantity 和 amount_cny 保持 null。
 - `brief`：调用每日简报模块汇总同一 run 的产物，生成唯一主报告，缺项如实披露。
+
+新阶段输出须含：journal 的 `signals_reviewed`/`trades_reviewed`（未知 null）；handoff 的 `connection_status`（manual_copy/verified_export/unavailable）；behavior 的 `gate`；evaluation 的 `reviews`；opportunities 的 `comparisons`（六类）及 `reallocation`。不把未发现日志等同没有交易。
 
 各模块产物按 [结果契约](references/results.md) 保存为 `stage_id.json`，不改旧账本。调用每日简报或 finance-quant 时传上述 context，阻止它们重新启动此总流程。finance-quant 的细分系统诊断、原对账任务仍可独立使用。
 

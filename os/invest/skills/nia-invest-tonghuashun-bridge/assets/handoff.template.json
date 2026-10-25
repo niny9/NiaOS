@@ -1,0 +1,33 @@
+{
+  "schema_version": "invest.handoff.v1",
+  "report_id": null,
+  "data_as_of": null,
+  "generated_at": null,
+  "timezone": "Asia/Shanghai",
+  "mode": "manual_copy",
+  "capabilities": {
+    "quotes": "unknown",
+    "holdings": "unknown",
+    "fills": "unknown",
+    "alerts": "unknown",
+    "export": "unknown"
+  },
+  "capability_evidence": [],
+  "accounts": [],
+  "actual_trades": [],
+  "open_orders": [],
+  "market_signals": [],
+  "risk_events": [],
+  "candidate_opportunities": [],
+  "discipline_deviations": [],
+  "data_quality": {
+    "status": "unavailable",
+    "accounts_complete": false,
+    "confirmed_by_user": false,
+    "pending_activity": true,
+    "empty_accounts_confirmed": false,
+    "issues": [
+      "尚未导入真实账户数据；空数组不代表空仓"
+    ]
+  }
+}

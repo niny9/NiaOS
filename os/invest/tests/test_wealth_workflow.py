@@ -55,6 +55,11 @@ class WorkflowTest(unittest.TestCase):
             output = {"holdings": {"validation_ok": complete},
                       "risk": {"gate": "pass" if complete else "unknown", "policy_confirmed": complete},
                       "market": {"market_rules_verified": complete},
+                      "behavior": {"gate": "pass" if complete else "unknown"},
+                      "journal": {"signals_reviewed": 0 if complete else None, "trades_reviewed": 0 if complete else None},
+                      "handoff": {"connection_status": "manual_copy"},
+                      "evaluation": {"reviews": []},
+                      "opportunities": {"comparisons": [{"category": c, "conclusion": "synthetic comparison"} for c in ("a_share_stock", "broad_etf", "sector_etf", "otc_fund", "bond_or_cash_management", "hold_cash")], "reallocation": []},
                       "trade_plan": {"plans": []}}.get(sid, {})
             record = {"schema_version": "invest.stage.v1", "run_id": plan["run_id"], "plan_hash": plan["plan_hash"],
                       "stage_id": sid, "status": status, "generated_at": TIME,
@@ -80,11 +85,11 @@ class WorkflowTest(unittest.TestCase):
         (self.root / "snapshot.json").write_text(json.dumps(snapshot))
         self.bindings.write_text(json.dumps({"holdings_file":"snapshot.json"}))
 
-    def test_all_fifteen_existing_and_new_modules_resolve(self):
+    def test_all_twenty_existing_and_new_modules_resolve(self):
         plan = self.prepare()
         self.assertTrue(plan["ready_for_agent"])
-        self.assertEqual(len(plan["skills"]), 15)
-        self.assertEqual(len(plan["tasks"]), 9)
+        self.assertEqual(len(plan["skills"]), 20)
+        self.assertEqual(len(plan["tasks"]), 14)
         self.assertTrue(plan["skills"]["investment-workflow"]["path"].endswith("skill.md"))
         self.assertFalse(plan["research_executed"])
         self.assertFalse(plan["preflight"]["holdings"]["ok"])
@@ -145,9 +150,33 @@ class WorkflowTest(unittest.TestCase):
         self.attach_snapshot()
         plan = self.prepare()
         self.receipts(plan, complete=True)
-        self.mutate("trade_plan", lambda r:r["output"].update(plans=[{"state":"proposed","executable":False,"quantity":1,"amount_cny":None}]))
+        self.mutate("trade_plan", lambda r:r["output"].update(plans=[self.valid_plan()]))
         self.assertTrue(self.check(plan)["accepted"])
         self.assertFalse(self.check(plan,"2026-10-25T15:00:00+08:00")["accepted"])
+
+    def valid_plan(self):
+        item=json.loads((ROOT/'invest-os/assets/trade-plan.template.json').read_text())
+        item.update(id='fixture',security_name='Synthetic only',code='TEST',market_assessment='Synthetic',direction='buy',trigger='Synthetic',quantity=1,thesis='Synthetic',risks=['Synthetic risk'],invalidation='Synthetic',no_trade_condition='Synthetic',horizon='long_term',sources=[{'source_ref':'synthetic','source_as_of':TIME}],discipline_check={'gate':'pass','reminder':'Synthetic review','recheck_condition':'Synthetic'})
+        return item
+
+    def test_personal_discipline_blocks_numeric_ranges(self):
+        self.attach_snapshot();plan=self.prepare();self.receipts(plan,complete=True)
+        item=self.valid_plan();item.update(quantity=None,quantity_range=[1,2]);item['discipline_check']['gate']='warn'
+        self.mutate('trade_plan',lambda r:r['output'].update(plans=[item]))
+        self.assertFalse(self.check(plan)['accepted'])
+
+    def test_sale_requires_cash_or_reallocation_destination(self):
+        self.attach_snapshot();plan=self.prepare();self.receipts(plan,complete=True)
+        item=self.valid_plan();item.update(direction='sell',reallocation_id='cash')
+        self.mutate('trade_plan',lambda r:r['output'].update(plans=[item]))
+        self.assertFalse(self.check(plan)['accepted'])
+        self.mutate('opportunities',lambda r:r['output'].update(reallocation=[{'id':'cash','source_plan_id':'fixture','destination':'hold_cash','conditions':'after settlement'}]))
+        self.assertTrue(self.check(plan)['accepted'])
+
+    def test_unproven_automatic_connection_rejected(self):
+        plan=self.prepare();self.receipts(plan)
+        self.mutate('handoff',lambda r:r['output'].update(connection_status='verified_export'))
+        self.assertFalse(self.check(plan)['accepted'])
 
     def test_identity_version_and_input_changes_rejected(self):
         plan = self.prepare()

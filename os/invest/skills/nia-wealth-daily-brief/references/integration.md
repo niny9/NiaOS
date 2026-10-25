@@ -4,6 +4,8 @@
 
 ## 路径和职责
 
+v1.8 使用 [八项需求映射](../../invest-os/references/v1.8-integration.md) 与 [跨环境调用说明](../../invest-os/references/invocation.md)。原七个 Wealth 模块保留，新增五个 nia-invest-* 模块，统一注册表扩展为 14 阶段；本页的旧七模块说明只描述原有职责。
+
 发布仓库是 `niny9/NiaOS`，不等于 `niny9/nia-os`、NailOS 或其他同名公共项目。Wealth OS 是现有 `os/invest` 下的个人财富研究工作流；七个 Skill 放在 `os/invest/skills/nia-wealth-*`，工作流入口 `os/invest/workflows/nia-wealth-daily.md`。安装时全部保持同级目录，保留脚本和 references。
 
 现有 Invest OS 的 `engines/` 提供对账分析思路，`workflows/` 和 `investment-cockpit/` 属于既有运行组件。本次不搬迁其数据库、不启动其调度、不替换其数据源。历史“100%完成”报告不是当前可用性证据。

@@ -1,0 +1,28 @@
+{
+  "schema_version": "invest.actual-trade.v1",
+  "trade_id": null,
+  "account_alias": null,
+  "security": {
+    "name": null,
+    "code": null,
+    "venue": null,
+    "share_class": null,
+    "product_type": null
+  },
+  "executed_at": null,
+  "side": null,
+  "price": null,
+  "quantity": null,
+  "fees_cny": null,
+  "cash_delta_cny": null,
+  "currency": null,
+  "status": null,
+  "confirmed_by_user": null,
+  "source": null,
+  "motive": null,
+  "emotion": null,
+  "user_statement_ref": null,
+  "ai_signal_id": null,
+  "ai_alignment": null,
+  "supersedes": null
+}
