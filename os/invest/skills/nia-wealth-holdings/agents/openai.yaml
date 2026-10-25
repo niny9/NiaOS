@@ -1,0 +1,3 @@
+interface:
+  display_name: "NIA 持仓快照与验证"
+  short_description: "整理 A 股、基金和现金持仓，核验来源、时效、完整性与账户对账"

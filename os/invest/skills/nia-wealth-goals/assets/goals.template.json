@@ -1,0 +1,79 @@
+{
+  "schema_version": "wealth.goals.v2",
+  "currency": "CNY",
+  "confirmed_source": null,
+  "current_values": {
+    "financial_assets_cny": null,
+    "total_net_worth_cny": null,
+    "investable_assets_cny": null,
+    "valuation_date": null
+  },
+  "targets": [
+    {
+      "year": 2026,
+      "deadline": null,
+      "deadline_precision": null,
+      "basis": null,
+      "min_cny": null,
+      "max_cny": null,
+      "source_ref": null
+    },
+    {
+      "year": 2027,
+      "deadline": null,
+      "deadline_precision": null,
+      "basis": null,
+      "min_cny": null,
+      "max_cny": null,
+      "source_ref": null
+    },
+    {
+      "year": 2028,
+      "deadline": null,
+      "deadline_precision": null,
+      "basis": null,
+      "min_cny": null,
+      "max_cny": null,
+      "source_ref": null
+    },
+    {
+      "year": 2029,
+      "deadline": null,
+      "deadline_precision": null,
+      "basis": null,
+      "min_cny": null,
+      "max_cny": null,
+      "source_ref": null
+    },
+    {
+      "year": 2030,
+      "deadline": null,
+      "deadline_precision": null,
+      "basis": null,
+      "min_cny": null,
+      "max_cny": null,
+      "source_ref": null
+    },
+    {
+      "year": 2031,
+      "deadline": null,
+      "deadline_precision": null,
+      "basis": null,
+      "min_cny": null,
+      "max_cny": null,
+      "source_ref": null
+    },
+    {
+      "year": 2032,
+      "deadline": null,
+      "deadline_precision": null,
+      "basis": null,
+      "min_cny": null,
+      "max_cny": null,
+      "source_ref": null
+    }
+  ],
+  "account_performance_targets": [],
+  "monthly_net_contribution_cny": null,
+  "revision_history": []
+}

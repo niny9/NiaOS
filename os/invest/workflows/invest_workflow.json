@@ -1,6 +1,183 @@
 {
-  "name": "Invest OS 端到端工作流",
+  "name": "Invest OS 统一投资与财富工作流",
+  "entrypoint": "../runners/invest_os.py",
+  "agent_entrypoint": "../skills/invest-os/SKILL.md",
+  "manifest": "../skills/invest-os/references/workflow.json",
   "steps": [
+    {
+      "id": "journal",
+      "owner_skill": "nia-invest-trade-journal",
+      "depends_on": [],
+      "provider_skills": [],
+      "objective": "读取两本独立日志与未对账更新，缺成交明细不伪造",
+      "execution": "agent_skill"
+    },
+    {
+      "id": "handoff",
+      "owner_skill": "nia-invest-tonghuashun-bridge",
+      "depends_on": [
+        "journal"
+      ],
+      "provider_skills": [],
+      "objective": "核验实际交接数据与能力，手工摘要可降级，不能假称自动连接",
+      "execution": "agent_skill"
+    },
+    {
+      "id": "holdings",
+      "owner_skill": "nia-wealth-holdings",
+      "depends_on": [
+        "journal",
+        "handoff"
+      ],
+      "provider_skills": [],
+      "objective": "核验真实持仓与完整性，不能把缺失当空仓",
+      "execution": "agent_skill"
+    },
+    {
+      "id": "market",
+      "owner_skill": "nia-wealth-market-intelligence",
+      "depends_on": [],
+      "provider_skills": [
+        "ciccwm-market-analysis",
+        "ciccwm-hot-news-analysis",
+        "ciccwm-etf-ranking-analysis",
+        "ciccwm-fund-product-info"
+      ],
+      "objective": "采集和核验 A 股及基金市场证据",
+      "execution": "agent_skill"
+    },
+    {
+      "id": "quant",
+      "owner_skill": "finance-quant-closed-loop",
+      "depends_on": [],
+      "provider_skills": [],
+      "objective": "审计量化数据、因子样本、衰减及旧风险门，按授权刷新计算产物",
+      "execution": "agent_skill"
+    },
+    {
+      "id": "reconciliation",
+      "owner_skill": "investment-workflow",
+      "depends_on": [
+        "market"
+      ],
+      "provider_skills": [
+        "ciccwm-stock-finance-analysis",
+        "ciccwm-tiger-list-analysis"
+      ],
+      "objective": "按需完成原五类对账，保留 thesis 与反证",
+      "execution": "agent_skill"
+    },
+    {
+      "id": "diagnosis",
+      "owner_skill": "nia-wealth-portfolio-diagnosis",
+      "depends_on": [
+        "holdings",
+        "market",
+        "quant",
+        "reconciliation"
+      ],
+      "provider_skills": [
+        "ciccwm-fund-product-info"
+      ],
+      "objective": "融合主观与量化证据，诊断逐项持仓及组合重叠",
+      "execution": "agent_skill"
+    },
+    {
+      "id": "risk",
+      "owner_skill": "nia-wealth-risk",
+      "depends_on": [
+        "holdings",
+        "diagnosis",
+        "quant"
+      ],
+      "provider_skills": [],
+      "objective": "独立检查用户仓位、现金、集中度与回撤，不能只沿用量化风险通过",
+      "execution": "agent_skill"
+    },
+    {
+      "id": "goals",
+      "owner_skill": "nia-wealth-goals",
+      "depends_on": [],
+      "provider_skills": [],
+      "objective": "按每项目标独立口径跟踪金融资产、净资产与账户收益；未知基准不计算完成率",
+      "execution": "agent_skill"
+    },
+    {
+      "id": "behavior",
+      "owner_skill": "nia-invest-behavior-guardian",
+      "depends_on": [
+        "journal",
+        "holdings",
+        "market"
+      ],
+      "provider_skills": [],
+      "objective": "按证据维护画像并检查个人纪律",
+      "execution": "agent_skill"
+    },
+    {
+      "id": "evaluation",
+      "owner_skill": "nia-invest-strategy-evaluator",
+      "depends_on": [
+        "journal",
+        "market"
+      ],
+      "provider_skills": [],
+      "objective": "复盘到期 1/5/20 交易日信号，区分模拟、真实执行、错误类型",
+      "execution": "agent_skill"
+    },
+    {
+      "id": "opportunities",
+      "owner_skill": "nia-invest-opportunity-discovery",
+      "depends_on": [
+        "holdings",
+        "market",
+        "diagnosis",
+        "risk"
+      ],
+      "provider_skills": [],
+      "objective": "比较六类去向，给卖出或闲置资金的候选配置，现金也是选项",
+      "execution": "agent_skill"
+    },
+    {
+      "id": "trade_plan",
+      "owner_skill": "nia-wealth-trade-plan",
+      "depends_on": [
+        "holdings",
+        "market",
+        "diagnosis",
+        "risk",
+        "behavior",
+        "evaluation",
+        "opportunities"
+      ],
+      "provider_skills": [],
+      "objective": "生成 proposed 条件计划，缺门禁时数量金额为 null",
+      "execution": "agent_skill"
+    },
+    {
+      "id": "brief",
+      "owner_skill": "nia-wealth-daily-brief",
+      "depends_on": [
+        "journal",
+        "handoff",
+        "holdings",
+        "market",
+        "quant",
+        "reconciliation",
+        "diagnosis",
+        "risk",
+        "goals",
+        "behavior",
+        "evaluation",
+        "opportunities",
+        "trade_plan"
+      ],
+      "provider_skills": [],
+      "objective": "汇总唯一主简报与缺口，不重新启动总流程",
+      "execution": "agent_skill"
+    }
+  ],
+  "legacy_steps": [
     {
       "id": 1,
       "name": "输入接收",
@@ -63,17 +240,18 @@
     }
   ],
   "outputs": [
-    "策略配置",
-    "信号生成",
-    "交易记录",
-    "回测报告",
-    "研究报告",
-    "风险报告",
-    "Wiki知识库"
+    "阶段研究产物",
+    "数据与风险门禁",
+    "人工条件预案",
+    "财富目标视图",
+    "唯一每日简报"
   ],
   "metadata": {
     "created_at": "2026-06-16T16:35:49.623724",
-    "version": "1.0",
-    "status": "active"
-  }
+    "version": "2.0",
+    "status": "agent_workflow_installed_not_scheduler_verified",
+    "updated_at": "2026-10-25",
+    "scheduler_changed": false
+  },
+  "system_version": "1.8"
 }

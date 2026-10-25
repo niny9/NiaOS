@@ -1,0 +1,6 @@
+# Wealth OS local runtime, never publish private account or goal data.
+/private/
+/wealth-private/
+/wealth-runtime/
+/reports/wealth/
+*.private.json

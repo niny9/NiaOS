@@ -1,0 +1,122 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Invest OS behavior",
+  "type": "object",
+  "properties": {
+    "schema_version": {
+      "const": "invest.behavior.v1"
+    },
+    "version": {
+      "type": "string",
+      "minLength": 1
+    },
+    "as_of": {
+      "anyOf": [
+        {
+          "type": "string",
+          "format": "date-time"
+        },
+        {
+          "type": "null"
+        }
+      ]
+    },
+    "labels": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "tag": {
+            "enum": [
+              "chasing_high",
+              "spike_impulse",
+              "emotional_trading",
+              "averaging_down",
+              "no_exit_rule",
+              "loss_aversion_delay",
+              "early_profit_taking",
+              "overtrading",
+              "year_end_recovery_pressure",
+              "mixed_horizons"
+            ]
+          },
+          "status": {
+            "enum": [
+              "Confirmed",
+              "Suspected",
+              "Unknown"
+            ]
+          },
+          "evidence": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "evidence_ref": {
+                  "type": "string",
+                  "minLength": 1
+                },
+                "kind": {
+                  "enum": [
+                    "actual_trade",
+                    "market_evidence",
+                    "prior_plan",
+                    "user_statement",
+                    "chart_marker",
+                    "counterevidence"
+                  ]
+                }
+              },
+              "required": [
+                "evidence_ref",
+                "kind"
+              ],
+              "additionalProperties": false
+            }
+          },
+          "counterevidence": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "minLength": 1
+            }
+          },
+          "review_note": {
+            "anyOf": [
+              {
+                "type": "string",
+                "minLength": 1
+              },
+              {
+                "type": "null"
+              }
+            ]
+          }
+        },
+        "required": [
+          "tag",
+          "status",
+          "evidence",
+          "counterevidence",
+          "review_note"
+        ],
+        "additionalProperties": false
+      }
+    },
+    "change_history": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "minLength": 1
+      }
+    }
+  },
+  "required": [
+    "schema_version",
+    "version",
+    "as_of",
+    "labels",
+    "change_history"
+  ],
+  "additionalProperties": false
+}

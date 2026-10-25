@@ -1,0 +1,27 @@
+{
+  "id": null,
+  "security_name": null,
+  "code": null,
+  "market_assessment": null,
+  "direction": null,
+  "trigger": null,
+  "quantity": null,
+  "amount_cny": null,
+  "quantity_range": null,
+  "amount_range_cny": null,
+  "thesis": null,
+  "risks": [],
+  "invalidation": null,
+  "no_trade_condition": null,
+  "sources": [],
+  "horizon": null,
+  "discipline_check": {
+    "gate": "unknown",
+    "reminder": null,
+    "evidence_refs": [],
+    "recheck_condition": null
+  },
+  "reallocation_id": null,
+  "state": "proposed",
+  "executable": false
+}

@@ -1,0 +1,24 @@
+{
+  "schema_version": "invest.ai-signal.v1",
+  "signal_id": null,
+  "strategy_version": null,
+  "security": {
+    "name": null,
+    "code": null,
+    "venue": null,
+    "share_class": null,
+    "product_type": null
+  },
+  "signal_at": null,
+  "expires_at": null,
+  "direction": null,
+  "basis": null,
+  "trigger": null,
+  "invalidation": null,
+  "no_trade_condition": null,
+  "risk": null,
+  "sources": null,
+  "discipline_check": null,
+  "state": null,
+  "supersedes": null
+}

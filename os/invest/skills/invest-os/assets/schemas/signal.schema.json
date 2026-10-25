@@ -1,0 +1,197 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Invest OS signal",
+  "type": "object",
+  "properties": {
+    "schema_version": {
+      "const": "invest.ai-signal.v1"
+    },
+    "signal_id": {
+      "type": "string",
+      "minLength": 1
+    },
+    "strategy_version": {
+      "type": "string",
+      "minLength": 1
+    },
+    "security": {
+      "type": "object",
+      "properties": {
+        "name": {
+          "type": "string",
+          "minLength": 1
+        },
+        "code": {
+          "type": "string",
+          "minLength": 1
+        },
+        "venue": {
+          "type": "string",
+          "minLength": 1
+        },
+        "share_class": {
+          "anyOf": [
+            {
+              "type": "string",
+              "minLength": 1
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "product_type": {
+          "enum": [
+            "stock",
+            "etf",
+            "otc_fund",
+            "qdii",
+            "bond_fund",
+            "cash_management"
+          ]
+        }
+      },
+      "required": [
+        "name",
+        "code",
+        "venue",
+        "share_class",
+        "product_type"
+      ],
+      "additionalProperties": false
+    },
+    "signal_at": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "expires_at": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "direction": {
+      "enum": [
+        "buy",
+        "add",
+        "sell",
+        "reduce",
+        "exit",
+        "hold",
+        "wait"
+      ]
+    },
+    "basis": {
+      "type": "string",
+      "minLength": 1
+    },
+    "trigger": {
+      "type": "string",
+      "minLength": 1
+    },
+    "invalidation": {
+      "type": "string",
+      "minLength": 1
+    },
+    "no_trade_condition": {
+      "type": "string",
+      "minLength": 1
+    },
+    "risk": {
+      "type": "string",
+      "minLength": 1
+    },
+    "sources": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "source_ref": {
+            "type": "string",
+            "minLength": 1
+          },
+          "source_as_of": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "retrieved_at": {
+            "type": "string",
+            "format": "date-time"
+          }
+        },
+        "required": [
+          "source_ref",
+          "source_as_of",
+          "retrieved_at"
+        ],
+        "additionalProperties": false
+      }
+    },
+    "discipline_check": {
+      "type": "object",
+      "properties": {
+        "gate": {
+          "enum": [
+            "pass",
+            "warn",
+            "block",
+            "unknown"
+          ]
+        },
+        "reminder": {
+          "type": "string",
+          "minLength": 1
+        },
+        "evidence_refs": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "minLength": 1
+          }
+        },
+        "recheck_condition": {
+          "type": "string",
+          "minLength": 1
+        }
+      },
+      "required": [
+        "gate",
+        "reminder",
+        "evidence_refs",
+        "recheck_condition"
+      ],
+      "additionalProperties": false
+    },
+    "state": {
+      "const": "proposed"
+    },
+    "supersedes": {
+      "anyOf": [
+        {
+          "type": "string",
+          "minLength": 1
+        },
+        {
+          "type": "null"
+        }
+      ]
+    }
+  },
+  "required": [
+    "schema_version",
+    "signal_id",
+    "strategy_version",
+    "security",
+    "signal_at",
+    "expires_at",
+    "direction",
+    "basis",
+    "trigger",
+    "invalidation",
+    "no_trade_condition",
+    "risk",
+    "sources",
+    "discipline_check",
+    "state",
+    "supersedes"
+  ],
+  "additionalProperties": false
+}

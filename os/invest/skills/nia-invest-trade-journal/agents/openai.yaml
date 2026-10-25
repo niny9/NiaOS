@@ -1,0 +1,3 @@
+interface:
+  display_name: "AI 信号与真实成交双日志"
+  short_description: "分开记录 AI 建议和用户真实成交，防止重复入账并保留策略与执行差异"

@@ -104,3 +104,10 @@ Nia OS Team
 
 **版本**: 1.1.0  
 **更新**: 2026-08-23
+
+## Wealth OS — 每日投资与财富目标
+
+统一入口 [invest-os](os/invest/skills/invest-os/SKILL.md) 将既有量化闭环、五类对账、中金财富六个取数 Skills 与七个 Wealth 模块接成可核验的 Agent 工作流。v1.8 新增机会发现、个人纪律、AI/成交双日志、策略评测和同花顺交接，扩展为 14 阶段。八项需求通过三个升级模块和五个新模块实现，见 [路径与状态](os/invest/skills/invest-os/references/v1.8-integration.md)。仓库入口为 `os/invest/runners/invest_os.py`；[跨环境说明](os/invest/skills/invest-os/references/invocation.md) 区分本地安装、云端实际加载和同花顺人工交接，不新增任何调度或交易连接。
+
+复用已存在的每日任务；真实持仓与个人目标金额留在私有数据根。Skills 安装不代表行情、账户或云端调度已接通；实际交易由人执行。
+

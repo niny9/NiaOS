@@ -1,0 +1,3 @@
+interface:
+  display_name: "NIA 每日投资简报"
+  short_description: "汇总市场、持仓、条件动作、风险与财富目标，复用已有每日自动任务"

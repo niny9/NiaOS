@@ -1,0 +1,78 @@
+{
+  "schema_version": "invest.behavior.v1",
+  "version": "1",
+  "as_of": null,
+  "labels": [
+    {
+      "tag": "chasing_high",
+      "status": "Unknown",
+      "evidence": [],
+      "counterevidence": [],
+      "review_note": null
+    },
+    {
+      "tag": "spike_impulse",
+      "status": "Unknown",
+      "evidence": [],
+      "counterevidence": [],
+      "review_note": null
+    },
+    {
+      "tag": "emotional_trading",
+      "status": "Unknown",
+      "evidence": [],
+      "counterevidence": [],
+      "review_note": null
+    },
+    {
+      "tag": "averaging_down",
+      "status": "Unknown",
+      "evidence": [],
+      "counterevidence": [],
+      "review_note": null
+    },
+    {
+      "tag": "no_exit_rule",
+      "status": "Unknown",
+      "evidence": [],
+      "counterevidence": [],
+      "review_note": null
+    },
+    {
+      "tag": "loss_aversion_delay",
+      "status": "Unknown",
+      "evidence": [],
+      "counterevidence": [],
+      "review_note": null
+    },
+    {
+      "tag": "early_profit_taking",
+      "status": "Unknown",
+      "evidence": [],
+      "counterevidence": [],
+      "review_note": null
+    },
+    {
+      "tag": "overtrading",
+      "status": "Unknown",
+      "evidence": [],
+      "counterevidence": [],
+      "review_note": null
+    },
+    {
+      "tag": "year_end_recovery_pressure",
+      "status": "Unknown",
+      "evidence": [],
+      "counterevidence": [],
+      "review_note": null
+    },
+    {
+      "tag": "mixed_horizons",
+      "status": "Unknown",
+      "evidence": [],
+      "counterevidence": [],
+      "review_note": null
+    }
+  ],
+  "change_history": []
+}

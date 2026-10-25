@@ -1,0 +1,3 @@
+interface:
+  display_name: "个人交易纪律"
+  short_description: "基于成交证据区分已证实、疑似和未知行为，为每项投资预案检查个人纪律"
