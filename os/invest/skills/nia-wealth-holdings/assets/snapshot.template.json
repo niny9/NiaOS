@@ -1,0 +1,14 @@
+{
+  "schema_version": "wealth.snapshot.v1",
+  "snapshot_id": null,
+  "as_of": null,
+  "source_ref": null,
+  "confirmed_by_user": false,
+  "accounts_complete": false,
+  "pending_activity": null,
+  "empty_positions_confirmed": false,
+  "base_currency": "CNY",
+  "positions": [],
+  "cash_cny": null,
+  "reported_investable_assets_cny": null
+}

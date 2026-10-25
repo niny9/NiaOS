@@ -1,0 +1,3 @@
+interface:
+  display_name: "NIA 财富目标跟踪"
+  short_description: "跟踪全部净资产及可投资资产，以明确假设测算中长期财富目标缺口"

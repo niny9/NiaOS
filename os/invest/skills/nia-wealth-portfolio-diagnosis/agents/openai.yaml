@@ -1,0 +1,3 @@
+interface:
+  display_name: "NIA 持仓诊断"
+  short_description: "逐项检验股票与基金投资逻辑、反证、重复暴露和组合结构变化"

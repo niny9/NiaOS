@@ -1,0 +1,18 @@
+{
+  "schema_version": "wealth.goals.v1",
+  "basis": "total_net_worth_including_property_less_liabilities",
+  "currency": "CNY",
+  "confirmed_source": null,
+  "current_net_worth_cny": null,
+  "investable_assets_cny": null,
+  "monthly_net_contribution_cny": null,
+  "annual_targets": [
+    {"year": 2026, "min_cny": null, "max_cny": null},
+    {"year": 2027, "min_cny": null, "max_cny": null},
+    {"year": 2028, "min_cny": null, "max_cny": null},
+    {"year": 2029, "min_cny": null, "max_cny": null},
+    {"year": 2030, "min_cny": null, "max_cny": null},
+    {"year": 2031, "min_cny": null, "max_cny": null},
+    {"year": 2032, "min_cny": null, "max_cny": null}
+  ]
+}

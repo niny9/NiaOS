@@ -1,0 +1,3 @@
+interface:
+  display_name: "NIA 条件交易计划"
+  short_description: "以可信持仓和风险约束生成触发条件、失效条件与人工交易预案"
