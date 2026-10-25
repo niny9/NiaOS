@@ -5,6 +5,8 @@ description: 编排 NIA Wealth OS 每日投资简报，整合 A 股/基金市场
 
 # 每日投资简报
 
+完整每日投资请求先进入同级 [invest-os](../invest-os/SKILL.md) 统一工作流，由其调用旧量化、五类对账和中金财富取数，再分派七个 Wealth 模块。若已有 `orchestration_context=invest-os.stage`，本模块只汇总同一 run_id 的阶段产物，不重启总工作流。缺少统一入口时使用下方旧兼容顺序，并明确旧能力未完成接线。
+
 复用用户已创建的每日自动任务。调用本 Skill 只执行本次研究与报告，不创建、不复制、不改动任何调度。安装 Skill 与未来自动任务成功执行是两项事实，需分别核验。
 
 先读 [接入与输出](references/integration.md)，定位单一私有数据根及已有报告位置。依次使用同级 `nia-wealth-holdings` → `nia-wealth-market-intelligence` → `nia-wealth-portfolio-diagnosis` → `nia-wealth-risk` → `nia-wealth-trade-plan`，并读取 `nia-wealth-goals` 的最新目标视图。模块不可用时明确缺失，不将“可调用”写为“已运行”。可独立完成公开市场研究。

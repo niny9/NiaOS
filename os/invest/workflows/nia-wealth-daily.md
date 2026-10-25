@@ -2,7 +2,11 @@
 
 Wealth OS 沿用 NiaOS 的 `os/invest` 投资子系统。
 
-入口：[nia-wealth-daily-brief](../skills/nia-wealth-daily-brief/SKILL.md)。使用已有自动任务，不新建调度。
+统一入口：[invest-os](../skills/invest-os/SKILL.md)。使用已有自动任务，不新建调度。调用图与阶段证据契约由 [工作流注册表](../skills/invest-os/references/workflow.json) 定义，原 [invest_workflow.json](invest_workflow.json) 已指向此入口。
+
+实际顺序：持仓/市场/旧量化 → 原五类对账 → 持仓诊断 → 风控 → 财富目标 → 条件预案 → 每日简报。中金财富六项按需作为市场和对账的数据提供模块，避免重复取数。
+
+仓库预检入口：`python3 os/invest/runners/invest_os.py prepare --bindings PRIVATE_BINDINGS --as-of ISO时间 --max-age-hours N --probe-quant`。Agent 按预检返回的任务和 Skill 路径执行研究，最后使用 `check-results` 验收。预检本身不伪装成研究完成。
 
 | 顺序 | Skill | 作用 |
 |---|---|---|
@@ -14,7 +18,7 @@ Wealth OS 沿用 NiaOS 的 `os/invest` 投资子系统。
 | 6 | [nia-wealth-goals](../skills/nia-wealth-goals/SKILL.md) | 2026–2032 全部净资产目标跟踪 |
 | 7 | [nia-wealth-daily-brief](../skills/nia-wealth-daily-brief/SKILL.md) | 汇总、去重、保存本次简报 |
 
-Skill 是 Agent 操作规范，不是自动执行整个流程的行情服务。七模块应一起安装；各目录均含可独立发现的 SKILL.md。已有 finance-quant 和中金财富 Skills 可按需复用，不重复复制或宣称实时接通。
+Skill 是 Agent 操作规范，不是自动执行整个流程的行情服务。统一入口与七模块应一起安装；各目录均含可独立发现的 SKILL.md。已有 finance-quant、investment-workflow 和中金财富 Skills 保留原计算/查询功能，由统一入口实际解析其路径并分派。
 
 运行时读取私有目标、持仓和风险政策。未知持仓不能生成卖出数量，未知现金不能生成买入数量，基金估算净值不能当成交价；缺失数据时输出可核验的公开市场研究和缺口清单。真实交易由用户执行。
 

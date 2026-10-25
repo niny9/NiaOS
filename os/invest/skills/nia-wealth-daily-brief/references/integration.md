@@ -1,12 +1,14 @@
 # 接入现有 NIA OS 与自动任务
 
+统一入口现为同级 `invest-os/SKILL.md`，机器可读调用关系见其 `references/workflow.json`。本简报 Skill 是终端汇总阶段。旧 finance-quant 与 investment-workflow 通过受限路由块连接到该入口，中金财富六项通过 provider_skills 分配给情报/对账阶段。依赖、模块版本与输入快照由统一预检和结果验收负责。
+
 ## 路径和职责
 
 发布仓库是 `niny9/NiaOS`，不等于 `niny9/nia-os`、NailOS 或其他同名公共项目。Wealth OS 是现有 `os/invest` 下的个人财富研究工作流；七个 Skill 放在 `os/invest/skills/nia-wealth-*`，工作流入口 `os/invest/workflows/nia-wealth-daily.md`。安装时全部保持同级目录，保留脚本和 references。
 
 现有 Invest OS 的 `engines/` 提供对账分析思路，`workflows/` 和 `investment-cockpit/` 属于既有运行组件。本次不搬迁其数据库、不启动其调度、不替换其数据源。历史“100%完成”报告不是当前可用性证据。
 
-可用的本地 `finance-quant-closed-loop` 与六个 `ciccwm-*` 是可选数据/研究适配器，不是七模块的硬依赖。使用前检查真实存在、凭证、源时间戳及运行结果；缺失时可用联网官方资料继续公开研究。不要把已安装适配器等同于行情接通。任何旧脚本先检查副作用，不能因本次简报任务默认触发其通知、模拟成交或 Base 写回。
+统一工作流显式注册本地 `finance-quant-closed-loop` 和 `investment-workflow` 为量化/对账阶段，中金财富六项作为按需取数 provider。使用前检查真实存在、凭证、源时间戳及运行结果；缺失时将对应阶段或 provider 标记不可用，仍可用联网官方资料继续公开研究。不要把已安装适配器等同于行情接通。任何旧脚本先检查副作用，不能因本次简报任务默认触发其通知、模拟成交或 Base 写回。
 
 ## 私有绑定
 

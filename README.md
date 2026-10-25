@@ -107,7 +107,7 @@ Nia OS Team
 
 ## Wealth OS — 每日投资与财富目标
 
-在现有 `os/invest` 下增加七个模块化 Skills：持仓数据验证、市场情报、持仓诊断、条件交易计划、仓位/回撤风控、2026–2032 财富目标、每日简报。入口为 [每日工作流](os/invest/workflows/nia-wealth-daily.md)。
+统一入口 [invest-os](os/invest/skills/invest-os/SKILL.md) 将既有量化闭环、五类对账、中金财富六个取数 Skills 与七个 Wealth 模块接成可核验的 Agent 工作流。七模块负责持仓数据验证、市场情报、持仓诊断、条件交易计划、仓位/回撤风控、2026–2032 财富目标和每日简报，见 [每日工作流](os/invest/workflows/nia-wealth-daily.md)。仓库入口为 `os/invest/runners/invest_os.py`，原 `invest_workflow.json` 已注册新调用图。
 
 复用已存在的每日任务；真实持仓与个人目标金额留在私有数据根。Skills 安装不代表行情、账户或云端调度已接通；实际交易由人执行。
 

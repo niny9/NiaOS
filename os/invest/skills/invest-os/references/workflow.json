@@ -1,0 +1,117 @@
+{
+  "schema_version": "invest.workflow.v2",
+  "id": "invest-os",
+  "execution_model": "agent_orchestrated",
+  "timezone": "Asia/Shanghai",
+  "scheduler_created": false,
+  "broker_access": false,
+  "stages": [
+    {
+      "id": "holdings",
+      "owner_skill": "nia-wealth-holdings",
+      "depends_on": [],
+      "provider_skills": [],
+      "objective": "核验真实持仓与完整性，不能把缺失当空仓",
+      "execution": "agent_skill"
+    },
+    {
+      "id": "market",
+      "owner_skill": "nia-wealth-market-intelligence",
+      "depends_on": [],
+      "provider_skills": [
+        "ciccwm-market-analysis",
+        "ciccwm-hot-news-analysis",
+        "ciccwm-etf-ranking-analysis",
+        "ciccwm-fund-product-info"
+      ],
+      "objective": "采集和核验 A 股及基金市场证据",
+      "execution": "agent_skill"
+    },
+    {
+      "id": "quant",
+      "owner_skill": "finance-quant-closed-loop",
+      "depends_on": [],
+      "provider_skills": [],
+      "objective": "审计量化数据、因子样本、衰减及旧风险门，按授权刷新计算产物",
+      "execution": "agent_skill"
+    },
+    {
+      "id": "reconciliation",
+      "owner_skill": "investment-workflow",
+      "depends_on": [
+        "market"
+      ],
+      "provider_skills": [
+        "ciccwm-stock-finance-analysis",
+        "ciccwm-tiger-list-analysis"
+      ],
+      "objective": "按需完成原五类对账，保留 thesis 与反证",
+      "execution": "agent_skill"
+    },
+    {
+      "id": "diagnosis",
+      "owner_skill": "nia-wealth-portfolio-diagnosis",
+      "depends_on": [
+        "holdings",
+        "market",
+        "quant",
+        "reconciliation"
+      ],
+      "provider_skills": [
+        "ciccwm-fund-product-info"
+      ],
+      "objective": "融合主观与量化证据，诊断逐项持仓及组合重叠",
+      "execution": "agent_skill"
+    },
+    {
+      "id": "risk",
+      "owner_skill": "nia-wealth-risk",
+      "depends_on": [
+        "holdings",
+        "diagnosis",
+        "quant"
+      ],
+      "provider_skills": [],
+      "objective": "独立检查用户仓位、现金、集中度与回撤，不能只沿用量化风险通过",
+      "execution": "agent_skill"
+    },
+    {
+      "id": "goals",
+      "owner_skill": "nia-wealth-goals",
+      "depends_on": [],
+      "provider_skills": [],
+      "objective": "跟踪私有 2026–2032 全部净资产目标，现金与可投资资产另列",
+      "execution": "agent_skill"
+    },
+    {
+      "id": "trade_plan",
+      "owner_skill": "nia-wealth-trade-plan",
+      "depends_on": [
+        "holdings",
+        "market",
+        "diagnosis",
+        "risk"
+      ],
+      "provider_skills": [],
+      "objective": "生成 proposed 条件计划，缺门禁时数量金额为 null",
+      "execution": "agent_skill"
+    },
+    {
+      "id": "brief",
+      "owner_skill": "nia-wealth-daily-brief",
+      "depends_on": [
+        "holdings",
+        "market",
+        "quant",
+        "reconciliation",
+        "diagnosis",
+        "risk",
+        "goals",
+        "trade_plan"
+      ],
+      "provider_skills": [],
+      "objective": "汇总唯一主简报与缺口，不重新启动总流程",
+      "execution": "agent_skill"
+    }
+  ]
+}
