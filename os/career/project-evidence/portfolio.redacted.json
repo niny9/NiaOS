@@ -1,0 +1,498 @@
+{
+  "schema_version": "1.0-public-redacted",
+  "updated_at": "2026-11-06",
+  "sources": [
+    {
+      "id": "PRIVATE-REF-01",
+      "type": "private_source_reference",
+      "source_date": "2026-10月底及更早项目资料",
+      "availability": "private_only",
+      "review": "原材料已在本地核对；公开版只保留脱敏摘要，不提供源文档副本"
+    },
+    {
+      "id": "PRIVATE-REF-02",
+      "type": "private_source_reference",
+      "source_date": "2026-10月底及更早项目资料",
+      "availability": "private_only",
+      "review": "原材料已在本地核对；公开版只保留脱敏摘要，不提供源文档副本"
+    },
+    {
+      "id": "PRIVATE-REF-03",
+      "type": "private_source_reference",
+      "source_date": "2026-10月底及更早项目资料",
+      "availability": "private_only",
+      "review": "原材料已在本地核对；公开版只保留脱敏摘要，不提供源文档副本"
+    },
+    {
+      "id": "PRIVATE-REF-04",
+      "type": "private_source_reference",
+      "source_date": "2026-10月底及更早项目资料",
+      "availability": "private_only",
+      "review": "原材料已在本地核对；公开版只保留脱敏摘要，不提供源文档副本"
+    },
+    {
+      "id": "PRIVATE-REF-05",
+      "type": "private_source_reference",
+      "source_date": "2026-10月底及更早项目资料",
+      "availability": "private_only",
+      "review": "原材料已在本地核对；公开版只保留脱敏摘要，不提供源文档副本"
+    },
+    {
+      "id": "PRIVATE-REF-06",
+      "type": "private_source_reference",
+      "source_date": "2026-10月底及更早项目资料",
+      "availability": "private_only",
+      "review": "原材料已在本地核对；公开版只保留脱敏摘要，不提供源文档副本"
+    }
+  ],
+  "projects": [
+    {
+      "project_id": "jd_login_state_optimization",
+      "name": "登录体验与跨应用登录",
+      "purpose": "降低进入服务的阻力，兼顾授权、异常恢复与账号安全。",
+      "owner": "产品方案与跨团队推进；基础组件与研发实现由协作团队承担。",
+      "status": "已形成分期方案与阶段评审记录；实际发布与效果须单独核实。",
+      "actions": "将可复用的入口优化与跨应用基础能力拆开，避免长期依赖阻塞短期改善。",
+      "retrospective": "交付应按组件、服务、客户端和灰度逐层验收；方案通过不等于用户已可用。",
+      "baseline": "原始指标保留在私有证据库；本公开版不提供数值。",
+      "result": "只陈述材料支持的方案与阶段行动；发布、业务改善及个人归因单独验收。",
+      "as_of": "2026-10月底材料快照",
+      "recorded_at": "2026-11-06",
+      "vault_note": "projects/jd_login_state_optimization.md",
+      "confidentiality": "public_redacted",
+      "streams": [
+        {
+          "id": "carrier_priority",
+          "name": "运营商一键登录前置",
+          "status": "复用组件进行适配推进，尚无本包可公开的发布确认。",
+          "target": "实际里程碑在私有台账维护",
+          "dependency": "组件兼容与各端适配",
+          "acceptance": "成功与失败路径均验收，保留明确回退；同人群同时间窗比较登录完成。",
+          "source_ids": [
+            "PRIVATE-REF-01"
+          ]
+        },
+        {
+          "id": "cross_app_sso",
+          "name": "跨应用一键联登",
+          "status": "已有方案与阶段评审记录，需分层交付。",
+          "target": "实际里程碑在私有台账维护",
+          "dependency": "基础账号能力、用户授权、客户端与风控协作",
+          "acceptance": "账号状态正确、授权清晰、异常可恢复；发布和效果分开核实。",
+          "source_ids": [
+            "PRIVATE-REF-01"
+          ]
+        },
+        {
+          "id": "passwordless",
+          "name": "后续免登演进",
+          "status": "依赖前序联登能力，没有独立完成证据。",
+          "target": "实际里程碑在私有台账维护",
+          "dependency": "前序能力及独立风险与授权判断",
+          "acceptance": "另设范围和验收，不以一键联登代替免登完成。",
+          "source_ids": [
+            "PRIVATE-REF-01"
+          ]
+        }
+      ],
+      "capabilities": [
+        {
+          "id": "login_component_reuse",
+          "name": "组件复用与范围控制",
+          "macro": "builder_technical_pm",
+          "candidate_12d": "C09",
+          "evidence": "将现有组件配置优化与平台级能力建设拆开。",
+          "stage": "documented_design",
+          "source_ids": [
+            "PRIVATE-REF-01"
+          ],
+          "project_id": "jd_login_state_optimization",
+          "level_change": 0,
+          "attribution": "个人产品设计或推进证据；不能直接证明研发实现或业务收益"
+        },
+        {
+          "id": "login_state_contract",
+          "name": "跨应用状态与接口设计",
+          "macro": "builder_technical_pm",
+          "candidate_12d": "C09",
+          "evidence": "在产品方案中明确账号状态与跨应用协作边界。",
+          "stage": "documented_design",
+          "source_ids": [
+            "PRIVATE-REF-01"
+          ],
+          "project_id": "jd_login_state_optimization",
+          "level_change": 0,
+          "attribution": "个人产品设计或推进证据；不能直接证明研发实现或业务收益"
+        },
+        {
+          "id": "login_risk_fallback",
+          "name": "授权与异常流程设计",
+          "macro": "builder_technical_pm",
+          "candidate_12d": "C01",
+          "evidence": "把授权、异常回退和主流程一起纳入产品验收。",
+          "stage": "documented_design",
+          "source_ids": [
+            "PRIVATE-REF-01"
+          ],
+          "project_id": "jd_login_state_optimization",
+          "level_change": 0,
+          "attribution": "个人产品设计或推进证据；不能直接证明研发实现或业务收益"
+        },
+        {
+          "id": "login_metrics_release",
+          "name": "指标与灰度验收设计",
+          "macro": "business_growth",
+          "candidate_12d": "C05",
+          "evidence": "区分用户完成率、技术事件和发布阶段。",
+          "stage": "documented_design",
+          "source_ids": [
+            "PRIVATE-REF-01"
+          ],
+          "project_id": "jd_login_state_optimization",
+          "level_change": 0,
+          "attribution": "个人产品设计或推进证据；不能直接证明研发实现或业务收益"
+        },
+        {
+          "id": "login_cross_team",
+          "name": "跨团队分阶段推进",
+          "macro": "leadership_org",
+          "candidate_12d": "C10",
+          "evidence": "按交付层级拆分依赖、阶段评审和责任方。",
+          "stage": "reported_milestone",
+          "source_ids": [
+            "PRIVATE-REF-01"
+          ],
+          "project_id": "jd_login_state_optimization",
+          "level_change": 0,
+          "attribution": "个人产品设计或推进证据；不能直接证明研发实现或业务收益"
+        }
+      ]
+    },
+    {
+      "project_id": "jd_super_monthly_card_journey",
+      "name": "月卡交易与权益感知",
+      "purpose": "连接权益发现、购买、实际使用与续费。",
+      "owner": "产品方案、跨前台与权益团队协调。",
+      "status": "即买即用与个人页权益感知分别推进，资源与上线状态分别记录。",
+      "actions": "交易侧关注权益能否兑现；个人页按未开、有效、临期与过期状态解释价值。",
+      "retrospective": "入口点击、购买、权益使用与增量交易是不同指标，不能互相替代。",
+      "baseline": "原始指标保留在私有证据库；本公开版不提供数值。",
+      "result": "只陈述材料支持的方案与阶段行动；发布、业务改善及个人归因单独验收。",
+      "as_of": "2026-10月底材料快照",
+      "recorded_at": "2026-11-06",
+      "vault_note": "projects/jd_super_monthly_card_journey.md",
+      "confidentiality": "public_redacted",
+      "streams": [
+        {
+          "id": "instant_use",
+          "name": "即买即用链路",
+          "status": "方案推进中，仍需协调交易侧资源。",
+          "target": "实际里程碑在私有台账维护",
+          "dependency": "权益、购物车与结算协同",
+          "acceptance": "价格承诺、资格、权益生效与结算一致；观察真实使用与退款。",
+          "source_ids": [
+            "PRIVATE-REF-02"
+          ]
+        },
+        {
+          "id": "my_jd_mindshare",
+          "name": "我京页签心智透传",
+          "status": "已有方案评审记录，研发交付需另核实。",
+          "target": "实际里程碑在私有台账维护",
+          "dependency": "个人页与权益状态、价值数据协同",
+          "acceptance": "分用户状态验收展示与跳转，再观察开卡、续卡及使用。",
+          "source_ids": [
+            "PRIVATE-REF-02"
+          ]
+        }
+      ],
+      "capabilities": [
+        {
+          "id": "card_lifecycle",
+          "name": "生命周期分层与价值表达",
+          "macro": "business_growth",
+          "candidate_12d": "C01",
+          "evidence": "用不同持卡状态组织价值表达和行动入口。",
+          "stage": "documented_design",
+          "source_ids": [
+            "PRIVATE-REF-02"
+          ],
+          "project_id": "jd_super_monthly_card_journey",
+          "level_change": 0,
+          "attribution": "个人产品设计或推进证据；不能直接证明研发实现或业务收益"
+        },
+        {
+          "id": "card_contract",
+          "name": "前后台数据契约",
+          "macro": "builder_technical_pm",
+          "candidate_12d": "C09",
+          "evidence": "在方案中对齐资格、价格、权益状态和展示所需数据。",
+          "stage": "documented_design",
+          "source_ids": [
+            "PRIVATE-REF-02"
+          ],
+          "project_id": "jd_super_monthly_card_journey",
+          "level_change": 0,
+          "attribution": "个人产品设计或推进证据；不能直接证明研发实现或业务收益"
+        },
+        {
+          "id": "card_resources",
+          "name": "价值与资源取舍",
+          "macro": "leadership_org",
+          "candidate_12d": "C10",
+          "evidence": "分开跟踪交易改造与个人页表达，按价值推动资源决策。",
+          "stage": "reported_milestone",
+          "source_ids": [
+            "PRIVATE-REF-02"
+          ],
+          "project_id": "jd_super_monthly_card_journey",
+          "level_change": 0,
+          "attribution": "个人产品设计或推进证据；不能直接证明研发实现或业务收益"
+        }
+      ]
+    },
+    {
+      "project_id": "jd_current_health_channel_v1",
+      "name": "健康饮食产品",
+      "purpose": "将饮食目标、选餐、记录与消费承接连接起来。",
+      "owner": "业务产品设计、接口需求与跨团队推进。",
+      "status": "分期推进接口、记录与实时体验；数据承接需落实后才能完成交付。",
+      "actions": "复用现有健康能力，按主流程、数据链路和实时体验拆分产品范围。",
+      "retrospective": "数据归属与写入责任应前置确认；不能用前台完成代替端到端可用。",
+      "baseline": "原始指标保留在私有证据库；本公开版不提供数值。",
+      "result": "只陈述材料支持的方案与阶段行动；发布、业务改善及个人归因单独验收。",
+      "as_of": "2026-10月底材料快照",
+      "recorded_at": "2026-11-06",
+      "vault_note": "projects/jd_current_health_channel_v1.md",
+      "confidentiality": "public_redacted",
+      "streams": [
+        {
+          "id": "phase1",
+          "name": "一期接口完善",
+          "status": "按研发反馈补充接口需求。",
+          "target": "实际里程碑在私有台账维护",
+          "dependency": "现有健康与消费能力接入",
+          "acceptance": "主流程和接口验收，并记录实际发布。",
+          "source_ids": [
+            "PRIVATE-REF-03"
+          ]
+        },
+        {
+          "id": "phase2",
+          "name": "二期记录与即时反馈",
+          "status": "已有阶段评审；数据承接仍须落实。",
+          "target": "实际里程碑在私有台账维护",
+          "dependency": "记录读写责任与系统边界",
+          "acceptance": "确认读写、异常和责任后重新核对方案。",
+          "source_ids": [
+            "PRIVATE-REF-03"
+          ]
+        },
+        {
+          "id": "phase3",
+          "name": "三期推荐与偏好体验",
+          "status": "方案设计阶段。",
+          "target": "实际里程碑在私有台账维护",
+          "dependency": "实时能力与消费承接",
+          "acceptance": "先确认边界与评测，再确定灰度范围。",
+          "source_ids": [
+            "PRIVATE-REF-03"
+          ]
+        }
+      ],
+      "capabilities": [
+        {
+          "id": "health_system_boundary",
+          "name": "数据归属与系统边界",
+          "macro": "builder_technical_pm",
+          "candidate_12d": "C10",
+          "evidence": "识别记录写入承接问题并推动责任确认。",
+          "stage": "reported_milestone",
+          "source_ids": [
+            "PRIVATE-REF-03"
+          ],
+          "project_id": "jd_current_health_channel_v1",
+          "level_change": 0,
+          "attribution": "个人产品设计或推进证据；不能直接证明研发实现或业务收益"
+        },
+        {
+          "id": "health_phase_design",
+          "name": "AI场景分期与落地",
+          "macro": "ai_llm_fundamentals",
+          "candidate_12d": "C09",
+          "evidence": "将接口、记录和实时体验分期，复用已有能力。",
+          "stage": "documented_design",
+          "source_ids": [
+            "PRIVATE-REF-03"
+          ],
+          "project_id": "jd_current_health_channel_v1",
+          "level_change": 0,
+          "attribution": "个人产品设计或推进证据；不能直接证明研发实现或业务收益"
+        }
+      ]
+    },
+    {
+      "project_id": "jd_tongue_health_shopping",
+      "name": "AI健康建议与餐食承接",
+      "purpose": "验证健康建议能否帮助用户完成后续餐食选择。",
+      "owner": "产品链路、评测需求与消费承接协作；不承担基础模型训练。",
+      "status": "已有评测与小流量阶段记录；业务效果尚无本包可验证的增益结论。",
+      "actions": "检查建议之后的商品、搜索和广告承接，将问题拆到相应责任团队。",
+      "retrospective": "组件评测通过不等于端到端任务有效，更不等于业务增长。",
+      "baseline": "原始指标保留在私有证据库；本公开版不提供数值。",
+      "result": "只陈述材料支持的方案与阶段行动；发布、业务改善及个人归因单独验收。",
+      "as_of": "2026-10月底材料快照",
+      "recorded_at": "2026-11-06",
+      "vault_note": "projects/jd_tongue_health_shopping.md",
+      "confidentiality": "public_redacted",
+      "streams": [
+        {
+          "id": "phase1",
+          "name": "一期评测与小流量观察",
+          "status": "已有阶段记录，原始定义与业务归因需继续核对。",
+          "target": "实际里程碑在私有台账维护",
+          "dependency": "评测口径、原始样本与观察窗",
+          "acceptance": "分别验证模型/产品质量及用户行为，不外推医学准确率。",
+          "source_ids": [
+            "PRIVATE-REF-04"
+          ]
+        },
+        {
+          "id": "phase2",
+          "name": "二期供给与搜索承接",
+          "status": "交互与供给优化推进，相关团队分别承接。",
+          "target": "实际里程碑在私有台账维护",
+          "dependency": "商品、自然搜索和广告链路",
+          "acceptance": "检查建议与落地结果一致性及异常恢复。",
+          "source_ids": [
+            "PRIVATE-REF-04"
+          ]
+        }
+      ],
+      "capabilities": [
+        {
+          "id": "tongue_eval_boundary",
+          "name": "评测与业务效果分离",
+          "macro": "eval",
+          "candidate_12d": "C03",
+          "evidence": "区分组件评测、小流量观察与可归因结果。",
+          "stage": "reported_milestone",
+          "source_ids": [
+            "PRIVATE-REF-04"
+          ],
+          "project_id": "jd_tongue_health_shopping",
+          "level_change": 0,
+          "attribution": "个人产品设计或推进证据；不能直接证明研发实现或业务收益"
+        },
+        {
+          "id": "tongue_supply_handoff",
+          "name": "AI到搜索供给承接",
+          "macro": "rag_search",
+          "candidate_12d": "C01",
+          "evidence": "沿完整任务检查商品、搜索与广告承接，分别提出修正需求。",
+          "stage": "reported_milestone",
+          "source_ids": [
+            "PRIVATE-REF-04"
+          ],
+          "project_id": "jd_tongue_health_shopping",
+          "level_change": 0,
+          "attribution": "个人产品设计或推进证据；不能直接证明研发实现或业务收益"
+        }
+      ]
+    },
+    {
+      "project_id": "jd_my_savings_floor",
+      "name": "个人页省钱信息",
+      "purpose": "让用户理解实际权益价值，保持入口与账单语义一致。",
+      "owner": "业务对接与产品方案推进。",
+      "status": "已对接相关数据与产品团队，具体展示方案继续推进。",
+      "actions": "先明确省钱数据可用范围与落地页分工，再决定展示形式。",
+      "retrospective": "同名指标不必然同口径；统计周期、退款与更新时间需先对齐。",
+      "baseline": "原始指标保留在私有证据库；本公开版不提供数值。",
+      "result": "只陈述材料支持的方案与阶段行动；发布、业务改善及个人归因单独验收。",
+      "as_of": "2026-10月底材料快照",
+      "recorded_at": "2026-11-06",
+      "vault_note": "projects/jd_my_savings_floor.md",
+      "confidentiality": "public_redacted",
+      "streams": [
+        {
+          "id": "phase1",
+          "name": "省钱楼层一期",
+          "status": "接口可用范围与展示边界已有对接记录。",
+          "target": "实际里程碑在私有台账维护",
+          "dependency": "钱包、账单与入口分工",
+          "acceptance": "确认统计周期、退款、更新与跳转一致性。",
+          "source_ids": [
+            "PRIVATE-REF-05"
+          ]
+        }
+      ],
+      "capabilities": [
+        {
+          "id": "savings_data_scope",
+          "name": "跨业务数据语义与展示边界",
+          "macro": "builder_technical_pm",
+          "candidate_12d": "C05",
+          "evidence": "先核对数据可用范围与展示边界。",
+          "stage": "reported_milestone",
+          "source_ids": [
+            "PRIVATE-REF-05"
+          ],
+          "project_id": "jd_my_savings_floor",
+          "level_change": 0,
+          "attribution": "个人产品设计或推进证据；不能直接证明研发实现或业务收益"
+        }
+      ]
+    },
+    {
+      "project_id": "jd_push_segmentation",
+      "name": "Push分人群运营",
+      "purpose": "以人群差异组织触达，并为回访效果验证提供基础。",
+      "owner": "产品提需与排期推进。",
+      "status": "已提交需求，交付与效果尚需后续证据。",
+      "actions": "对齐人群能力需求与资源节奏。",
+      "retrospective": "可配置触达不等于有效增长，后续需频控、对照与归因。",
+      "baseline": "原始指标保留在私有证据库；本公开版不提供数值。",
+      "result": "只陈述材料支持的方案与阶段行动；发布、业务改善及个人归因单独验收。",
+      "as_of": "2026-10月底材料快照",
+      "recorded_at": "2026-11-06",
+      "vault_note": "projects/jd_push_segmentation.md",
+      "confidentiality": "public_redacted",
+      "streams": [
+        {
+          "id": "segmentation",
+          "name": "分人群能力",
+          "status": "已提需，等待进一步交付安排。",
+          "target": "实际里程碑在私有台账维护",
+          "dependency": "数据能力与资源协调",
+          "acceptance": "确认人群定义、刷新规则、触达记录和回访归因。",
+          "source_ids": [
+            "PRIVATE-REF-06"
+          ]
+        }
+      ],
+      "capabilities": [
+        {
+          "id": "push_segment_delivery",
+          "name": "人群需求与交付管理",
+          "macro": "business_growth",
+          "candidate_12d": "C09",
+          "evidence": "将人群需求交给对应团队并跟进交付。",
+          "stage": "reported_milestone",
+          "source_ids": [
+            "PRIVATE-REF-06"
+          ],
+          "project_id": "jd_push_segmentation",
+          "level_change": 0,
+          "attribution": "个人产品设计或推进证据；不能直接证明研发实现或业务收益"
+        }
+      ]
+    }
+  ],
+  "history": [],
+  "policy": {
+    "confidentiality": "public_redacted",
+    "basis": "私有项目材料的人工脱敏摘要，非公开独立核验数据",
+    "capability_scoring": "原子证据只供既有12维周检审阅；不自动映射或提升能力分数"
+  }
+}

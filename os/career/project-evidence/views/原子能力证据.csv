@@ -1,0 +1,15 @@
+﻿项目,project_id,原子能力,evidence_id,Career_OS能力,证据,阶段,等级调整,来源
+登录体验与跨应用登录,jd_login_state_optimization,组件复用与范围控制,login_component_reuse,builder_technical_pm,将现有组件配置优化与平台级能力建设拆开。,documented_design,0,PRIVATE-REF-01
+登录体验与跨应用登录,jd_login_state_optimization,跨应用状态与接口设计,login_state_contract,builder_technical_pm,在产品方案中明确账号状态与跨应用协作边界。,documented_design,0,PRIVATE-REF-01
+登录体验与跨应用登录,jd_login_state_optimization,授权与异常流程设计,login_risk_fallback,builder_technical_pm,把授权、异常回退和主流程一起纳入产品验收。,documented_design,0,PRIVATE-REF-01
+登录体验与跨应用登录,jd_login_state_optimization,指标与灰度验收设计,login_metrics_release,business_growth,区分用户完成率、技术事件和发布阶段。,documented_design,0,PRIVATE-REF-01
+登录体验与跨应用登录,jd_login_state_optimization,跨团队分阶段推进,login_cross_team,leadership_org,按交付层级拆分依赖、阶段评审和责任方。,reported_milestone,0,PRIVATE-REF-01
+月卡交易与权益感知,jd_super_monthly_card_journey,生命周期分层与价值表达,card_lifecycle,business_growth,用不同持卡状态组织价值表达和行动入口。,documented_design,0,PRIVATE-REF-02
+月卡交易与权益感知,jd_super_monthly_card_journey,前后台数据契约,card_contract,builder_technical_pm,在方案中对齐资格、价格、权益状态和展示所需数据。,documented_design,0,PRIVATE-REF-02
+月卡交易与权益感知,jd_super_monthly_card_journey,价值与资源取舍,card_resources,leadership_org,分开跟踪交易改造与个人页表达，按价值推动资源决策。,reported_milestone,0,PRIVATE-REF-02
+健康饮食产品,jd_current_health_channel_v1,数据归属与系统边界,health_system_boundary,builder_technical_pm,识别记录写入承接问题并推动责任确认。,reported_milestone,0,PRIVATE-REF-03
+健康饮食产品,jd_current_health_channel_v1,AI场景分期与落地,health_phase_design,ai_llm_fundamentals,将接口、记录和实时体验分期，复用已有能力。,documented_design,0,PRIVATE-REF-03
+AI健康建议与餐食承接,jd_tongue_health_shopping,评测与业务效果分离,tongue_eval_boundary,eval,区分组件评测、小流量观察与可归因结果。,reported_milestone,0,PRIVATE-REF-04
+AI健康建议与餐食承接,jd_tongue_health_shopping,AI到搜索供给承接,tongue_supply_handoff,rag_search,沿完整任务检查商品、搜索与广告承接，分别提出修正需求。,reported_milestone,0,PRIVATE-REF-04
+个人页省钱信息,jd_my_savings_floor,跨业务数据语义与展示边界,savings_data_scope,builder_technical_pm,先核对数据可用范围与展示边界。,reported_milestone,0,PRIVATE-REF-05
+Push分人群运营,jd_push_segmentation,人群需求与交付管理,push_segment_delivery,business_growth,将人群需求交给对应团队并跟进交付。,reported_milestone,0,PRIVATE-REF-06
