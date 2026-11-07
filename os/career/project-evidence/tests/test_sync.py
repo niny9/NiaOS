@@ -158,4 +158,35 @@ class EvidenceTests(unittest.TestCase):
    with (Path(tmp)/'周进度表.csv').open(encoding='utf-8-sig') as f:rows=list(csv.DictReader(f))
    self.assertEqual(rows[1]['事实时点'],'2026-09-01')
 
+ def test_invalid_fact_dates_are_rejected_without_mutating_input(self):
+  for invalid in [None, 123, [], {}, '', '2026-02-30']:
+   b=copy.deepcopy(self.batch);b['as_of']=invalid;before=copy.deepcopy(self.db)
+   with self.assertRaises(ValueError):sync.merge(self.db,b)
+   self.assertEqual(self.db,before)
+   b=copy.deepcopy(self.batch);b['updates'][0]['streams'][0]['as_of']=invalid
+   with self.assertRaises(ValueError):sync.merge(self.db,b)
+  d=copy.deepcopy(self.db);d['projects'][0]['streams'][0]['as_of']=None
+  with self.assertRaises(ValueError):sync.validate(d)
+ def test_older_source_keeps_newer_stream_date(self):
+  self.db['projects'][0]['streams'][0]['as_of']='2026-11-01'
+  db,_=sync.merge(self.db,self.batch)
+  self.assertEqual(db['projects'][0]['streams'][0]['as_of'],'2026-11-01')
+  self.assertNotEqual(db['projects'][0]['streams'][0]['target'],self.db['projects'][0]['streams'][0]['target'])
+ def test_source_only_or_identical_fields_do_not_redate_stream(self):
+  for fields in [{},{'target':{'previous':self.db['projects'][0]['streams'][0]['target'],'value':self.db['projects'][0]['streams'][0]['target']}}]:
+   b=copy.deepcopy(self.batch);b['updates'][0]['streams'][0]['fields']=fields
+   db,_=sync.merge(self.db,b)
+   self.assertEqual(db['projects'][0]['streams'][0]['as_of'],self.db['projects'][0]['streams'][0]['as_of'])
+ def test_stream_dates_can_differ_in_same_batch(self):
+  b=copy.deepcopy(self.batch);b['updates'][0]['streams'][0]['as_of']='2026-11-02'
+  st=self.db['projects'][0]['streams'][1]
+  b['updates'][0]['streams'].append({'id':st['id'],'as_of':'2026-11-03','fields':{'target':{'previous':st['target'],'value':'synthetic second'}}})
+  db,_=sync.merge(self.db,b)
+  self.assertEqual([s['as_of'] for s in db['projects'][0]['streams'][:2]],['2026-11-02','2026-11-03'])
+ def test_csv_keeps_stage_code_and_readable_label(self):
+  with tempfile.TemporaryDirectory() as tmp:
+   sync.compile_views(self.db,tmp)
+   with (Path(tmp)/'原子能力证据.csv').open(encoding='utf-8-sig') as f:rows=list(csv.DictReader(f))
+   self.assertTrue(any(r['阶段']=='reported_milestone' and r['阶段说明']=='材料/用户报告里程碑' for r in rows))
+
 if __name__=='__main__':unittest.main()

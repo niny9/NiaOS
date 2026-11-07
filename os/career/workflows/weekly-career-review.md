@@ -12,5 +12,5 @@
 
 ## 项目材料的即时归档
 
-收到新的项目进展，先执行[项目进展到原子能力](project-progress-to-capability.md)，再将新增证据交给本周检。复用既有私有数据绑定、Log、Registry 和十二维框架，不另建定时任务。当前[六项目脱敏快照](../project-evidence/README.md)补齐登录态及月卡的两条工作流；实际事实库继续私有维护。
+收到新的项目进展，先执行[项目进展到原子能力](project-progress-to-capability.md)，再将新增证据交给本周检。复用既有私有数据绑定、Log、Registry 和十二维框架，不另建定时任务。当前[八项目脱敏快照](../project-evidence/README.md)包含登录、月卡、健康饮食、AI健康承接、省钱、Push，以及新增的团队AI分析到执行和场景化页面；工作流及能力证据同批维护；实际事实库继续私有维护。
 

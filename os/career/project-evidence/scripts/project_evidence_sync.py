@@ -7,7 +7,23 @@ Stdlib only; private paths remain private. Run --help for usage.
 from pathlib import Path
 import argparse, csv, json, hashlib, copy, tempfile, os, re, io, fcntl
 from contextlib import contextmanager
+from datetime import date
 STAGES = {'documented_design': '方案已见', 'reported_milestone': '材料/用户报告里程碑', 'verified_release': '已核实发布', 'verified_result': '已核实效果'}
+
+def fact_date(value):
+    if not isinstance(value, str) or not value.strip():
+        raise ValueError('fact date must be a non-empty string')
+    if re.fullmatch(r'\d{4}-\d{2}-\d{2}', value):
+        date.fromisoformat(value)
+    return value
+
+def latest_fact_date(current, incoming):
+    current, incoming = fact_date(current), fact_date(incoming)
+    # Legacy source labels may be imprecise. They require human date reconciliation;
+    # never infer an exact event day from a label such as "late October".
+    if all(re.fullmatch(r'\d{4}-\d{2}-\d{2}', v) for v in (current, incoming)):
+        return max(current, incoming)
+    return incoming
 
 def safe_destination(root, relative):
     root = Path(root).resolve()
@@ -69,6 +85,7 @@ def validate(db):
     if not len(project_ids) == len(set(project_ids)):
         raise ValueError('duplicate project id')
     for p in db['projects']:
+        fact_date(p['as_of'])
         if not re.fullmatch('[A-Za-z0-9_-]+', p['project_id']):
             raise ValueError('unsafe project id')
         if not p['streams']:
@@ -84,6 +101,9 @@ def validate(db):
         for row in p['streams'] + p['capabilities']:
             if not (row['source_ids'] and set(row['source_ids']) <= set(source_ids)):
                 raise ValueError('unknown/missing source')
+        for row in p['streams']:
+            if 'as_of' in row:
+                fact_date(row['as_of'])
         if not all((c.get('project_id') == p['project_id'] for c in p['capabilities'])):
             raise ValueError('wrong capability project')
         if not all((c['level_change'] == 0 for c in p['capabilities'])):
@@ -92,6 +112,8 @@ def validate(db):
             raise ValueError('unsupported evidence stage')
 
 def merge(db, batch):
+    if 'as_of' in batch:
+        fact_date(batch['as_of'])
     result = copy.deepcopy(db)
     digest = hashlib.sha256(json.dumps(batch, sort_keys=True, ensure_ascii=False).encode()).hexdigest()
     if any((h.get('batch_hash') == digest for h in result['history'])):
@@ -135,6 +157,8 @@ def merge(db, batch):
             changes.append({'project_id': p['project_id'], 'field': k, 'old': p[k], 'new': change['value']})
             p[k] = change['value']
         for stream_update in u.get('streams', []):
+            if 'as_of' in stream_update:
+                fact_date(stream_update['as_of'])
             s = next((x for x in p['streams'] if x['id'] == stream_update['id']), None)
             if s is None:
                 raise ValueError('unknown stream: ' + stream_update['id'])
@@ -145,15 +169,18 @@ def merge(db, batch):
                 stream_sources = update_sources
             if not stream_sources or not set(stream_sources) <= set(update_sources):
                 raise ValueError('stream source outside project update')
+            stream_changed = False
             for k, change in stream_update['fields'].items():
                 if not k in {'status', 'target', 'dependency', 'acceptance'}:
                     raise ValueError('invalid input')
                 if not s[k] == change['previous']:
                     raise ValueError('stale stream state')
+                stream_changed = stream_changed or s[k] != change['value']
                 changes.append({'project_id': p['project_id'], 'stream': s['id'], 'field': k, 'old': s[k], 'new': change['value']})
                 s[k] = change['value']
             s['source_ids'] = list(dict.fromkeys(s['source_ids'] + stream_sources))
-            s['as_of'] = batch.get('as_of', s.get('as_of', p['as_of']))
+            if stream_changed and ('as_of' in stream_update or 'as_of' in batch):
+                s['as_of'] = latest_fact_date(s.get('as_of', p['as_of']), stream_update.get('as_of', batch.get('as_of')))
         oldcaps = {c['id']: c for c in p['capabilities']}
         added = 0
         for cap in u['capabilities']:
@@ -170,7 +197,7 @@ def merge(db, batch):
         if not added:
             raise ValueError('progress needs new capability evidence')
         p['recorded_at'] = batch['date']
-        p['as_of'] = batch.get('as_of', p['as_of'])
+        p['as_of'] = latest_fact_date(p['as_of'], batch['as_of']) if 'as_of' in batch else p['as_of']
     result['history'].append({'date': batch['date'], 'batch_hash': digest, 'source_ids': batch['source_ids'], 'changes': changes})
     result['updated_at'] = batch['date']
     validate(result)
@@ -198,7 +225,7 @@ def compile_views(db, out):
         for s in p['streams']:
             weekly.append({'项目': p['name'], 'project_id': p['project_id'], '工作流': s['name'], 'workstream_id': s['id'], '事实时点': s.get('as_of', p['as_of']), '当前状态': s['status'], '目标节点': s['target'], '依赖': s['dependency'], '验收': s['acceptance'], '来源': '、'.join(s['source_ids'])})
         for c in p['capabilities']:
-            caps.append({'项目': p['name'], 'project_id': p['project_id'], '原子能力': c['name'], 'evidence_id': c['id'], 'Career_OS能力': c['macro'], '证据': c['evidence'], '阶段': c['stage'], '等级调整': 0, '来源': '、'.join(c['source_ids'])})
+            caps.append({'项目': p['name'], 'project_id': p['project_id'], '原子能力': c['name'], 'evidence_id': c['id'], 'Career_OS能力': c['macro'], '证据': c['evidence'], '阶段': c['stage'], '阶段说明': STAGES[c['stage']], '等级调整': 0, '来源': '、'.join(c['source_ids'])})
     for name, rows in [('周进度表.csv', weekly), ('原子能力证据.csv', caps)]:
         f = io.StringIO(newline='')
         w = csv.DictWriter(f, fieldnames=rows[0].keys())
