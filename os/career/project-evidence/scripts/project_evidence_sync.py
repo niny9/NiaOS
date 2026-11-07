@@ -7,7 +7,7 @@ Stdlib only; private paths remain private. Run --help for usage.
 from pathlib import Path
 import argparse, csv, json, hashlib, copy, tempfile, os, re, io, fcntl
 from contextlib import contextmanager
-STAGES = {'documented_design': '方案已见', 'reported_milestone': '周报里程碑', 'verified_release': '已核实发布', 'verified_result': '已核实效果'}
+STAGES = {'documented_design': '方案已见', 'reported_milestone': '材料/用户报告里程碑', 'verified_release': '已核实发布', 'verified_result': '已核实效果'}
 
 def safe_destination(root, relative):
     root = Path(root).resolve()
@@ -153,6 +153,7 @@ def merge(db, batch):
                 changes.append({'project_id': p['project_id'], 'stream': s['id'], 'field': k, 'old': s[k], 'new': change['value']})
                 s[k] = change['value']
             s['source_ids'] = list(dict.fromkeys(s['source_ids'] + stream_sources))
+            s['as_of'] = batch.get('as_of', s.get('as_of', p['as_of']))
         oldcaps = {c['id']: c for c in p['capabilities']}
         added = 0
         for cap in u['capabilities']:
@@ -195,7 +196,7 @@ def compile_views(db, out):
     for p in db['projects']:
         outputs[p['project_id'] + '.md'] = project_md(p)
         for s in p['streams']:
-            weekly.append({'项目': p['name'], 'project_id': p['project_id'], '工作流': s['name'], 'workstream_id': s['id'], '事实时点': p['as_of'], '当前状态': s['status'], '目标节点': s['target'], '依赖': s['dependency'], '验收': s['acceptance'], '来源': '、'.join(s['source_ids'])})
+            weekly.append({'项目': p['name'], 'project_id': p['project_id'], '工作流': s['name'], 'workstream_id': s['id'], '事实时点': s.get('as_of', p['as_of']), '当前状态': s['status'], '目标节点': s['target'], '依赖': s['dependency'], '验收': s['acceptance'], '来源': '、'.join(s['source_ids'])})
         for c in p['capabilities']:
             caps.append({'项目': p['name'], 'project_id': p['project_id'], '原子能力': c['name'], 'evidence_id': c['id'], 'Career_OS能力': c['macro'], '证据': c['evidence'], '阶段': c['stage'], '等级调整': 0, '来源': '、'.join(c['source_ids'])})
     for name, rows in [('周进度表.csv', weekly), ('原子能力证据.csv', caps)]:

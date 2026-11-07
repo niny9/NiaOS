@@ -27,8 +27,8 @@ class EvidenceTests(unittest.TestCase):
     'streams':[{'id':p['streams'][0]['id'],'fields':{'target':{'previous':p['streams'][0]['target'],'value':'synthetic target'}}}], 'capabilities':[cap]}]}
  def test_portfolio_coverage(self):
   sync.validate(self.db)
-  self.assertEqual([len(self.db['projects']),sum(len(p['streams']) for p in self.db['projects']),sum(len(p['capabilities']) for p in self.db['projects'])],[6,12,14])
-  self.assertEqual([s['id'] for s in self.db['projects'][1]['streams']],['instant_use','my_jd_mindshare'])
+  self.assertEqual([len(self.db['projects']),sum(len(p['streams']) for p in self.db['projects']),sum(len(p['capabilities']) for p in self.db['projects'])],[8,22,28])
+  self.assertEqual([s['id'] for s in self.db['projects'][1]['streams'][:2]],['instant_use','my_jd_mindshare'])
  def test_merge_history_and_unchanged_input(self):
   before=copy.deepcopy(self.db);db,changed=sync.merge(self.db,self.batch)
   self.assertTrue(changed);self.assertEqual(self.db,before)
@@ -77,7 +77,7 @@ class EvidenceTests(unittest.TestCase):
    dest=vault/self.db['projects'][0]['vault_note'];dest.parent.mkdir();dest.write_text('# Old\n\nHistorical content.\n')
    sync.compile_views(self.db,out);before={f.name:f.read_bytes() for f in out.iterdir()}
    sync.compile_views(self.db,out);self.assertEqual(before,{f.name:f.read_bytes() for f in out.iterdir()})
-   self.assertEqual(sync.sync_vault(self.db,vault),6);self.assertEqual(sync.sync_vault(self.db,vault),0)
+   self.assertEqual(sync.sync_vault(self.db,vault),8);self.assertEqual(sync.sync_vault(self.db,vault),0)
    self.assertIn('Historical content.',dest.read_text());self.assertEqual(len(list((vault/'数据/项目更新备份').glob('*.md'))),1)
  def test_cli_dry_run_no_write(self):
   with tempfile.TemporaryDirectory() as tmp:
@@ -147,5 +147,15 @@ class EvidenceTests(unittest.TestCase):
  def test_unknown_stream_has_clear_error(self):
   self.batch['updates'][0]['streams'][0]['id']='missing-stream'
   with self.assertRaisesRegex(ValueError,'unknown stream: missing-stream'):sync.merge(self.db,self.batch)
+
+ def test_workstream_dates_survive_unrelated_project_update(self):
+  self.db['projects'][0]['streams'][1]['as_of']='2026-09-01'
+  db,_=sync.merge(self.db,self.batch)
+  self.assertEqual(db['projects'][0]['streams'][0]['as_of'],'2026-10-20')
+  self.assertEqual(db['projects'][0]['streams'][1]['as_of'],'2026-09-01')
+  with tempfile.TemporaryDirectory() as tmp:
+   sync.compile_views(db,tmp)
+   with (Path(tmp)/'周进度表.csv').open(encoding='utf-8-sig') as f:rows=list(csv.DictReader(f))
+   self.assertEqual(rows[1]['事实时点'],'2026-09-01')
 
 if __name__=='__main__':unittest.main()
