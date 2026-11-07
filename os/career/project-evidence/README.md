@@ -27,11 +27,11 @@
 
 ## 本地运行
 
-仅需 Python 3.10+ 标准库，在本目录运行：
+支持 macOS/Linux，使用 Python 3.10+ 标准库，在本目录运行：
 
 ```sh
 python3 -m unittest discover -s tests -v
 python3 scripts/project_evidence_sync.py --store portfolio.redacted.json --out /tmp/career-evidence-preview
 ```
 
-生产使用时由既有运行配置传入私有 `--store`、`--out` 和可选 `--vault`。生成目录应专用于本工具，不能指向源材料目录。先对候选更新 `--input` 做 `--dry-run`，再按已有写回流程生成最小差异并校验并发修改。CLI 提供逐文件写入，不提供跨事实库/视图/笔记的事务锁；多写入者需由调用方串行化。
+生产使用时由既有运行配置传入私有 `--store`、`--out` 和可选 `--vault`。生成目录应专用于本工具，不能指向源材料目录。先对候选更新 `--input` 做 `--dry-run`，再按已有写回流程生成最小差异并校验并发修改。CLI 对同一事实库的完整读写过程持有文件锁，忙碌时明确拒绝第二个写入者并要求重试；各文件原子替换。外部编辑器不受该锁管理，笔记替换前会再次检查原文。跨文件不提供全有或全无的事务，失败后保留事实和备份，可修复原因后幂等重跑。

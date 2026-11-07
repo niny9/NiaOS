@@ -10,6 +10,7 @@ description: 执行统一版 Career OS 职业周检：复用岗位雷达、Caree
 - “执行统一版 Career OS 周检”“Career OS 周检”“本周职业复盘”“检查能力缺口/职业偏航”。
 - 每周自动运行：沿用现有 `career-os` 自动任务，每周一 09:00，`Asia/Shanghai`；不另建 scheduler。
 - `career-os-weekly-review` 是口头别名，唯一 Skill ID 为 `career-weekly-review`。
+- 用户提交项目周报、PRD、截图、口述进展或事实更正时，即时执行 [项目进展归档](../../workflows/project-progress-to-capability.md)，同批更新事实、工作流与原子能力；无需等待周检或再次提醒。单次项目更新只走该增量流程，不触发整套岗位扫描。
 - 单次找岗位交给 job radar；单个工作 case 交给 career-reflection；月度趋势交给 monthly review。
 
 核心链路：真实项目证据 → 项目审计 → 能力缺口 → Resume Asset Gate → Top3 / Stop-Doing → 原有 Log / Registry。岗位需求改变优先级，只有个人证据能够改变已证明能力。
@@ -134,3 +135,4 @@ description: 执行统一版 Career OS 职业周检：复用岗位雷达、Caree
 路径找不到或写权限不足时：完成报告，将按目标台账分类的 pending mutations 放在本周报告内，说明实际成功/待写/失败；不新建替代 Registry，不声称同步成功。保留最小缺失位置问题供用户补充，不阻塞其他审计。
 
 完成条件：八项周输出齐全；12 维与活跃项目均有证据/缺项；Top3 可验收；Stop-Doing 指向资源取舍；原台账写入结果可追踪；市场或证据失败已如实披露。自动执行不能隐含投递、联系他人、辞职、签 Offer 或提交申请的授权。
+

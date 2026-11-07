@@ -58,3 +58,10 @@
 旧本地 orchestrator 的 `weekly_review` 顺序曾是 radar → resume refresh → weekly review。resume refresh 如仍在前置阶段，只可整理草稿/来源，不能先升 verified；统一周检完成 Gate 后再让原生成器消费通过的 claim。旧 CLI 的 11 维自动报告只能作为输入/中间结果，不能代替本 Skill 的 12 维、项目审计、真实性与八段输出验收。
 
 本次不另装 cron、不复制调度器、不默认执行可能发送飞书通知的旧 CLI。若后续要修改实际 runtime，先检查调用者及通知副作用；已有用户授权继续有效。文档“每周自动运行”表示接入上述现有任务，不等于已观察到某次未来任务成功。
+
+## 2026-11-07 版本对齐规则
+
+自动任务的实际 data root 必须同时包含当前策略和 `data/projects/current_project_evidence_index.json` 指向的最新私有项目证据；不能因另一目录名字相同或文件日期较新就整体覆盖。将来源分散的新增证据按稳定项目/证据 ID 合并到原 active root，保留较新的策略、既有 Project Cards 和所有旧证据。`data/projects/runtime_binding.json` 可记录核对后的唯一运行根与其他历史目录；个人绝对路径仅保留本地。
+
+项目材料归档使用 [增量流程](../../../workflows/project-progress-to-capability.md)。本地 Skill 缓存须与所记录的 GitHub commit 一致；旧 CLI 的十一维输出保留为中间结果，不覆盖十二维评审合同。公开发布入口为 [Career OS](../../../README.md)，内部 HR 答卷只通过私有索引引用。
+
