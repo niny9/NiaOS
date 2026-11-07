@@ -1,6 +1,6 @@
 {
   "schema_version": "1.0-public-redacted",
-  "updated_at": "2026-11-06",
+  "updated_at": "2026-11-07",
   "sources": [
     {
       "id": "PRIVATE-REF-01",
@@ -43,6 +43,12 @@
       "source_date": "2026-10月底及更早项目资料",
       "availability": "private_only",
       "review": "原材料已在本地核对；公开版只保留脱敏摘要，不提供源文档副本"
+    },
+    {
+      "id": "PRIVATE-UPDATE-20261107",
+      "type": "private_user_report_and_design",
+      "date": "2026-11-07",
+      "scope": "已人工阅读的用户进展与规划，公开版仅保留通用能力摘要；非独立上线或结果核验"
     }
   ],
   "projects": [
@@ -51,13 +57,13 @@
       "name": "登录体验与跨应用登录",
       "purpose": "降低进入服务的阻力，兼顾授权、异常恢复与账号安全。",
       "owner": "产品方案与跨团队推进；基础组件与研发实现由协作团队承担。",
-      "status": "已形成分期方案与阶段评审记录；实际发布与效果须单独核实。",
-      "actions": "将可复用的入口优化与跨应用基础能力拆开，避免长期依赖阻塞短期改善。",
+      "status": "在原有登录建设上增加厂商、渠道、版本及方式的效率诊断；登录后运营仍为探索方向。",
+      "actions": "提出按可用方式与用户最终完成拆解漏斗，分别验证体验和登录后策略。",
       "retrospective": "交付应按组件、服务、客户端和灰度逐层验收；方案通过不等于用户已可用。",
       "baseline": "原始指标保留在私有证据库；本公开版不提供数值。",
-      "result": "只陈述材料支持的方案与阶段行动；发布、业务改善及个人归因单独验收。",
-      "as_of": "2026-10月底材料快照",
-      "recorded_at": "2026-11-06",
+      "result": "本次新增策略要求，没有新增发布或登录率提升证明。",
+      "as_of": "2026-11-07用户补充；旧分期为历史材料",
+      "recorded_at": "2026-11-07",
       "vault_note": "projects/jd_login_state_optimization.md",
       "confidentiality": "public_redacted",
       "streams": [
@@ -70,7 +76,8 @@
           "acceptance": "成功与失败路径均验收，保留明确回退；同人群同时间窗比较登录完成。",
           "source_ids": [
             "PRIVATE-REF-01"
-          ]
+          ],
+          "as_of": "2026-10月底材料快照"
         },
         {
           "id": "cross_app_sso",
@@ -81,7 +88,8 @@
           "acceptance": "账号状态正确、授权清晰、异常可恢复；发布和效果分开核实。",
           "source_ids": [
             "PRIVATE-REF-01"
-          ]
+          ],
+          "as_of": "2026-10月底材料快照"
         },
         {
           "id": "passwordless",
@@ -92,7 +100,32 @@
           "acceptance": "另设范围和验收，不以一键联登代替免登完成。",
           "source_ids": [
             "PRIVATE-REF-01"
-          ]
+          ],
+          "as_of": "2026-10月底材料快照"
+        },
+        {
+          "id": "vendor_channel_measurement",
+          "name": "厂商渠道登录效率",
+          "status": "下周优先开展登录方式、版本和指标盘点。",
+          "dependency": "客户端事件、账号服务端、渠道版本记录及数据owner",
+          "acceptance": "建立同口径矩阵，分母与关联键可复算；识别主要损失段。",
+          "source_ids": [
+            "PRIVATE-UPDATE-20261107"
+          ],
+          "target": "规划与验收分别记录，不公开内部排期",
+          "as_of": "2026-11-07"
+        },
+        {
+          "id": "post_login_operations",
+          "name": "渠道登录后运营",
+          "status": "提出按渠道来源与用户状态设计运营策略的方向。",
+          "dependency": "已识别渠道、用户状态、触达资格与实验分流",
+          "acceptance": "同登录体验下评估运营增量与成本，记录频控与回访。",
+          "source_ids": [
+            "PRIVATE-UPDATE-20261107"
+          ],
+          "target": "规划与验收分别记录，不公开内部排期",
+          "as_of": "2026-11-07"
         }
       ],
       "capabilities": [
@@ -165,6 +198,32 @@
           "project_id": "jd_login_state_optimization",
           "level_change": 0,
           "attribution": "个人产品设计或推进证据；不能直接证明研发实现或业务收益"
+        },
+        {
+          "id": "u20261107_login_segment",
+          "name": "分层漏斗与取数判断",
+          "macro": "business_growth",
+          "evidence": "提出按厂商、渠道、机型、版本和登录方式拆解表现，先明确数据获取与分母。",
+          "stage": "documented_design",
+          "project_id": "jd_login_state_optimization",
+          "level_change": 0,
+          "source_ids": [
+            "PRIVATE-UPDATE-20261107"
+          ],
+          "attribution": "用户报告或方案判断；不自动升级为个人研发、上线、收益或能力分数"
+        },
+        {
+          "id": "u20261107_login_activation",
+          "name": "登录体验与激活策略分离",
+          "macro": "business_growth",
+          "evidence": "提出产品体验改善与渠道登录后运营两类方向，需分别验证。",
+          "stage": "documented_design",
+          "project_id": "jd_login_state_optimization",
+          "level_change": 0,
+          "source_ids": [
+            "PRIVATE-UPDATE-20261107"
+          ],
+          "attribution": "用户报告或方案判断；不自动升级为个人研发、上线、收益或能力分数"
         }
       ]
     },
@@ -173,13 +232,13 @@
       "name": "月卡交易与权益感知",
       "purpose": "连接权益发现、购买、实际使用与续费。",
       "owner": "产品方案、跨前台与权益团队协调。",
-      "status": "即买即用与个人页权益感知分别推进，资源与上线状态分别记录。",
-      "actions": "交易侧关注权益能否兑现；个人页按未开、有效、临期与过期状态解释价值。",
+      "status": "保留即买即用和个人页心智透传；增加全点位转化诊断与生命周期运营方向。",
+      "actions": "统一曝光、购买、使用与复购口径，按用户状态组织策略并检验增量价值。",
       "retrospective": "入口点击、购买、权益使用与增量交易是不同指标，不能互相替代。",
       "baseline": "原始指标保留在私有证据库；本公开版不提供数值。",
-      "result": "只陈述材料支持的方案与阶段行动；发布、业务改善及个人归因单独验收。",
-      "as_of": "2026-10月底材料快照",
-      "recorded_at": "2026-11-06",
+      "result": "本次新增衡量与策略方向，没有新增业务收益证据。",
+      "as_of": "2026-11-07用户补充；旧分期为历史材料",
+      "recorded_at": "2026-11-07",
       "vault_note": "projects/jd_super_monthly_card_journey.md",
       "confidentiality": "public_redacted",
       "streams": [
@@ -192,7 +251,8 @@
           "acceptance": "价格承诺、资格、权益生效与结算一致；观察真实使用与退款。",
           "source_ids": [
             "PRIVATE-REF-02"
-          ]
+          ],
+          "as_of": "2026-10月底材料快照"
         },
         {
           "id": "my_jd_mindshare",
@@ -203,7 +263,32 @@
           "acceptance": "分用户状态验收展示与跳转，再观察开卡、续卡及使用。",
           "source_ids": [
             "PRIVATE-REF-02"
-          ]
+          ],
+          "as_of": "2026-10月底材料快照"
+        },
+        {
+          "id": "placement_measurement",
+          "name": "全App点位效率",
+          "status": "要求盘点各投放点位的转化数据。",
+          "dependency": "点位标识、资格、曝光与交易数据、归因规则",
+          "acceptance": "两条原有主线均覆盖；跨入口去重、可比较分母和成本。",
+          "source_ids": [
+            "PRIVATE-UPDATE-20261107"
+          ],
+          "target": "规划与验收分别记录，不公开内部排期",
+          "as_of": "2026-11-07"
+        },
+        {
+          "id": "lifecycle_operations",
+          "name": "分人群营销与服务策略",
+          "status": "拟围绕月卡人群进行定向文案、活动/权益和服务触达。",
+          "dependency": "持卡状态、资格、运营配置能力及频控",
+          "acceptance": "策略可配置、执行可回读，购买与实际用卡分别验证。",
+          "source_ids": [
+            "PRIVATE-UPDATE-20261107"
+          ],
+          "target": "规划与验收分别记录，不公开内部排期",
+          "as_of": "2026-11-07"
         }
       ],
       "capabilities": [
@@ -248,6 +333,32 @@
           "project_id": "jd_super_monthly_card_journey",
           "level_change": 0,
           "attribution": "个人产品设计或推进证据；不能直接证明研发实现或业务收益"
+        },
+        {
+          "id": "u20261107_card_measure",
+          "name": "点位到交易的增长衡量",
+          "macro": "business_growth",
+          "evidence": "将月卡问题扩展为全App点位效率与购买、使用的完整链路。",
+          "stage": "documented_design",
+          "project_id": "jd_super_monthly_card_journey",
+          "level_change": 0,
+          "source_ids": [
+            "PRIVATE-UPDATE-20261107"
+          ],
+          "attribution": "用户报告或方案判断；不自动升级为个人研发、上线、收益或能力分数"
+        },
+        {
+          "id": "u20261107_card_operations",
+          "name": "生命周期运营策略",
+          "macro": "business_growth",
+          "evidence": "提出针对月卡人群组织定向文案与权益/服务触达，尚待实验。",
+          "stage": "documented_design",
+          "project_id": "jd_super_monthly_card_journey",
+          "level_change": 0,
+          "source_ids": [
+            "PRIVATE-UPDATE-20261107"
+          ],
+          "attribution": "用户报告或方案判断；不自动升级为个人研发、上线、收益或能力分数"
         }
       ]
     },
@@ -256,48 +367,63 @@
       "name": "健康饮食产品",
       "purpose": "将饮食目标、选餐、记录与消费承接连接起来。",
       "owner": "业务产品设计、接口需求与跨团队推进。",
-      "status": "分期推进接口、记录与实时体验；数据承接需落实后才能完成交付。",
-      "actions": "复用现有健康能力，按主流程、数据链路和实时体验拆分产品范围。",
+      "status": "用户最新报告健康资料到饮食管理全流程已做出；具体支持范围、发布范围和正式评测尚需验证。",
+      "actions": "围绕识别、档案一致性、建议与任务完成建立分层评测和失败修复。",
       "retrospective": "数据归属与写入责任应前置确认；不能用前台完成代替端到端可用。",
       "baseline": "原始指标保留在私有证据库；本公开版不提供数值。",
-      "result": "只陈述材料支持的方案与阶段行动；发布、业务改善及个人归因单独验收。",
-      "as_of": "2026-10月底材料快照",
-      "recorded_at": "2026-11-06",
+      "result": "为用户报告的实现里程碑，不等于已核实上线、质量达标或业务增长。",
+      "as_of": "2026-11-07用户补充；旧分期为历史材料",
+      "recorded_at": "2026-11-07",
       "vault_note": "projects/jd_current_health_channel_v1.md",
       "confidentiality": "public_redacted",
       "streams": [
         {
           "id": "phase1",
           "name": "一期接口完善",
-          "status": "按研发反馈补充接口需求。",
+          "status": "历史分期记录，最新具体发布范围需核对：按研发反馈补充接口需求。",
           "target": "实际里程碑在私有台账维护",
-          "dependency": "现有健康与消费能力接入",
+          "dependency": "历史记录；当前是否解除需核对：现有健康与消费能力接入",
           "acceptance": "主流程和接口验收，并记录实际发布。",
           "source_ids": [
             "PRIVATE-REF-03"
-          ]
+          ],
+          "as_of": "2026-10月底材料快照"
         },
         {
           "id": "phase2",
           "name": "二期记录与即时反馈",
-          "status": "已有阶段评审；数据承接仍须落实。",
+          "status": "历史分期记录，最新具体发布范围需核对：已有阶段评审；数据承接仍须落实。",
           "target": "实际里程碑在私有台账维护",
-          "dependency": "记录读写责任与系统边界",
+          "dependency": "历史记录；当前是否解除需核对：记录读写责任与系统边界",
           "acceptance": "确认读写、异常和责任后重新核对方案。",
           "source_ids": [
             "PRIVATE-REF-03"
-          ]
+          ],
+          "as_of": "2026-10月底材料快照"
         },
         {
           "id": "phase3",
           "name": "三期推荐与偏好体验",
-          "status": "方案设计阶段。",
+          "status": "历史分期记录，最新具体发布范围需核对：方案设计阶段。",
           "target": "实际里程碑在私有台账维护",
-          "dependency": "实时能力与消费承接",
+          "dependency": "历史记录；当前是否解除需核对：实时能力与消费承接",
           "acceptance": "先确认边界与评测，再确定灰度范围。",
           "source_ids": [
             "PRIVATE-REF-03"
-          ]
+          ],
+          "as_of": "2026-10月底材料快照"
+        },
+        {
+          "id": "full_journey_validation",
+          "name": "全流程质量与效果验证",
+          "status": "用户报告全流程已做出，要求重点验证识别及评测结果。",
+          "dependency": "当前产品、接口、报告/设备支持范围、标注样本与健康侧评审",
+          "acceptance": "可追溯的分层评测、失败归因和复测；另记录实际发布范围。",
+          "source_ids": [
+            "PRIVATE-UPDATE-20261107"
+          ],
+          "target": "规划与验收分别记录，不公开内部排期",
+          "as_of": "2026-11-07"
         }
       ],
       "capabilities": [
@@ -328,6 +454,32 @@
           "project_id": "jd_current_health_channel_v1",
           "level_change": 0,
           "attribution": "个人产品设计或推进证据；不能直接证明研发实现或业务收益"
+        },
+        {
+          "id": "u20261107_health_journey",
+          "name": "AI全流程产品承接",
+          "macro": "ai_llm_fundamentals",
+          "evidence": "用户报告已做出档案/报告与识别到卡路里健康管理全流程；个人分工与实际验收另补。",
+          "stage": "reported_milestone",
+          "project_id": "jd_current_health_channel_v1",
+          "level_change": 0,
+          "source_ids": [
+            "PRIVATE-UPDATE-20261107"
+          ],
+          "attribution": "用户报告或方案判断；不自动升级为个人研发、上线、收益或能力分数"
+        },
+        {
+          "id": "u20261107_health_eval",
+          "name": "识别到端到端评测判断",
+          "macro": "eval",
+          "evidence": "明确下一阶段必须关注识别与评测效果，不能以流程做出替代质量验收。",
+          "stage": "documented_design",
+          "project_id": "jd_current_health_channel_v1",
+          "level_change": 0,
+          "source_ids": [
+            "PRIVATE-UPDATE-20261107"
+          ],
+          "attribution": "用户报告或方案判断；不自动升级为个人研发、上线、收益或能力分数"
         }
       ]
     },
@@ -336,13 +488,13 @@
       "name": "AI健康建议与餐食承接",
       "purpose": "验证健康建议能否帮助用户完成后续餐食选择。",
       "owner": "产品链路、评测需求与消费承接协作；不承担基础模型训练。",
-      "status": "已有评测与小流量阶段记录；业务效果尚无本包可验证的增益结论。",
-      "actions": "检查建议之后的商品、搜索和广告承接，将问题拆到相应责任团队。",
+      "status": "既有AI建议与消费承接继续保留；提出进一步服务合作的候选方向，范围与交付尚待确认。",
+      "actions": "拟厘清跨业务服务入口、责任、用户价值和验证方案。",
       "retrospective": "组件评测通过不等于端到端任务有效，更不等于业务增长。",
       "baseline": "原始指标保留在私有证据库；本公开版不提供数值。",
-      "result": "只陈述材料支持的方案与阶段行动；发布、业务改善及个人归因单独验收。",
-      "as_of": "2026-10月底材料快照",
-      "recorded_at": "2026-11-06",
+      "result": "新合作仅为规划，没有合作落地或收入证明。",
+      "as_of": "2026-11-07用户补充；旧分期为历史材料",
+      "recorded_at": "2026-11-07",
       "vault_note": "projects/jd_tongue_health_shopping.md",
       "confidentiality": "public_redacted",
       "streams": [
@@ -355,7 +507,8 @@
           "acceptance": "分别验证模型/产品质量及用户行为，不外推医学准确率。",
           "source_ids": [
             "PRIVATE-REF-04"
-          ]
+          ],
+          "as_of": "2026-10月底材料快照"
         },
         {
           "id": "phase2",
@@ -366,7 +519,20 @@
           "acceptance": "检查建议与落地结果一致性及异常恢复。",
           "source_ids": [
             "PRIVATE-REF-04"
-          ]
+          ],
+          "as_of": "2026-10月底材料快照"
+        },
+        {
+          "id": "health_service_partnership",
+          "name": "跨业务服务合作",
+          "status": "提出新的服务承接方向，合作尚未确认。",
+          "dependency": "服务责任、用户授权与产品协作",
+          "acceptance": "确认范围与责任后验证承接，不把设想记为结果。",
+          "source_ids": [
+            "PRIVATE-UPDATE-20261107"
+          ],
+          "target": "规划与验收分别记录，不公开内部排期",
+          "as_of": "2026-11-07"
         }
       ],
       "capabilities": [
@@ -397,6 +563,19 @@
           "project_id": "jd_tongue_health_shopping",
           "level_change": 0,
           "attribution": "个人产品设计或推进证据；不能直接证明研发实现或业务收益"
+        },
+        {
+          "id": "u20261107_health_partnership",
+          "name": "跨业务服务与价值链设计",
+          "macro": "business_growth",
+          "evidence": "提出跨业务服务承接与价值验证方向，合作范围和结果尚待确认。",
+          "stage": "documented_design",
+          "project_id": "jd_tongue_health_shopping",
+          "level_change": 0,
+          "source_ids": [
+            "PRIVATE-UPDATE-20261107"
+          ],
+          "attribution": "用户报告或方案判断；不自动升级为个人研发、上线、收益或能力分数"
         }
       ]
     },
@@ -424,7 +603,8 @@
           "acceptance": "确认统计周期、退款、更新与跳转一致性。",
           "source_ids": [
             "PRIVATE-REF-05"
-          ]
+          ],
+          "as_of": "2026-10月底材料快照"
         }
       ],
       "capabilities": [
@@ -468,7 +648,8 @@
           "acceptance": "确认人群定义、刷新规则、触达记录和回访归因。",
           "source_ids": [
             "PRIVATE-REF-06"
-          ]
+          ],
+          "as_of": "2026-10月底材料快照"
         }
       ],
       "capabilities": [
@@ -487,9 +668,200 @@
           "attribution": "个人产品设计或推进证据；不能直接证明研发实现或业务收益"
         }
       ]
+    },
+    {
+      "project_id": "jd_internal_ai_product_workflow",
+      "name": "团队AI分析到执行",
+      "purpose": "把用户理解与策略连接到可验证的实际执行。",
+      "owner": "产品场景、方案与协作推进；规划与结果分别核实。",
+      "streams": [
+        {
+          "id": "user_analysis_execution",
+          "name": "用户分析到执行",
+          "status": "需从漏斗分析推进到真实配置或产品迭代，核对人力与收益。",
+          "dependency": "数据权限、口径、运营配置/产品owner、实验和读回",
+          "acceptance": "策略有具体人群/动作/约束；配置ID或产品版本可回读，再验证效果。",
+          "source_ids": [
+            "PRIVATE-UPDATE-20261107"
+          ],
+          "target": "规划与验收分别记录，不公开内部排期",
+          "as_of": "2026-11-07"
+        },
+        {
+          "id": "hotspot_search_execution",
+          "name": "营销热点与搜索词承接",
+          "status": "拟接入各渠道信息源并优化人工配置的热点/语义搜索词。",
+          "dependency": "渠道源、时效、搜索词配置、搜索和广告各方接口",
+          "acceptance": "词与供给一致、过期退出；实际执行、质量与下游行为可复核。",
+          "source_ids": [
+            "PRIVATE-UPDATE-20261107"
+          ],
+          "target": "规划与验收分别记录，不公开内部排期",
+          "as_of": "2026-11-07"
+        }
+      ],
+      "capabilities": [
+        {
+          "id": "u20261107_analysis_action",
+          "name": "分析到可执行策略",
+          "macro": "agent_harness",
+          "evidence": "提出把用户分析、漏斗诊断连接到运营配置或产品方案，并跟踪执行。",
+          "stage": "documented_design",
+          "project_id": "jd_internal_ai_product_workflow",
+          "level_change": 0,
+          "source_ids": [
+            "PRIVATE-UPDATE-20261107"
+          ],
+          "attribution": "用户报告或方案判断；不自动升级为个人研发、上线、收益或能力分数"
+        },
+        {
+          "id": "u20261107_search_layer",
+          "name": "搜索词与搜索结果职责切分",
+          "macro": "rag_search",
+          "evidence": "区分已有千人千面结果与人工热点词配置，提出信息源、语义和承接优化。",
+          "stage": "documented_design",
+          "project_id": "jd_internal_ai_product_workflow",
+          "level_change": 0,
+          "source_ids": [
+            "PRIVATE-UPDATE-20261107"
+          ],
+          "attribution": "用户报告或方案判断；不自动升级为个人研发、上线、收益或能力分数"
+        },
+        {
+          "id": "u20261107_execution_eval",
+          "name": "AI工作流落地与效果评估",
+          "macro": "eval",
+          "evidence": "要求同时评估准确性、可行性、人力、真实上线和收益，避免以生成报告代替结果。",
+          "stage": "documented_design",
+          "project_id": "jd_internal_ai_product_workflow",
+          "level_change": 0,
+          "source_ids": [
+            "PRIVATE-UPDATE-20261107"
+          ],
+          "attribution": "用户报告或方案判断；不自动升级为个人研发、上线、收益或能力分数"
+        }
+      ],
+      "baseline": "本公开包不提供内部基线；没有新增经过验证的实验结果。",
+      "retrospective": "质量、执行、用户效果和成本分别评价。",
+      "vault_note": "projects/jd_internal_ai_product_workflow.md",
+      "confidentiality": "public_redacted",
+      "status": "既有团队AI工作流增加用户分析、热点信息到实际配置或产品变更的闭环要求。",
+      "actions": "将分析输出转换为可审核策略，回读执行并核对工时、质量和效果。",
+      "result": "当前新增方案要求，不声称新的自动执行、提效或增长结果。",
+      "as_of": "2026-11-07用户补充；旧分期为历史材料",
+      "recorded_at": "2026-11-07"
+    },
+    {
+      "project_id": "jd_scenario_personalization",
+      "name": "场景化页面与个性化承接",
+      "purpose": "把用户理解与策略连接到可验证的实际执行。",
+      "owner": "产品场景、方案与协作推进；规划与结果分别核实。",
+      "streams": [
+        {
+          "id": "offline_scene_serving",
+          "name": "B：离线场景与在线匹配",
+          "status": "先离线准备场景与受控组件配置，在线匹配并填充业务数据。",
+          "dependency": "画像、现有入口、店卡/品卡规则、组件、价格/交易接口",
+          "acceptance": "受控配置可审核和回滚；真实价格与下单一致；命中、展示、交易可关联。",
+          "source_ids": [
+            "PRIVATE-UPDATE-20261107"
+          ],
+          "target": "规划与验收分别记录，不公开内部排期",
+          "as_of": "2026-11-07"
+        },
+        {
+          "id": "realtime_personal_generation",
+          "name": "C：逐用户实时生成",
+          "status": "后续考虑实时生成用户对应落地页和组件，尚未建设确认。",
+          "dependency": "B模式效果、实时上下文、生成校验、成本延迟预算和降级",
+          "acceptance": "相对B证明额外价值；结构/供给/交易一致性和超时回退通过。",
+          "source_ids": [
+            "PRIVATE-UPDATE-20261107"
+          ],
+          "target": "规划与验收分别记录，不公开内部排期",
+          "as_of": "2026-11-07"
+        }
+      ],
+      "capabilities": [
+        {
+          "id": "u20261107_scene_strategy",
+          "name": "画像到场景策略",
+          "macro": "business_growth",
+          "evidence": "提出以外卖用户画像与用户习惯匹配不同场景方案，实现个性化承接。",
+          "stage": "documented_design",
+          "project_id": "jd_scenario_personalization",
+          "level_change": 0,
+          "source_ids": [
+            "PRIVATE-UPDATE-20261107"
+          ],
+          "attribution": "用户报告或方案判断；不自动升级为个人研发、上线、收益或能力分数"
+        },
+        {
+          "id": "u20261107_offline_orchestration",
+          "name": "离线生成与组件编排",
+          "macro": "agent_harness",
+          "evidence": "明确B模式先离线生成场景、组合店卡/品卡和既有组件，在线按策略匹配。",
+          "stage": "documented_design",
+          "project_id": "jd_scenario_personalization",
+          "level_change": 0,
+          "source_ids": [
+            "PRIVATE-UPDATE-20261107"
+          ],
+          "attribution": "用户报告或方案判断；不自动升级为个人研发、上线、收益或能力分数"
+        },
+        {
+          "id": "u20261107_trade_contract",
+          "name": "生成界面与交易数据契约",
+          "macro": "builder_technical_pm",
+          "evidence": "要求页面接入真实价格、订单等数据，再承接下单。",
+          "stage": "documented_design",
+          "project_id": "jd_scenario_personalization",
+          "level_change": 0,
+          "source_ids": [
+            "PRIVATE-UPDATE-20261107"
+          ],
+          "attribution": "用户报告或方案判断；不自动升级为个人研发、上线、收益或能力分数"
+        },
+        {
+          "id": "u20261107_realtime_tradeoff",
+          "name": "实时生成的产品取舍",
+          "macro": "ai_llm_fundamentals",
+          "evidence": "把逐用户实时生成作为C演进，与B场景化路径区分；接入时间为预期而非事实。",
+          "stage": "documented_design",
+          "project_id": "jd_scenario_personalization",
+          "level_change": 0,
+          "source_ids": [
+            "PRIVATE-UPDATE-20261107"
+          ],
+          "attribution": "用户报告或方案判断；不自动升级为个人研发、上线、收益或能力分数"
+        }
+      ],
+      "baseline": "本公开包不提供内部基线；没有新增经过验证的实验结果。",
+      "retrospective": "质量、执行、用户效果和成本分别评价。",
+      "vault_note": "projects/jd_scenario_personalization.md",
+      "confidentiality": "public_redacted",
+      "status": "规划先离线准备场景配置、在线匹配与填充交易数据；逐用户实时生成作为后续演进。",
+      "actions": "复用画像与受控组件，明确策略、配置、实时数据和交易边界。",
+      "result": "属于规划方向，没有新增上线、个性化转化收益或确定排期。",
+      "as_of": "2026-11-07用户补充；旧分期为历史材料",
+      "recorded_at": "2026-11-07"
     }
   ],
-  "history": [],
+  "history": [
+    {
+      "date": "2026-11-07",
+      "type": "reviewed_redacted_user_update",
+      "source_ids": [
+        "PRIVATE-UPDATE-20261107"
+      ],
+      "added_atomic_evidence": 14,
+      "registered_projects": [
+        "jd_internal_ai_product_workflow",
+        "jd_scenario_personalization"
+      ],
+      "claim_boundary": "用户报告的实现与提出的规划分开，不新增已验证发布/收益。"
+    }
+  ],
   "policy": {
     "confidentiality": "public_redacted",
     "basis": "私有项目材料的人工脱敏摘要，非公开独立核验数据",
