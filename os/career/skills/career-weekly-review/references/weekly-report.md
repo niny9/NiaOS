@@ -59,3 +59,4 @@ project/claim ID、缺字段/冲突、原因、影响到的能力/简历、最�
 - Project Cards / claim Gate / Gap Matrix：关联 ID 与 schema_version。
 
 若目标不存在或无权限，将 pending mutation 留在此附录，标明目标逻辑名称、拟更新字段与所需绑定；它是本次运行的待写清单，不能当第二套事实总账。报告保存不等于 Registry 全部写入成功。
+
